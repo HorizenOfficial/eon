@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="EON Regtest Node" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="io.horizen.examples.EonApp" />
+    <module name="eon" />
+    <option name="PROGRAM_PARAMETERS" value="src/main/resources/eon_regtest_run_settings.conf" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="io.horizen.examples.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
