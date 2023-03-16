@@ -1,4 +1,4 @@
-package io.horizen.examples;
+package io.horizen.eon;
 
 import io.horizen.fork.ForkConfigurator;
 import io.horizen.fork.ForkConsensusEpochNumber;
