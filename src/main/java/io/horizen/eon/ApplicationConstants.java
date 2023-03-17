@@ -1,4 +1,4 @@
-package io.horizen.examples;
+package io.horizen.eon;
 
 public class ApplicationConstants {
 
