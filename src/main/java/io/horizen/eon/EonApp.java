@@ -1,4 +1,4 @@
-package io.horizen.examples;
+package io.horizen.eon;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

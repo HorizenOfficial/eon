@@ -1,4 +1,4 @@
-package io.horizen.examples;
+package io.horizen.eon;
 
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static io.horizen.examples.ApplicationConstants.*;
+import static io.horizen.eon.ApplicationConstants.*;
 
 public class EonAppModule extends AccountAppModule {
     private final SettingsReader settingsReader;
