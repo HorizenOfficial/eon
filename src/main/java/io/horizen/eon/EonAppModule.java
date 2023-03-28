@@ -9,7 +9,7 @@ import io.horizen.account.AccountAppModule;
 import io.horizen.account.state.EvmMessageProcessor;
 import io.horizen.account.state.MessageProcessor;
 import io.horizen.account.transaction.AccountTransaction;
-import io.horizen.api.http.ApplicationApiGroup;
+import io.horizen.account.api.http.AccountApplicationApiGroup;
 import io.horizen.fork.ForkConfigurator;
 import io.horizen.proof.Proof;
 import io.horizen.proposition.Proposition;
@@ -50,7 +50,7 @@ public class EonAppModule extends AccountAppModule {
                 customAccountTransactionSerializers = new HashMap<>();
 
         // No custom API
-        List<ApplicationApiGroup> customApiGroups = new ArrayList<>();
+        List<AccountApplicationApiGroup> customApiGroups = new ArrayList<>();
 
         // No rejected SDK core API
         List<Pair<String, String>> rejectedApiPaths = new ArrayList<>();
@@ -68,7 +68,7 @@ public class EonAppModule extends AccountAppModule {
                 .annotatedWith(Names.named("CustomAccountTransactionSerializers"))
                 .toInstance(customAccountTransactionSerializers);
 
-        bind(new TypeLiteral<List<ApplicationApiGroup>>() {})
+        bind(new TypeLiteral<List<AccountApplicationApiGroup>>() {})
                 .annotatedWith(Names.named("CustomApiGroups"))
                 .toInstance(customApiGroups);
 
