@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import kamon.Kamon;
 
 import static io.horizen.eon.ApplicationConstants.*;
 
@@ -30,6 +31,7 @@ public class EonAppModule extends AccountAppModule {
 
     public EonAppModule(String userSettingsFileName) {
         this.settingsReader = new SettingsReader(userSettingsFileName, Optional.empty());
+        Kamon.init();
     }
 
     @Override
