@@ -20,6 +20,16 @@
 			<artifactId>sidechains-sdk</artifactId>
 			<version>${sidechain.sdk.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.kamon</groupId>
+			<artifactId>kamon-bundle_2.12</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.kamon</groupId>
+			<artifactId>kamon-apm-reporter_2.12</artifactId>
+			<version>2.6.0</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
