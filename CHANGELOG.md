@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1-SNAPSHOT1
+* Added Peer2Peer and API rate limiting example conf properties
+* SDK dependency updated to version 0.7.1-SNAPSHOT1
+
 ## 0.1.0-SNAPSHOT6
 * SDK dependency updated to version 0.7.0-SNAPSHOT6
 
