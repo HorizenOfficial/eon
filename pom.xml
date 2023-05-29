@@ -1,73 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.horizen</groupId>
-	<artifactId>eon</artifactId>
-	<version>0.1.0-SNAPSHOT6</version>
+	<artifactId>EON</artifactId>
+	<version>0.1.0-SNAPSHOT3</version>
+	<packaging>pom</packaging>
 	<inceptionYear>2023</inceptionYear>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<maven.compiler.plugin>3.8.1</maven.compiler.plugin>
-		<maven.dependency.plugin>3.1.1</maven.dependency.plugin>
-		<!-- 0.7.0-20230512.152805-7 => 0.7.0-SNAPSHOT6 tag-->
-		<sidechain.sdk.version>0.7.0-20230512.152805-7</sidechain.sdk.version>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>io.horizen</groupId>
-			<artifactId>sidechains-sdk</artifactId>
-			<version>${sidechain.sdk.version}</version>
-		</dependency>
-	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>softmotions_repository</id>
-			<name>Softmotions Public Repository</name>
-			<url>https://repo.softmotions.com/repository/softmotions-public</url>
-		</repository>
-		<repository>
-			<id>oss-sonatype</id>
-			<name>oss-sonatype</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.plugin}</version>
-				<configuration>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven.dependency.plugin}</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-							<includeScope>compile</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+	<modules>
+		<module>node</module>
+		<module>bootstraptool</module>
+	</modules>
 </project>
