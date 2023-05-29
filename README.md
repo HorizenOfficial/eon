@@ -9,3 +9,7 @@ EON node is available on Linux and Windows (64bit).
 ### Documentation
 
 More information of how to connect wallets, write smart contracts and interact with EON is available [here]( https://eon.horizen.io/docs/).
+
+### Project structure
+- node: the module contains everything you need to run an EON node;
+- bootstrap: the module contains the tools you need in order to register and create the configuration file for the EON sidechain.
