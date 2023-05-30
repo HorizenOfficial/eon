@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.horizen</groupId>
 	<artifactId>eon</artifactId>
-	<version>0.1.0-SNAPSHOT3</version>
+	<version>0.1.0-SNAPSHOT6</version>
 	<inceptionYear>2023</inceptionYear>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -10,8 +10,8 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<maven.compiler.plugin>3.8.1</maven.compiler.plugin>
 		<maven.dependency.plugin>3.1.1</maven.dependency.plugin>
-		<!--0.7.0-20230405.154230-3 => 0.7.0-SNAPSHOT3 tag-->
-		<sidechain.sdk.version>0.7.0-20230405.154230-3</sidechain.sdk.version>
+		<!-- 0.7.0-20230512.152805-7 => 0.7.0-SNAPSHOT6 tag-->
+		<sidechain.sdk.version>0.7.0-20230512.152805-7</sidechain.sdk.version>
 	</properties>
 
 	<dependencies>

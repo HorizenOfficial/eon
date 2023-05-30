@@ -1,0 +1,26 @@
+os: linux
+dist: jammy
+language: generic
+addons:
+  apt:
+    packages:
+      - libxml-xpath-perl
+services:
+  - docker
+
+git:
+  depth: false
+
+env:
+  global:
+    - DOCKER_IMAGE_NAME=evmapp
+    - PROD_RELEASE_BRANCH=main
+    - DEV_RELEASE_BRANCH=development
+
+before_script: source ci/setup_env.sh
+
+jobs:
+  include:
+    - name: "Evmapp Docker Image Build"
+      script: ci/docker.sh
+      if: tag IS present
