@@ -1,7 +1,6 @@
 package io.horizen.bootstraptool;
 
 import io.horizen.AbstractScBootstrappingTool;
-import io.horizen.AccountModel;
 import io.horizen.ScBootstrappingToolCommandProcessor;
 import io.horizen.tools.utils.ConsolePrinter;
 
@@ -17,6 +16,6 @@ public final class EonBootstrappingTool extends AbstractScBootstrappingTool {
 
     @Override
     protected ScBootstrappingToolCommandProcessor getBootstrappingToolCommandProcessor() {
-        return new ScBootstrappingToolCommandProcessor(printer, new AccountModel());
+        return new ScBootstrappingToolCommandProcessor(printer, new EonModel());
     }
 }
