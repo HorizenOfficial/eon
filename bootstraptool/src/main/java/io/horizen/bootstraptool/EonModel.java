@@ -20,6 +20,7 @@ public class EonModel extends AbstractAccountModel {
 
     @Override
     public ForkConfigurator getForkConfigurator() {
-        return new EonForkConfigurator();
+        //TODO: refactor when releasing GOBI tag
+        return new EonForkConfigurator(true);
     }
 }

@@ -42,8 +42,10 @@ public class EonAppModule extends AccountAppModule {
         customMessageProcessors.add(new EvmMessageProcessor());
 
         SidechainAppStopper applicationStopper = new EonAppStopper();
-        EonForkConfigurator forkConfigurator = new EonForkConfigurator();
+
         SidechainSettings sidechainSettings = this.settingsReader.getSidechainSettings();
+        Boolean isPregobiSidechain = (PREGOBI_SIDECHAINID.equals(sidechainSettings.genesisData().scId()));
+        EonForkConfigurator forkConfigurator = new EonForkConfigurator(isPregobiSidechain);
 
         HashMap<Byte, SecretSerializer<Secret>> customSecretSerializers = new HashMap<>();
         HashMap<Byte, TransactionSerializer<AccountTransaction<Proposition, Proof<Proposition>>>>
