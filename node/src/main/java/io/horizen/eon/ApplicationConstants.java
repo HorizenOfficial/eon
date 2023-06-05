@@ -11,4 +11,6 @@ public class ApplicationConstants {
 
     // Consensus params
     static final int CONSENSUS_SLOT_TIME = 12; // in seconds
+
+    static final String PREGOBI_SIDECHAINID = "1f758350754c12ac8f75a547f745b75eb744b382e15d0d3b0e24a4b5c5acde00";
 }
