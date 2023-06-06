@@ -5,7 +5,7 @@ workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 docker_image_name="${DOCKER_IMAGE_NAME:-evmapp}"
 aws_ecr_region='us-east-1'
 docker_hub_org='horizenlabs'
-pom_version="${POM_VERSION:-}"
+pom_version="${ROOT_POM_VERSION:-}"
 
 AWS_ACCOUNT_NUMBER="${AWS_ACCOUNT_NUMBER:-}"
 AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID:-}"
@@ -38,7 +38,7 @@ fi
 if [ -n "${docker_tag}" ]; then
   echo "" && echo "=== Building Docker Image: ${docker_image_name}:${docker_tag} ===" && echo ""
 
-  docker build -f "${workdir}"/ci/docker/Dockerfile -t "${docker_image_name}:${docker_tag}" \
+  docker build -f "${workdir}"/ci/docker/node_image/Dockerfile -t "${docker_image_name}:${docker_tag}" \
     --build-arg ARG_SC_COMMITTISH="${arg_sc_committish}" \
     --build-arg ARG_SC_VERSION="${arg_sc_version}" \
     .
