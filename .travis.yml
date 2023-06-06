@@ -13,14 +13,20 @@ git:
 
 env:
   global:
-    - DOCKER_IMAGE_NAME=evmapp
     - PROD_RELEASE_BRANCH=main
     - DEV_RELEASE_BRANCH=development
 
-before_script: source ci/setup_env.sh
+before_script:
+  - source ci/setup_env.sh
+  - ci/travis_keep_alive.sh
 
 jobs:
   include:
-    - name: "Evmapp Docker Image Build"
+    - name: Build and test java package(s)
+      script: ci/script.sh tests
+      env: DOCKER_ORG='zencash' IMAGE_NAME='sc-ci-base' IMAGE_TAG='bionic_jdk-11_latest' TESTS='000'
+
+    - name: "Evmapp SCNODE Docker Image Build"
       script: ci/docker.sh
       if: tag IS present
+      env: DOCKER_IMAGE_NAME='evmapp'
