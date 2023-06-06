@@ -62,14 +62,16 @@ WORKDIR /sidechain
 
 SHELL ["/bin/bash", "-c"]
 
-COPY --from=builder ${REPO_DEST}/target/*.jar /sidechain/
+COPY --from=builder ${REPO_DEST}/node/target/*.jar /sidechain/
 
-COPY --from=builder ${REPO_DEST}/target/lib /sidechain/lib
+COPY --from=builder ${REPO_DEST}/node/target/lib /sidechain/lib
 
-COPY ci/docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./dockerfiles/evmapp/entrypoint.sh ./dockerfiles/evmapp/sc_settings.conf.tmpl /sidechain/
 
-RUN set -euo pipefail && chmod +x /usr/local/bin/entrypoint.sh \
-    && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install apt-utils \
+RUN set -eEuo pipefail && mv /sidechain/entrypoint.sh /usr/local/bin/entrypoint.sh \
+    && chmod +x /usr/local/bin/entrypoint.sh && mkdir -p /sidechain/config/ \
+    && mv /sidechain/sc_settings.conf.tmpl /sidechain/config && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install apt-utils \
     && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends dist-upgrade \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates \
       curl \
