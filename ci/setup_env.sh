@@ -86,7 +86,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
     check_versions_match "${ROOT_POM_VERSION}" "${node_pom_version}" "${bootstraptool_pom_version}"
 
     if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?$ ]]; then
-      echo "Warning: package version under pom.xml file = ${ROOT_POM_VERSION} is in the wrong format for production release. Expecting: d.d.d(-RC[0-9]+)?. The build is not going to be released !!!"
+      echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d(-RC[0-9]+)?. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
 
@@ -106,7 +106,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
     check_versions_match "${ROOT_POM_VERSION}" "${node_pom_version}" "${bootstraptool_pom_version}"
 
     if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
-      echo "Warning: package version under pom.xml file = ${ROOT_POM_VERSION} is in the wrong format for development release. Expecting: d.d.d(-RC[0-9]+)?(-SNAPSHOT){1}. The build is not going to be released !!!"
+      echo "Warning: package(s) version is in the wrong format for DEVELOPMENT release. Expecting: d.d.d(-RC[0-9]+)?(-SNAPSHOT){1}. The build is not going to be released !!!"
       IS_A_RELEASE="false"
     fi
 

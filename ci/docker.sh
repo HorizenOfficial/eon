@@ -38,7 +38,7 @@ fi
 if [ -n "${docker_tag}" ]; then
   echo "" && echo "=== Building Docker Image: ${docker_image_name}:${docker_tag} ===" && echo ""
 
-  docker build -f "${workdir}"/ci/docker/node_image/Dockerfile -t "${docker_image_name}:${docker_tag}" \
+  docker build -f "${workdir}"/dockefiles/evmapp/Dockerfile -t "${docker_image_name}:${docker_tag}" \
     --build-arg ARG_SC_COMMITTISH="${arg_sc_committish}" \
     --build-arg ARG_SC_VERSION="${arg_sc_version}" \
     .

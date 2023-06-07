@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eEuo pipefail
 
 USER_ID="${LOCAL_USER_ID:-9001}"
 GRP_ID="${LOCAL_GRP_ID:-9001}"
@@ -34,7 +34,7 @@ SCNODE_NET_DECLAREDADDRESS="$(dig -4 +short +time=2 @resolver1.opendns.com A myi
 
 # Using diff resolver
 if [ -z "${SCNODE_NET_DECLAREDADDRESS}" ]; then
-  SCNODE_NET_DECLAREDADDRESS="$(curl -s ifconfig.me/ip || true)"
+  SCNODE_NET_DECLAREDADDRESS="$(dig -4 +short +time=2 txt ch whoami.cloudflare @1.0.0.1 | tr -d '"' || true)"
 fi
 
 # Falling over to internal IP
@@ -91,8 +91,13 @@ if [ "${SCNODE_FORGER_RESTRICT:-}" = "true" ]; then
 fi
 
 if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
-  if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ]; then
-    echo "Error: Environment variable SCNODE_CERT_SIGNERS_SECRETS required when SCNODE_CERT_SIGNING_ENABLED=true or SCNODE_CERT_SUBMITTER_ENABLED=true."
+  if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ] && [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true either environment variable SCNODE_CERT_SIGNERS_SECRETS is required or remote key manager SCNODE_REMOTE_KEY_MANAGER_ENABLED=true is required."
+    sleep 5
+    exit 1
+  fi
+  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
     sleep 5
     exit 1
   fi
@@ -105,6 +110,16 @@ if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABL
     exit 1
   fi
 fi
+
+# Flexibility to log levels
+if [ -z "${SCNODE_LOG_FILE_LEVEL:-}" ]; then
+  SCNODE_LOG_FILE_LEVEL='info'
+fi
+
+if [ -z "${SCNODE_LOG_CONSOLE_LEVEL:-}" ]; then
+  SCNODE_LOG_CONSOLE_LEVEL='info'
+fi
+export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL
 
 # set REST API password hash
 SCNODE_REST_APIKEYHASH=""
@@ -220,7 +235,8 @@ SUBST='$SCNODE_CERT_MASTERS_PUBKEYS:$SCNODE_CERT_SIGNERS_MAXPKS:$SCNODE_CERT_SIG
 '$SCNODE_GENESIS_WITHDRAWALEPOCHLENGTH:$SCNODE_GENESIS_COMMTREEHASH:$SCNODE_GENESIS_ISNONCEASING:$SCNODE_ALLOWED_FORGERS:$SCNODE_FORGER_ENABLED:$SCNODE_FORGER_RESTRICT:'\
 '$SCNODE_NET_DECLAREDADDRESS:$SCNODE_NET_KNOWNPEERS:$SCNODE_NET_MAGICBYTES:$SCNODE_NET_NODENAME:$SCNODE_NET_P2P_PORT:$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:'\
 '$SCNODE_WALLET_GENESIS_SECRETS:$SCNODE_WALLET_MAXTX_FEE:$SCNODE_WALLET_SEED:$WS_ADDRESS:$MAX_INCOMING_CONNECTIONS:$MAX_OUTGOING_CONNECTIONS:$SCNODE_WS_SERVER_PORT:'\
-'$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED'
+'$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL'
+
 export SUBST
 envsubst "${SUBST}" < /sidechain/config/sc_settings.conf.tmpl > /sidechain/config/sc_settings.conf
 unset SUBST
@@ -233,13 +249,13 @@ path_to_jemalloc="$(ldconfig -p | grep "$(arch)" | grep 'libjemalloc\.so\.2$' | 
 export LD_PRELOAD="${path_to_jemalloc}:${LD_PRELOAD}"
 
 if [ "${1}" = "/usr/bin/true" ]; then
-  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' $SC_MAIN_CLASS $SC_CONF_PATH
+  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "$SC_MAIN_CLASS" "$SC_CONF_PATH"
 fi
 
 echo "Username: ${USERNAME}, UID: ${CURRENT_UID}, GID: ${CURRENT_GID}"
 echo "LD_PRELOAD: ${LD_PRELOAD}"
 echo "Starting sidechain node."
-echo "Command: '$@'"
+echo "Command: '$*'"
 
 if [ "${USERNAME}" = "user" ]; then
     exec /usr/local/bin/gosu user "$@"
