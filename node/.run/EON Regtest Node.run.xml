@@ -2,7 +2,7 @@
   <configuration default="false" name="EON Regtest Node" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="io.horizen.eon.EonApp" />
     <module name="eon" />
-    <option name="PROGRAM_PARAMETERS" value="src/main/resources/eon_regtest_run_settings.conf" />
+    <option name="PROGRAM_PARAMETERS" value="node/src/main/resources/eon_regtest_run_settings.conf" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="io.horizen.eon.*" />
