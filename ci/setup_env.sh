@@ -9,13 +9,13 @@ bootstraptool_pom_version="$(xpath -q -e '/project/version/text()' ./bootstrapto
 export ROOT_POM_VERSION
 
 if [ -z "${TRAVIS_TAG}" ]; then
-  echo "TRAVIS_TAG:                           No TAG"
+  echo "TRAVIS_TAG:                     No TAG"
 else
-  echo "TRAVIS_TAG:                           ${TRAVIS_TAG}"
+  echo "TRAVIS_TAG:                     ${TRAVIS_TAG}"
 fi
-echo "Root pom.xml version:                      ${ROOT_POM_VERSION}"
-echo "EON node pom.xml version:                  ${node_pom_version}"
-echo "Bootstrap tool pom.xml version:            ${bootstraptool_pom_version}"
+echo "Root pom.xml version:           ${ROOT_POM_VERSION}"
+echo "EON node pom.xml version:       ${node_pom_version}"
+echo "Bootstrap tool pom.xml version: ${bootstraptool_pom_version}"
 
 
 # Functions
