@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+set -x
 
 export IS_A_RELEASE="false"
 ROOT_POM_VERSION="$(xpath -q -e '/project/version/text()' pom.xml)"

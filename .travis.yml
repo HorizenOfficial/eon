@@ -14,7 +14,8 @@ git:
 env:
   global:
     - PROD_RELEASE_BRANCH=main
-    - DEV_RELEASE_BRANCH=development
+#    - DEV_RELEASE_BRANCH=development
+    - DEV_RELEASE_BRANCH=ciCdUpdate
 
 before_script:
   - source ci/setup_env.sh

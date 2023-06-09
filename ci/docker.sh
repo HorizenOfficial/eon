@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eEuo pipefail
+set -x
 
 workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 docker_image_name="${DOCKER_IMAGE_NAME:-evmapp}"
