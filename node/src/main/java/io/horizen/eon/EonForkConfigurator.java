@@ -40,8 +40,10 @@ public class EonForkConfigurator extends ForkConfigurator {
                     new Pair<>(new SidechainForkConsensusEpoch(0, 718, 0), feeFork1Params)
             );
         } else {
-            //TODO: add official gobi testnet fork configuration
-            return new ArrayList<>();
+            //Official testent (Gobi) & mainnet fork configuration
+            return List.of(
+                    new Pair<>(new SidechainForkConsensusEpoch(0, 624, 0), feeFork1Params)
+            );
         }
     }
 }
