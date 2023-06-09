@@ -17,8 +17,8 @@ More information of how to connect wallets, write smart contracts and interact w
 - bootstraptool: <br>
   the module contains the tools you need in order to register and create the configuration file for the EON sidechain.<br>
   Usage:<br>
-    - obtain the jar by running <b>mvn package [-Dpregobi] </b> <br>
-      NOTE: The -Dpregobi suffix is needed ONLY to build a bootstrapping tool for Pregobi testnet network.     
+    - obtain the jar by running <b>mvn package [-Ppregobi] </b> <br>
+      NOTE: The -Ppregobi suffix is needed ONLY to build a bootstrapping tool for Pregobi testnet network.     
     - launch the bootstrapping tool by running: <b>java -jar < jarname ></b>
 
   

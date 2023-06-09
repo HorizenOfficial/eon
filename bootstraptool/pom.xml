@@ -48,8 +48,6 @@
   </repositories>
 
     <profiles>
-
-
         <profile>
             <id>default</id>
             <activation>

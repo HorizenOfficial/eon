@@ -10,20 +10,28 @@ import io.horizen.tools.utils.ConsolePrinter;
  */
 public class EonBootstrappingTool extends AbstractScBootstrappingTool {
 
-
     public EonBootstrappingTool() {
         super(new ConsolePrinter());
     }
 
     public static void main(String[] args) {
         EonBootstrappingTool bootstrap = new EonBootstrappingTool();
-        System.out.println("Starting EON bootstrapping tool");
         bootstrap.startCommandTool(args);
     }
 
     @Override
+    public void startCommandTool(String[] args) {
+        System.out.println("Starting EON bootstrapping tool " + (isPreGobiVersion() ? "PREGOBI version!" : ""));
+        super.startCommandTool(args);
+    }
+
+    @Override
     protected ScBootstrappingToolCommandProcessor getBootstrappingToolCommandProcessor() {
-        return new ScBootstrappingToolCommandProcessor(printer, new EonModel(false));
+        return new ScBootstrappingToolCommandProcessor(printer, new EonModel(isPreGobiVersion()));
+    }
+
+    protected boolean isPreGobiVersion(){
+        return false;
     }
 
 }
