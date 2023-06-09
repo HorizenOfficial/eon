@@ -111,7 +111,7 @@ if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABL
   fi
 fi
 
-# Flexibility to log levels
+# Flexibility for log levels
 if [ -z "${SCNODE_LOG_FILE_LEVEL:-}" ]; then
   SCNODE_LOG_FILE_LEVEL='info'
 fi
@@ -215,6 +215,22 @@ if [ -n "${SCNODE_WS_ZEN_FQDN:-}" ]; then
   WS_ADDRESS="ws://${SCNODE_WS_ZEN_IP}:${SCNODE_WS_ZEN_PORT}"
 fi
 export WS_ADDRESS
+
+# Checking if secure enclave is reachable
+if [ -n "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" ]; then
+  SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES="$(tr -d "' \""  <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
+  # make sure websocket port is reachable
+  i=0
+  while [ "$(curl -Isk -o /dev/null -w '%{http_code}' -m 10 -X 'GET' "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES}" -H 'Content-Type: application/json')" -ne 200 ]; do
+    echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES}' endpoint to be ready."
+    sleep 5
+    i="$((i+1))"
+    if [ "$i" -gt 48 ]; then
+      echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES}' endpoint is not ready after 4 minutes."
+      exit 1
+    fi
+  done
+fi
 
 # convert literal '\n' to newlines
 SCNODE_CERT_SIGNERS_PUBKEYS="$(echo -e "${SCNODE_CERT_SIGNERS_PUBKEYS:-}")"

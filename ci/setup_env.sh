@@ -2,11 +2,9 @@
 set -eo pipefail
 
 export IS_A_RELEASE="false"
-
 ROOT_POM_VERSION="$(xpath -q -e '/project/version/text()' pom.xml)"
 node_pom_version="$(xpath -q -e '/project/version/text()' ./node/pom.xml)"
 bootstraptool_pom_version="$(xpath -q -e '/project/version/text()' ./bootstraptool/pom.xml)"
-
 export ROOT_POM_VERSION
 
 if [ -z "${TRAVIS_TAG}" ]; then
