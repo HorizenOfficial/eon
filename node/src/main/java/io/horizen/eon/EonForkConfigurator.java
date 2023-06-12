@@ -14,6 +14,15 @@ public class EonForkConfigurator extends ForkConfigurator {
 
     private Boolean pregobiSidechain;
 
+    private final GasFeeFork feeFork1Params =  new GasFeeFork(
+            // block gas limit: 10 million
+            BigInteger.valueOf(10000000),
+            BigInteger.valueOf(2),
+            BigInteger.valueOf(8),
+            // minimum base fee: 20 Gwei (20*10^9)
+            BigInteger.valueOf(20000000000L)
+    );
+
     public EonForkConfigurator(Boolean isPregobiSidechain) {
         pregobiSidechain = isPregobiSidechain;
     }
@@ -28,21 +37,13 @@ public class EonForkConfigurator extends ForkConfigurator {
         if (pregobiSidechain) {
             //Pre-GObi (parallel testnet) fork configuration
             return List.of(
-                    new Pair<>(
-                            new SidechainForkConsensusEpoch(0, 718, 0),
-                            new GasFeeFork(
-                                    // block gas limit: 10 million
-                                    BigInteger.valueOf(10000000),
-                                    BigInteger.valueOf(2),
-                                    BigInteger.valueOf(8),
-                                    // minimum base fee: 20 Gwei (20*10^9)
-                                    BigInteger.valueOf(20000000000L)
-                            )
-                    )
+                    new Pair<>(new SidechainForkConsensusEpoch(0, 718, 0), feeFork1Params)
             );
         } else {
-            //TODO: add official gobi testnet fork configuration
-            return new ArrayList<>();
+            //Official testent (Gobi) & mainnet fork configuration
+            return List.of(
+                    new Pair<>(new SidechainForkConsensusEpoch(0, 624, 0), feeFork1Params)
+            );
         }
     }
 }
