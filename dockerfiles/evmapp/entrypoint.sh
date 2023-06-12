@@ -221,10 +221,11 @@ export WS_ADDRESS
 # Checking if secure enclave is reachable
 if [ -n "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" ]; then
   host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
-  port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"; [ -z "${port:-}" ] && port=80
+  port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
+  port="${port:-80}"
   # make sure host and port are reachable
   i=0
-  while [ "$(nc -z "${host}" "${port}" && echo "ok" || echo "error")" != "ok" ]; do
+  while ! nc -z "${host}" "${port}" &> /dev/null; do
     echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
     sleep 5
     i="$((i+1))"
