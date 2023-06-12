@@ -220,15 +220,16 @@ export WS_ADDRESS
 
 # Checking if secure enclave is reachable
 if [ -n "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" ]; then
-  SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES="$(tr -d "' \""  <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
-  # make sure websocket port is reachable
+  host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
+  port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"; [ -z "${port:-}" ] && port=80
+  # make sure host and port are reachable
   i=0
-  while [ "$(curl -Isk -o /dev/null -w '%{http_code}' -m 10 -X 'GET' "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES}" -H 'Content-Type: application/json')" -ne 200 ]; do
-    echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES}' endpoint to be ready."
+  while [ "$(nc -z "${host}" "${port}" && echo "ok" || echo "error")" != "ok" ]; do
+    echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
     sleep 5
     i="$((i+1))"
     if [ "$i" -gt 48 ]; then
-      echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS_NO_QUOTES}' endpoint is not ready after 4 minutes."
+      echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
       exit 1
     fi
   done
