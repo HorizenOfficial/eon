@@ -6,7 +6,7 @@ sparkz {
        logFileName = "debug.log"
        # levels: off, fatal, error, warn, info, debug, trace, all
        logFileLevel = "$SCNODE_LOG_FILE_LEVEL"
-       logConsoleLevel = "SCNODE_LOG_CONSOLE_LEVEL"
+       logConsoleLevel = "$SCNODE_LOG_CONSOLE_LEVEL"
     }
 
     restApi {
@@ -23,6 +23,16 @@ sparkz {
         magicBytes = [$SCNODE_NET_MAGICBYTES]
         storageBackupInterval = 15m
         storageBackupDelay = 5m
+        slowModeFeatureFlag = $SCNODE_NET_SLOW_MODE
+        slowModeThresholdMs = 2000
+        slowModeMaxRequested = 150
+        slowModeMeasurementImpact = 0.1
+    }
+
+    apiRateLimiter {
+        enabled = $SCNODE_NET_API_LIMITER_ENABLED
+        minThroughput = 10
+        throttlingThresholdMs = 2000
     }
 
     websocketClient {
