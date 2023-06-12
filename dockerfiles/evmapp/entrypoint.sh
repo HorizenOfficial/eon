@@ -1,4 +1,4 @@
-SCNODE_NET_API_LIMITER_ENABLED#!/bin/bash
+#!/bin/bash
 
 set -eEuo pipefail
 
