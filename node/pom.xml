@@ -11,8 +11,6 @@
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.plugin>3.8.1</maven.compiler.plugin>
     <maven.dependency.plugin>3.1.1</maven.dependency.plugin>
-    <!-- TO BE REPLACED WITH 0.7.0-SNAPSHOT7 TAG-->
-    <!-- This will not be possible since we are NOT publishing SNAPSHOT[0-9] versions-->
     <sidechain.sdk.version>0.7.0-SNAPSHOT</sidechain.sdk.version>
   </properties>
   <dependencies>
