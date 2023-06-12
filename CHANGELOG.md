@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-SNAPSHOT8
+* Added fee fork configuration for Gobi
+
+## 0.1.0-SNAPSHOT7
+* Added fee fork configuration for Pre-gobi
+* Added new pom modules for boostrapping tool
+
 ## 0.1.0-SNAPSHOT6
 * SDK dependency updated to version 0.7.0-SNAPSHOT6
 
