@@ -92,6 +92,9 @@ if [ "${SCNODE_FORGER_RESTRICT:-}" = "true" ]; then
   fi
 fi
 
+SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
+export SCNODE_REMOTE_KEY_MANAGER_ENABLED
+
 if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
   if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ] && [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
     echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true either environment variable SCNODE_CERT_SIGNERS_SECRETS is required or remote key manager SCNODE_REMOTE_KEY_MANAGER_ENABLED=true is required."
