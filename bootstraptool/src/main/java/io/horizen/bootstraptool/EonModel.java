@@ -8,16 +8,17 @@ import io.horizen.fork.ForkConfigurator;
 import io.horizen.params.NetworkParams;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Boostrapping tool model for EON sidechain
  */
 public class EonModel extends AbstractAccountModel {
 
-    private boolean isPregobiSidechain;
+    private Optional<String> sidechainId;
 
-    public EonModel(boolean isPregobiSidechain){
-        this.isPregobiSidechain = isPregobiSidechain;
+    public EonModel(Optional<String> sidechainId){
+        this.sidechainId = sidechainId;
     }
 
     @Override
@@ -29,6 +30,6 @@ public class EonModel extends AbstractAccountModel {
 
     @Override
     public ForkConfigurator getForkConfigurator() {
-        return new EonForkConfigurator(isPregobiSidechain);
+        return new EonForkConfigurator(sidechainId);
     }
 }
