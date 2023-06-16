@@ -96,5 +96,14 @@ public class EonAppModule extends AccountAppModule {
         bind(Integer.class)
                 .annotatedWith(Names.named("ConsensusSecondsInSlot"))
                 .toInstance(CONSENSUS_SLOT_TIME);
+
+        bind(String.class)
+                .annotatedWith(Names.named("EonVersion"))
+                .toInstance(getEONVersion());
+    }
+
+    public String getEONVersion() {
+        Package eonPackage = this.getClass().getPackage();
+        return eonPackage.getImplementationVersion();
     }
 }
