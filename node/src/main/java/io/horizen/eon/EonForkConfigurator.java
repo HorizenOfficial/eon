@@ -7,42 +7,56 @@ import io.horizen.fork.SidechainForkConsensusEpoch;
 import io.horizen.utils.Pair;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EonForkConfigurator extends ForkConfigurator {
 
-    private Boolean pregobiSidechain;
 
-    public EonForkConfigurator(Boolean isPregobiSidechain) {
-        pregobiSidechain = isPregobiSidechain;
+    private final SidechainForkConsensusEpoch mandatorySidechainFork1;
+    private final List<Pair<SidechainForkConsensusEpoch, OptionalSidechainFork>> optionalSidechainForks;
+
+    private final GasFeeFork feeFork1Params =  new GasFeeFork(
+            // block gas limit: 10 million
+            BigInteger.valueOf(10000000),
+            BigInteger.valueOf(2),
+            BigInteger.valueOf(8),
+            // minimum base fee: 20 Gwei (20*10^9)
+            BigInteger.valueOf(20000000000L)
+    );
+
+    public EonForkConfigurator(Optional<String> sidechainId) {
+        optionalSidechainForks=  List.of(
+                new Pair<>(new SidechainForkConsensusEpoch(0, getFeeForkTestnetActivation(sidechainId), 0), feeFork1Params)
+        );
+        mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
+    }
+
+    private int getFeeForkTestnetActivation(Optional<String> sidechainId){
+        if (sidechainId.isPresent()){
+            switch (sidechainId.get()){
+                case ApplicationConstants.PREGOBI_SIDECHAINID:
+                    //Pre-Gobi (parallel testnet) fork configuration
+                    return 718;
+                case ApplicationConstants.GOBI_SIDECHAINID:
+                    //Gobi (official testnet) fork configuration
+                    return 624;
+                default:
+                    //any other testnet
+                    return 0;
+            }
+        }else{
+            return 0;
+        }
     }
 
     @Override
     public SidechainForkConsensusEpoch fork1activation() {
-        return new SidechainForkConsensusEpoch(0, 0, 0);
+        return mandatorySidechainFork1;
     }
 
     @Override
     public List<Pair<SidechainForkConsensusEpoch, OptionalSidechainFork>> getOptionalSidechainForks() {
-        if (pregobiSidechain) {
-            //Pre-GObi (parallel testnet) fork configuration
-            return List.of(
-                    new Pair<>(
-                            new SidechainForkConsensusEpoch(0, 718, 0),
-                            new GasFeeFork(
-                                    // block gas limit: 10 million
-                                    BigInteger.valueOf(10000000),
-                                    BigInteger.valueOf(2),
-                                    BigInteger.valueOf(8),
-                                    // minimum base fee: 20 Gwei (20*10^9)
-                                    BigInteger.valueOf(20000000000L)
-                            )
-                    )
-            );
-        } else {
-            //TODO: add official gobi testnet fork configuration
-            return new ArrayList<>();
-        }
+        return optionalSidechainForks;
     }
 }

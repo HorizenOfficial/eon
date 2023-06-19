@@ -1,0 +1,97 @@
+sparkz {
+    dataDir = /sidechain/datadir
+    logDir = /sidechain/logs
+
+    logInfo {
+       logFileName = "debug.log"
+       # levels: off, fatal, error, warn, info, debug, trace, all
+       logFileLevel = "$SCNODE_LOG_FILE_LEVEL"
+       logConsoleLevel = "$SCNODE_LOG_CONSOLE_LEVEL"
+    }
+
+    restApi {
+        bindAddress = "0.0.0.0:$SCNODE_REST_PORT"$SCNODE_REST_APIKEYHASH
+        timeout = 5s
+    }
+
+    network {
+        nodeName = "$SCNODE_NET_NODENAME"
+        bindAddress = "0.0.0.0:$SCNODE_NET_P2P_PORT"
+        declaredAddress = "$SCNODE_NET_DECLAREDADDRESS:$SCNODE_NET_P2P_PORT"
+        knownPeers = [$SCNODE_NET_KNOWNPEERS]
+        agentName = "2-Hop"$MAX_INCOMING_CONNECTIONS$MAX_OUTGOING_CONNECTIONS
+        magicBytes = [$SCNODE_NET_MAGICBYTES]
+        storageBackupInterval = 15m
+        storageBackupDelay = 5m
+        slowModeFeatureFlag = $SCNODE_NET_SLOW_MODE
+        slowModeThresholdMs = 2000
+        slowModeMaxRequested = 150
+        slowModeMeasurementImpact = 0.1
+    }
+
+    apiRateLimiter {
+        enabled = $SCNODE_NET_API_LIMITER_ENABLED
+        minThroughput = 10
+        throttlingThresholdMs = 2000
+    }
+
+    websocketClient {
+        enabled = $SCNODE_WS_CLIENT_ENABLED
+        address = "$WS_ADDRESS"
+        connectionTimeout = 100 milliseconds
+        reconnectionDelay = 60 seconds
+        reconnectionMaxAttempts = 60
+    }
+
+    websocketServer {
+        wsServer = $SCNODE_WS_SERVER_ENABLED
+        wsServerPort = $SCNODE_WS_SERVER_PORT
+    }
+
+    withdrawalEpochCertificate {
+        submitterIsEnabled = $SCNODE_CERT_SUBMITTER_ENABLED
+        certificateSigningIsEnabled = $SCNODE_CERT_SIGNING_ENABLED
+        signersPublicKeys = [$SCNODE_CERT_SIGNERS_PUBKEYS]
+        signersThreshold = $SCNODE_CERT_SIGNERS_THRESHOLD
+        signersSecrets = [$SCNODE_CERT_SIGNERS_SECRETS]
+        mastersPublicKeys = [$SCNODE_CERT_MASTERS_PUBKEYS]
+        maxPks = $SCNODE_CERT_SIGNERS_MAXPKS
+        certProvingKeyFilePath = "/sidechain/snark_keys/marlin_snark_pk"
+        certVerificationKeyFilePath = "/sidechain/snark_keys/marlin_snark_vk"
+        circuitType = NaiveThresholdSignatureCircuitWithKeyRotation
+        certificateAutomaticFeeComputation = true
+    }
+
+    wallet {
+        seed = "$SCNODE_WALLET_SEED"
+        genesisSecrets = [$SCNODE_WALLET_GENESIS_SECRETS]
+        maxTxFee = $SCNODE_WALLET_MAXTX_FEE
+    }
+
+    csw {
+        cswProvingKeyFilePath = ""
+        cswVerificationKeyFilePath = ""
+    }
+
+    forger {
+        automaticForging = $SCNODE_FORGER_ENABLED
+        restrictForgers = $SCNODE_FORGER_RESTRICT
+        allowedForgersList = [$SCNODE_ALLOWED_FORGERS]
+    }
+
+    remoteKeysManager {
+        enabled = $SCNODE_REMOTE_KEY_MANAGER_ENABLED
+        address = "$SCNODE_REMOTE_KEY_MANAGER_ADDRESS"
+    }
+
+    genesis {
+        scGenesisBlockHex = "$SCNODE_GENESIS_BLOCKHEX"
+        scId = "$SCNODE_GENESIS_SCID"
+        powData = "$SCNODE_GENESIS_POWDATA"
+        mcBlockHeight = $SCNODE_GENESIS_MCBLOCKHEIGHT
+        mcNetwork = $SCNODE_GENESIS_MCNETWORK
+        isNonCeasing = $SCNODE_GENESIS_ISNONCEASING
+        withdrawalEpochLength = $SCNODE_GENESIS_WITHDRAWALEPOCHLENGTH
+        initialCumulativeCommTreeHash = "$SCNODE_GENESIS_COMMTREEHASH"
+    }
+}
