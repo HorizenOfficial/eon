@@ -103,7 +103,9 @@ public class EonAppModule extends AccountAppModule {
     }
 
     public String getEONVersion() {
+        String defaultVersion = "dev";
         Package eonPackage = this.getClass().getPackage();
-        return eonPackage.getImplementationVersion();
+        String version = eonPackage.getImplementationVersion();
+        return version != null ? version : defaultVersion;
     }
 }
