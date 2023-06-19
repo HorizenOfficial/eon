@@ -27,12 +27,12 @@ public class EonForkConfigurator extends ForkConfigurator {
 
     public EonForkConfigurator(Optional<String> sidechainId) {
         optionalSidechainForks=  List.of(
-                new Pair<>(new SidechainForkConsensusEpoch(0, getFeeForkTestentActivation(sidechainId), 0), feeFork1Params)
+                new Pair<>(new SidechainForkConsensusEpoch(0, getFeeForkTestnetActivation(sidechainId), 0), feeFork1Params)
         );
         mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
     }
 
-    private int getFeeForkTestentActivation(Optional<String> sidechainId){
+    private int getFeeForkTestnetActivation(Optional<String> sidechainId){
         if (sidechainId.isPresent()){
             switch (sidechainId.get()){
                 case ApplicationConstants.PREGOBI_SIDECHAINID:
