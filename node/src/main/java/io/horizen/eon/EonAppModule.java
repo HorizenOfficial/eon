@@ -104,10 +104,10 @@ public class EonAppModule extends AccountAppModule {
 
     /**
      Retrieves the EON version by dynamically accessing the implementation version of the package at runtime.
-     The implementation version is taken from JAR file's manifest file <b>Implementation-Version</b> attribute. That attribute
-     is populated when JAR is build with value of version tag under project key from pom file. <br/>
+     The implementation version is taken from the JAR file's manifest file <b>Implementation-Version</b> attribute. That attribute
+     is populated when JAR is built with the value of the version tag under the project key from the pom file. <br/>
      When running the application in a development environment (e.g., directly from the source code or an IDE), the implementation
-     version is not accessible and will return default "dev" value.
+     version is not accessible and will return the default "dev" value.
 
      @return The EON version, or "dev" if the version is not available.
      */
