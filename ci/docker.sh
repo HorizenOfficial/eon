@@ -3,13 +3,8 @@ set -eEuo pipefail
 
 workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 docker_image_name="${DOCKER_IMAGE_NAME:-evmapp}"
-aws_ecr_region='us-east-1'
 docker_hub_org='horizenlabs'
 pom_version="${ROOT_POM_VERSION:-}"
-
-AWS_ACCOUNT_NUMBER="${AWS_ACCOUNT_NUMBER:-}"
-AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID:-}"
-AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY:-}"
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-}"
 DOCKER_PASSWORD="${DOCKER_PASSWORD:-}"
@@ -43,24 +38,8 @@ if [ -n "${docker_tag}" ]; then
     --build-arg ARG_SC_VERSION="${arg_sc_version}" \
     .
 
-  # Installing awscli for publishing to AWS ECR
-  if ! [ -x "$(command -v aws)" ]; then curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ; unzip awscliv2.zip ; sudo ./aws/install ; fi
-  export PATH=$PATH:/$HOME/.local/bin
-
-  # Publishing to AWS ECR
-  echo "" && echo "=== Publishing Docker images on ECR ===" && echo ""
-  if [ -z "${AWS_ACCOUNT_NUMBER}" ] || [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
-    echo "Warning: AWS_ACCOUNT_NUMBER and/or AWS_ACCESS_KEY_ID and/or AWS_SECRET_ACCESS_KEY is(are) empty. Docker image is NOT going to be published on AWS ECR !!!"
-  else
-    aws ecr get-login-password --region "${aws_ecr_region}" | docker login --username AWS --password-stdin "${AWS_ACCOUNT_NUMBER}.dkr.ecr.${aws_ecr_region}.amazonaws.com"
-    docker tag "${docker_image_name}:${docker_tag}" "${AWS_ACCOUNT_NUMBER}.dkr.ecr.${aws_ecr_region}.amazonaws.com/${docker_image_name}:${docker_tag}"
-    docker push "${AWS_ACCOUNT_NUMBER}.dkr.ecr.${aws_ecr_region}.amazonaws.com/${docker_image_name}:${docker_tag}"
-  fi
-
-  sleep 5
-
   # Publishing to DockerHub
-  echo "" && echo "=== Publishing Docker images on DockerHub===" && echo ""
+  echo "" && echo "=== Publishing Docker image(s) on Docker Hub===" && echo ""
   if [ -z "${DOCKER_USERNAME}" ] || [ -z "${DOCKER_PASSWORD}" ]; then
     echo "Warning: DOCKER_USERNAME and/or DOCKER_USERNAME is(are) empty. Docker image is NOT going to be published on DockerHub !!!"
   else
