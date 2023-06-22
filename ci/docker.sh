@@ -3,8 +3,8 @@ set -eEuo pipefail
 
 workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 evmapp_docker_image_name="${EVMAPP_DOCKER_IMAGE_NAME:-evmapp}"
-bootstraptool_docker_image_name="${BOOTSTRAPTOOL_DOCKER_IMAGE_NAME:-bootstraptool}"
-docker_hub_org='horizenlabs'
+bootstraptool_docker_image_name="${BOOTSTRAPTOOL_DOCKER_IMAGE_NAME:-evmapp-bootstraptool}"
+docker_hub_org='zencash'
 pom_version="${ROOT_POM_VERSION:-}"
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-}"

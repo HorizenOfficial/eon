@@ -33,4 +33,4 @@ jobs:
       if: tag IS present
       env:
         - EVMAPP_DOCKER_IMAGE_NAME='evmapp'
-        - BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='bootstraptool'
+        - BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='evmapp-bootstraptool'
