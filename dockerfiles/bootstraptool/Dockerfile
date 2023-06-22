@@ -61,7 +61,7 @@ COPY --from=builder ${REPO_DEST}/bootstraptool/target/*.jar /tools/
 
 COPY --from=builder ${REPO_DEST}/bootstraptool/target/lib /tools/lib/
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./dockerfiles/bootstraptool/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN set -euo pipefail && chmod +x /usr/local/bin/entrypoint.sh \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install apt-utils \

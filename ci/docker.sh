@@ -40,8 +40,8 @@ if [ -n "${docker_tag}" ]; then
     .
 
   docker build -f "${workdir}"/dockerfiles/bootstraptool/Dockerfile -t "${bootstraptool_docker_image_name}:${docker_tag}" \
-    --build-arg ARG_SC_VERSION=0.1.0-SNAPSHOT \
-    --build-arg ARG_SC_COMMITTISH=0.1.0-SNAPSHOT9 \
+    --build-arg ARG_SC_COMMITTISH="${arg_sc_committish}" \
+    --build-arg ARG_SC_VERSION="${arg_sc_version}" \
     .
 
   # Publishing to DockerHub
@@ -55,7 +55,7 @@ if [ -n "${docker_tag}" ]; then
     for docker_image in "${docker_images[@]}"; do
       tags=("${docker_tag}" "latest")
       for tag in "${tags[@]}"; do
-        docker tag "${docker_image}:${tag}" "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
+        docker tag "${docker_image}:${docker_tag}" "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
         docker push "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
       done
     done
