@@ -31,4 +31,6 @@ jobs:
       name: Build and publish EON docker image
       script: ci/docker.sh
       if: tag IS present
-      env: DOCKER_IMAGE_NAME='evmapp'
+      env:
+        - EVMAPP_DOCKER_IMAGE_NAME='evmapp'
+        - BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='bootstraptool'
