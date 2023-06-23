@@ -19,7 +19,7 @@ Supported args:
 Examples:
         ./bootstrap_tool.sh forger 128
         ./bootstrap_tool.sh signer
-        export DOCKER_TAG=0.1.0-SNAPSHOT9 && ./bootstrap_tool.sh signer (default tag used is 'latest' but it can be selected via env variable)
+        export DOCKER_TAG=0.1.0 && ./bootstrap_tool.sh signer (default tag used is 'latest' but it can be selected via env variable)
 Outputs:
         forger:
                 {
