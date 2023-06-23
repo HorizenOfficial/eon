@@ -1,4 +1,6 @@
 # Changelog
+## 0.2.0
+* Updated SDK dependency to 0.7.1
 
 ## 0.1.0
 Initial version of the EON application.
