@@ -30,9 +30,10 @@ RUN set -euo pipefail && apt-get update && DEBIAN_FRONTEND=noninteractive apt-ge
     && git clone ${SC_GITHUB_REPO} ${REPO_DEST} && cd ${REPO_DEST} \
     && git checkout ${SC_COMMITTISH} && mvn install -DskipTests
 
-## EVMAPP stage
 
-FROM ${FROM_IMAGE_RUN} AS evmapp
+## SCTOOL stage
+
+FROM ${FROM_IMAGE_RUN} AS sctool
 
 MAINTAINER infrastructure@zensystem.io
 
@@ -40,11 +41,7 @@ MAINTAINER infrastructure@zensystem.io
 
 ARG ARG_SC_VERSION
 
-ARG ARG_SC_JAR_NAME=eon
-
-ARG ARG_SC_MAIN_CLASS=io.horizen.eon.EonApp
-
-ARG ARG_SC_CONF_PATH=/sidechain/config/sc_settings.conf
+ARG ARG_SC_JAR_NAME=bootstraptool
 
 ARG ARG_GOSU_VERSION=1.14
 
@@ -52,33 +49,24 @@ ARG ARG_TINI_VERSION=v0.19.0
 
 ENV SC_VERSION=${ARG_SC_VERSION} \
     SC_JAR_NAME=${ARG_SC_JAR_NAME} \
-    SC_MAIN_CLASS=${ARG_SC_MAIN_CLASS} \
-    SC_CONF_PATH=${ARG_SC_CONF_PATH} \
     GOSU_VERSION=${ARG_GOSU_VERSION} \
     TINI_VERSION=${ARG_TINI_VERSION} \
     REPO_DEST='/EON'
 
-WORKDIR /sidechain
+WORKDIR /
 
 SHELL ["/bin/bash", "-c"]
 
-COPY --from=builder ${REPO_DEST}/target/*.jar /sidechain/
+COPY --from=builder ${REPO_DEST}/bootstraptool/target/*.jar /tools/
 
-COPY --from=builder ${REPO_DEST}/target/lib /sidechain/lib
+COPY --from=builder ${REPO_DEST}/bootstraptool/target/lib /tools/lib/
 
-COPY ci/docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./dockerfiles/bootstraptool/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN set -euo pipefail && chmod +x /usr/local/bin/entrypoint.sh \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install apt-utils \
     && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends dist-upgrade \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates \
-      curl \
-      dnsutils \
-      gettext-base \
-      libjemalloc2 \
-      jq \
-      netcat-openbsd \
-      apache2-utils \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl dnsutils gettext-base libjemalloc2 jq netcat-openbsd pwgen\
     && savedAptMark="$(apt-mark showmanual)" \
     && if ! command -v gosu &> /dev/null; then \
       if ! command -v gpg2 &> /dev/null; then \
@@ -119,14 +107,13 @@ RUN set -euo pipefail && chmod +x /usr/local/bin/entrypoint.sh \
     fi \
     && apt-mark auto '.*' &> /dev/null && [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark &> /dev/null \
     && DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && java -jar /tools/"${SC_JAR_NAME}-${SC_VERSION}.jar" help \
     && rm -rf /var/{lib/apt/lists/*,cache/apt/archives/*.deb} /tmp/*
 
-VOLUME ["/sidechain/datadir/"]
-
-VOLUME ["/sidechain/logs/"]
+VOLUME ["/tools/output"]
 
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
 
-# This is a placeholder CMD, the actual CMD is constructed in entrypoint.sh based on ENV vars like this:
-# "java -cp '/sidechain/${ARG_SC_JAR_NAME}-${SC_VERSION}.jar:/sidechain/lib/*' $SC_MAIN_CLASS $SC_CONF_PATH"
+# This is a placeholder CMD, the actual CMD is constructed in entrypoint.sh like this:
+# "java -jar /tools/${SC_JAR_NAME}-${SC_VERSION}.jar $args"
 CMD ["/usr/bin/true"]

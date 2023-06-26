@@ -42,8 +42,9 @@ public class EonAppModule extends AccountAppModule {
         customMessageProcessors.add(new EvmMessageProcessor());
 
         SidechainAppStopper applicationStopper = new EonAppStopper();
-        AppForkConfigurator forkConfigurator = new AppForkConfigurator();
+
         SidechainSettings sidechainSettings = this.settingsReader.getSidechainSettings();
+        EonForkConfigurator forkConfigurator= new EonForkConfigurator(Optional.of(sidechainSettings.genesisData().scId()));
 
         HashMap<Byte, SecretSerializer<Secret>> customSecretSerializers = new HashMap<>();
         HashMap<Byte, TransactionSerializer<AccountTransaction<Proposition, Proof<Proposition>>>>

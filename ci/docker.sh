@@ -2,14 +2,10 @@
 set -eEuo pipefail
 
 workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
-docker_image_name="${DOCKER_IMAGE_NAME:-evmapp}"
-aws_ecr_region='us-east-1'
-docker_hub_org='horizenlabs'
-pom_version="${POM_VERSION:-}"
-
-AWS_ACCOUNT_NUMBER="${AWS_ACCOUNT_NUMBER:-}"
-AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID:-}"
-AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY:-}"
+evmapp_docker_image_name="${EVMAPP_DOCKER_IMAGE_NAME:-evmapp}"
+bootstraptool_docker_image_name="${BOOTSTRAPTOOL_DOCKER_IMAGE_NAME:-evmapp-bootstraptool}"
+docker_hub_org='zencash'
+pom_version="${ROOT_POM_VERSION:-}"
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-}"
 DOCKER_PASSWORD="${DOCKER_PASSWORD:-}"
@@ -36,37 +32,33 @@ fi
 
 # Building docker image
 if [ -n "${docker_tag}" ]; then
-  echo "" && echo "=== Building Docker Image: ${docker_image_name}:${docker_tag} ===" && echo ""
+  echo "" && echo "=== Building Docker Image: ${evmapp_docker_image_name}:${docker_tag} ===" && echo ""
 
-  docker build -f "${workdir}"/ci/docker/Dockerfile -t "${docker_image_name}:${docker_tag}" \
+  docker build -f "${workdir}"/dockerfiles/evmapp/Dockerfile -t "${evmapp_docker_image_name}:${docker_tag}" \
     --build-arg ARG_SC_COMMITTISH="${arg_sc_committish}" \
     --build-arg ARG_SC_VERSION="${arg_sc_version}" \
     .
 
-  # Installing awscli for publishing to AWS ECR
-  if ! [ -x "$(command -v aws)" ]; then curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" ; unzip awscliv2.zip ; sudo ./aws/install ; fi
-  export PATH=$PATH:/$HOME/.local/bin
-
-  # Publishing to AWS ECR
-  echo "" && echo "=== Publishing Docker images on ECR ===" && echo ""
-  if [ -z "${AWS_ACCOUNT_NUMBER}" ] || [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ]; then
-    echo "Warning: AWS_ACCOUNT_NUMBER and/or AWS_ACCESS_KEY_ID and/or AWS_SECRET_ACCESS_KEY is(are) empty. Docker image is NOT going to be published on AWS ECR !!!"
-  else
-    aws ecr get-login-password --region "${aws_ecr_region}" | docker login --username AWS --password-stdin "${AWS_ACCOUNT_NUMBER}.dkr.ecr.${aws_ecr_region}.amazonaws.com"
-    docker tag "${docker_image_name}:${docker_tag}" "${AWS_ACCOUNT_NUMBER}.dkr.ecr.${aws_ecr_region}.amazonaws.com/${docker_image_name}:${docker_tag}"
-    docker push "${AWS_ACCOUNT_NUMBER}.dkr.ecr.${aws_ecr_region}.amazonaws.com/${docker_image_name}:${docker_tag}"
-  fi
-
-  sleep 5
+  docker build -f "${workdir}"/dockerfiles/bootstraptool/Dockerfile -t "${bootstraptool_docker_image_name}:${docker_tag}" \
+    --build-arg ARG_SC_COMMITTISH="${arg_sc_committish}" \
+    --build-arg ARG_SC_VERSION="${arg_sc_version}" \
+    .
 
   # Publishing to DockerHub
-  echo "" && echo "=== Publishing Docker images on DockerHub===" && echo ""
+  echo "" && echo "=== Publishing Docker image(s) on Docker Hub===" && echo ""
   if [ -z "${DOCKER_USERNAME}" ] || [ -z "${DOCKER_PASSWORD}" ]; then
     echo "Warning: DOCKER_USERNAME and/or DOCKER_USERNAME is(are) empty. Docker image is NOT going to be published on DockerHub !!!"
   else
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-    docker tag "${docker_image_name}:${docker_tag}" "index.docker.io/${docker_hub_org}/${docker_image_name}:${docker_tag}"
-    docker push "index.docker.io/${docker_hub_org}/${docker_image_name}:${docker_tag}"
+    echo "Create tags"
+    docker_images=("${evmapp_docker_image_name}" "${bootstraptool_docker_image_name}")
+    for docker_image in "${docker_images[@]}"; do
+      tags=("${docker_tag}" "latest")
+      for tag in "${tags[@]}"; do
+        docker tag "${docker_image}:${docker_tag}" "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
+        docker push "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
+      done
+    done
   fi
 else
   echo "" && echo "=== The build did NOT satisfy RELEASE build requirements. Docker image is not being created ===" && echo ""
