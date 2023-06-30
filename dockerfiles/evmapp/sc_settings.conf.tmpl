@@ -27,6 +27,10 @@ sparkz {
         slowModeThresholdMs = 2000
         slowModeMaxRequested = 150
         slowModeMeasurementImpact = 0.1
+        rebroadcastEnabled = $SCNODE_NET_REBROADCAST_TXS
+        rebroadcastDelay = 30s
+        rebroadcastQueueSize = 1024
+        rebroadcastBatchSize = 75
     }
 
     apiRateLimiter {
