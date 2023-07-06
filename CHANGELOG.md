@@ -1,7 +1,11 @@
 # Changelog
 
 ## 0.3.0-SNAPSHOT
-* SDK dependency updated to version 0.8.0-SNAPSHOT
+* SDK dependency updated to version 0.8.0
+
+## 0.2.0
+* Updated SDK dependency to 0.7.1
+
 ## 0.1.0
 Initial version of the EON application.
 * Based on top of [Sidechains-SDK](https://github.com/HorizenOfficial/Sidechains-SDK) version 0.7.0
