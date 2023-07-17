@@ -38,7 +38,7 @@ public class EonForkConfigurator extends ForkConfigurator {
                 BigInteger.valueOf(20000000000L)
         );
 
-        ZenDAOFork zenDAOFork = new ZenDAOFork(false);
+        ZenDAOFork zenDAOFork = new ZenDAOFork(true);
 
         optionalSidechainForks = List.of(
                 new Pair<>(new SidechainForkConsensusEpoch(
