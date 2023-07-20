@@ -1,5 +1,5 @@
 os: linux
-dist: jammy
+dist: focal
 language: generic
 addons:
   apt:
@@ -34,3 +34,12 @@ jobs:
       env:
         - EVMAPP_DOCKER_IMAGE_NAME='evmapp'
         - BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='evmapp-bootstraptool'
+
+deploy:
+  provider: releases
+  token: $GITHUB_TOKEN
+  prerelease: $IS_A_GH_PRERELEASE
+  overwrite: true
+  on:
+    tags: true
+    condition: $IS_A_RELEASE = true
