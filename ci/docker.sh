@@ -9,6 +9,9 @@ pom_version="${ROOT_POM_VERSION:-}"
 
 DOCKER_USERNAME="${DOCKER_USERNAME:-}"
 DOCKER_PASSWORD="${DOCKER_PASSWORD:-}"
+IS_A_RELEASE="${IS_A_RELEASE:-false}"
+PROD_RELEASE="${PROD_RELEASE:-false}"
+TRAVIS_TAG="${TRAVIS_TAG:-}"
 
 
 # Functions
@@ -45,23 +48,30 @@ if [ -n "${docker_tag}" ]; then
     .
 
   # Publishing to DockerHub
-  echo "" && echo "=== Publishing Docker image(s) on Docker Hub===" && echo ""
+  echo "" && echo "=== Publishing Docker image(s) on Docker Hub ===" && echo ""
   if [ -z "${DOCKER_USERNAME}" ] || [ -z "${DOCKER_PASSWORD}" ]; then
-    echo "Warning: DOCKER_USERNAME and/or DOCKER_USERNAME is(are) empty. Docker image is NOT going to be published on DockerHub !!!"
+    echo "Warning: DOCKER_USERNAME and/or DOCKER_PASSWORD variable(s) is(are) empty. Docker image(s) is(are) NOT going to be published on DockerHub !!!"
   else
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-    echo "Create tags"
     docker_images=("${evmapp_docker_image_name}" "${bootstraptool_docker_image_name}")
-    for docker_image in "${docker_images[@]}"; do
+
+    # Docker image(s) tags for PROD vs DEV release
+    if [ "${PROD_RELEASE}" = "true" ]; then
       tags=("${docker_tag}" "latest")
+    else
+      tags=("${docker_tag}" "dev")
+    fi
+
+    for docker_image in "${docker_images[@]}"; do
       for tag in "${tags[@]}"; do
+        echo "" && echo "Publishing docker image: ${docker_image}:${tag}"
         docker tag "${docker_image}:${docker_tag}" "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
         docker push "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
       done
     done
   fi
 else
-  echo "" && echo "=== The build did NOT satisfy RELEASE build requirements. Docker image is not being created ===" && echo ""
+  echo "" && echo "=== The build did NOT satisfy RELEASE build requirements. Docker image(s) was(were) NOT created/published ===" && echo ""
 fi
 
 

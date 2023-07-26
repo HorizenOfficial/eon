@@ -1,7 +1,10 @@
 #!/bin/bash
 set -eo pipefail
 
-export IS_A_RELEASE="false"
+IS_A_RELEASE="false"
+IS_A_GH_PRERELEASE="false"
+PROD_RELEASE="false"
+
 ROOT_POM_VERSION="$(xpath -q -e '/project/version/text()' pom.xml)"
 node_pom_version="$(xpath -q -e '/project/version/text()' ./node/pom.xml)"
 bootstraptool_pom_version="$(xpath -q -e '/project/version/text()' ./bootstraptool/pom.xml)"
@@ -97,6 +100,9 @@ if [ -n "${TRAVIS_TAG}" ]; then
 
     if [ "${IS_A_RELEASE}" = "true" ]; then
       echo "" && echo "=== Production release ===" && echo ""
+
+      export PROD_RELEASE="true"
+      export IS_A_GH_PRERELEASE="false"
     fi
   elif ( git branch -r --contains "${TRAVIS_TAG}" | grep -xqE ". origin\/${DEV_RELEASE_BRANCH}$" ); then
     import_gpg_keys "${all_maintainers_keys}"
@@ -105,7 +111,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
 
     if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
       echo "Warning: package(s) version is in the wrong format for DEVELOPMENT release. Expecting: d.d.d(-RC[0-9]+)?(-SNAPSHOT){1}. The build is not going to be released !!!"
-      IS_A_RELEASE="false"
+      export IS_A_RELEASE="false"
     fi
 
     # Checking Github tag format
@@ -117,6 +123,9 @@ if [ -n "${TRAVIS_TAG}" ]; then
 
     if [ "${IS_A_RELEASE}" = "true" ]; then
       echo "" && echo "=== Development release ===" && echo ""
+
+      export PROD_RELEASE="false"
+      export IS_A_GH_PRERELEASE="true"
     fi
   fi
 fi
@@ -124,6 +133,8 @@ fi
 # Final check for release vs non-release build
 if [ "${IS_A_RELEASE}" = "false" ]; then
   echo "" && echo "=== NOT a release build ===" && echo ""
+
+  export IS_A_RELEASE="false"
 fi
 
 set +eo pipefail
