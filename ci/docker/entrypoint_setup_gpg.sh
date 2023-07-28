@@ -1,8 +1,7 @@
 #!/bin/bash
-
 set -euo pipefail
 
-if [ "${CONTAINER_PUBLISH}" = "true" ]; then
+if [ "${IS_A_RELEASE}" = "true" ] && [ -s "/key.asc" ]; then
   # shellcheck disable=SC2155
   export GNUPGHOME="$(mktemp -d 2>/dev/null || mktemp -d -t 'GNUPGHOME')"
   # gpg: setting pinentry mode 'loopback' failed: Not supported https://www.fluidkeys.com/tweak-gpg-2.1.11/

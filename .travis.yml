@@ -24,16 +24,10 @@ jobs:
   include:
     - stage: Java project
       name: "Build and test java project(s)"
-      script: ci/script.sh tests
-      env: DOCKER_ORG='zencash' IMAGE_NAME='sc-ci-base' IMAGE_TAG='bionic_jdk-11_latest' TESTS='000'
-
-    - stage: Docker packaging
-      name: Build and publish EON docker image
-      script: ci/docker.sh
-      if: tag IS present
+      script: ci/script.sh
       env:
-        - EVMAPP_DOCKER_IMAGE_NAME='evmapp'
-        - BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='evmapp-bootstraptool'
+       - TESTS_DOCKER_ORG='zencash' TESTS_IMAGE_NAME='sc-ci-base' TESTS_IMAGE_TAG='bionic_jdk-11_latest' TESTS='000'
+       - EVMAPP_DOCKER_IMAGE_NAME='evmapp' BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='evmapp-bootstraptool'
 
 deploy:
   provider: releases
