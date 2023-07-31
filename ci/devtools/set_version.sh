@@ -9,7 +9,7 @@ base_dir="$( dirname "${current_dir%/*}" )"
 
 TESTS_DOCKER_ORG="${TESTS_DOCKER_ORG:-zencash}"
 TESTS_IMAGE_NAME="${TESTS_IMAGE_NAME:-sc-ci-base}"
-TESTS_IMAGE_TAG="${TESTS_IMAGE_TAG:-bionic_jdk-11_latest}"
+TESTS_IMAGE_TAG="${TESTS_IMAGE_TAG:-focal_jdk-11_latest}"
 image="${TESTS_DOCKER_ORG}/${TESTS_IMAGE_NAME}:${TESTS_IMAGE_TAG}"
 
 have_docker="false"
