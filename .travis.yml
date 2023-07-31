@@ -26,8 +26,12 @@ jobs:
       name: "Build and test java project(s)"
       script: ci/script.sh
       env:
-       - TESTS_DOCKER_ORG='zencash' TESTS_IMAGE_NAME='sc-ci-base' TESTS_IMAGE_TAG='focal_jdk-11_latest' TESTS='000'
-       - EVMAPP_DOCKER_IMAGE_NAME='evmapp' BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='evmapp-bootstraptool'
+       - TESTS_DOCKER_ORG='zencash'
+       - TESTS_IMAGE_NAME='sc-ci-base'
+       - TESTS_IMAGE_TAG='focal_jdk-11_latest'
+       - TESTS='000'
+       - EVMAPP_DOCKER_IMAGE_NAME='evmapp'
+       - BOOTSTRAPTOOL_DOCKER_IMAGE_NAME='evmapp-bootstraptool'
 
 deploy:
   provider: releases
