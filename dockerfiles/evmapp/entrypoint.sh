@@ -77,8 +77,6 @@ to_check=(
   "SCNODE_WS_SERVER_PORT"
   "SCNODE_WS_CLIENT_ENABLED"
   "SCNODE_WS_SERVER_ENABLED"
-  "SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS"
-  "SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT"
 )
 for var in "${to_check[@]}"; do
   if [ -z "${!var:-}" ]; then
@@ -105,11 +103,25 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
     sleep 5
     exit 1
   fi
+
   if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
     echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
     sleep 5
     exit 1
   fi
+
+  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT needs to be set."
+    sleep 5
+    exit 1
+  fi
+
+  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS needs to be set."
+    sleep 5
+    exit 1
+  fi
+
   if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -n "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
      host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
      port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
