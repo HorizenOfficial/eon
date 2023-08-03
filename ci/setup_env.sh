@@ -15,6 +15,8 @@ if [ -z "${TRAVIS_TAG}" ]; then
 else
   echo "TRAVIS_TAG:                     ${TRAVIS_TAG}"
 fi
+echo "Production release branch is:   ${PROD_RELEASE_BRANCH}"
+echo "Development release branch is:  ${DEV_RELEASE_BRANCH}"
 echo "Root pom.xml version:           ${ROOT_POM_VERSION}"
 echo "EON node pom.xml version:       ${node_pom_version}"
 echo "Bootstrap tool pom.xml version: ${bootstraptool_pom_version}"
@@ -47,9 +49,9 @@ function check_signed_tag() {
   # Checking if git tag signed by the maintainers
   if git verify-tag -v "${tag}"; then
     echo "${tag} is a valid signed tag"
-    export IS_A_RELEASE="true"
   else
     echo "" && echo "=== Warning: GIT's tag = ${tag} signature is NOT valid. The build is not going to be released ... ===" && echo ""
+    export IS_A_RELEASE="false"
   fi
 }
 
@@ -69,24 +71,34 @@ function  check_versions_match () {
   export IS_A_RELEASE="true"
 }
 
+# empty key.asc file in case we're not signing
+touch "${HOME}/key.asc"
+
 # Checking if it a release build
 if [ -n "${TRAVIS_TAG}" ]; then
-  echo "The current production release branch is: ${PROD_RELEASE_BRANCH}"
-  echo "The current development release branch is: ${DEV_RELEASE_BRANCH}"
+  # Checking versions match
+  check_versions_match "${ROOT_POM_VERSION}" "${node_pom_version}" "${bootstraptool_pom_version}"
 
-  # checking if PROD_MAINTAINERS_KEYS and DEV_MAINTAINERS_KEYS are set
-  if [[ -z "${PROD_MAINTAINERS_KEYS}" || -z "${DEV_MAINTAINERS_KEYS}" ]]; then
-    echo "Warning: PROD_MAINTAINERS_KEYS and/or DEV_MAINTAINERS_KEYS variables are not set. Make sure to set it up for PROD|DEV release build !!!"
+  # checking if PROD_MAINTAINERS_KEYS is set
+  if [ -z "${PROD_MAINTAINERS_KEYS}" ]; then
+    echo "Warning: PROD_MAINTAINERS_KEYS variable is not set. Make sure to set it up for PROD|DEV release build !!!"
+  fi
+
+  # checking if DEV_MAINTAINERS_KEYS is set
+  if [ -z "${DEV_MAINTAINERS_KEYS}" ]; then
+    echo "Warning: DEV_MAINTAINERS_KEYS variable is not set. Only PROD_MAINTAINERS_KEYS will be able to run DEV release !!!"
   fi
   all_maintainers_keys=$(echo "${PROD_MAINTAINERS_KEYS} ${DEV_MAINTAINERS_KEYS}" | xargs -n1 | sort -u | xargs)
 
   # Prod vs development release
   if ( git branch -r --contains "${TRAVIS_TAG}" | grep -xqE ". origin\/${PROD_RELEASE_BRANCH}$" ); then
+    # Importing GPG keys
     import_gpg_keys "${PROD_MAINTAINERS_KEYS}"
+    # Checking git tag gpg signature requirement
     check_signed_tag "${TRAVIS_TAG}"
-    check_versions_match "${ROOT_POM_VERSION}" "${node_pom_version}" "${bootstraptool_pom_version}"
 
-    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?$ ]]; then
+    # Checking format of production release pom version
+    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-RC[0-9]+)?$ ]]; then
       echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d(-RC[0-9]+)?. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
@@ -98,6 +110,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
       export IS_A_RELEASE="false"
     fi
 
+    # Announcing PROD release
     if [ "${IS_A_RELEASE}" = "true" ]; then
       echo "" && echo "=== Production release ===" && echo ""
 
@@ -105,11 +118,13 @@ if [ -n "${TRAVIS_TAG}" ]; then
       export IS_A_GH_PRERELEASE="false"
     fi
   elif ( git branch -r --contains "${TRAVIS_TAG}" | grep -xqE ". origin\/${DEV_RELEASE_BRANCH}$" ); then
+    # Importing GPG keys
     import_gpg_keys "${all_maintainers_keys}"
+    # Checking git tag gpg signature requirement
     check_signed_tag "${TRAVIS_TAG}"
-    check_versions_match "${ROOT_POM_VERSION}" "${node_pom_version}" "${bootstraptool_pom_version}"
 
-    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
+    # Checking if package version matches DEV release version
+    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
       echo "Warning: package(s) version is in the wrong format for DEVELOPMENT release. Expecting: d.d.d(-RC[0-9]+)?(-SNAPSHOT){1}. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
@@ -127,6 +142,8 @@ if [ -n "${TRAVIS_TAG}" ]; then
       export PROD_RELEASE="false"
       export IS_A_GH_PRERELEASE="true"
     fi
+  else
+    export IS_A_RELEASE="false"
   fi
 fi
 
