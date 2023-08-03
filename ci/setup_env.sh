@@ -98,7 +98,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
     check_signed_tag "${TRAVIS_TAG}"
 
     # Checking format of production release pom version
-    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?$ ]]; then
+    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-RC[0-9]+)?$ ]]; then
       echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d(-RC[0-9]+)?. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
@@ -124,7 +124,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
     check_signed_tag "${TRAVIS_TAG}"
 
     # Checking if package version matches DEV release version
-    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
+    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
       echo "Warning: package(s) version is in the wrong format for DEVELOPMENT release. Expecting: d.d.d(-RC[0-9]+)?(-SNAPSHOT){1}. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
