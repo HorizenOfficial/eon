@@ -31,6 +31,7 @@ sparkz {
         rebroadcastDelay = 30s
         rebroadcastQueueSize = 1024
         rebroadcastBatchSize = 75
+        handlingTransactionsEnabled = $SCNODE_NET_HANDLING_TXS
     }
 
     apiRateLimiter {
@@ -86,6 +87,8 @@ sparkz {
     remoteKeysManager {
         enabled = $SCNODE_REMOTE_KEY_MANAGER_ENABLED
         address = "$SCNODE_REMOTE_KEY_MANAGER_ADDRESS"
+        requestTimeout = $SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
+        numOfParallelRequests = $SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS
     }
 
     genesis {
