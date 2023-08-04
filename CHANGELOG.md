@@ -1,4 +1,8 @@
 # Changelog
+
+## 1.0.0-SNAPSHOT
+* SDK dependency updated to version 0.8.0
+
 ## 0.2.0-1
 * Updated entrypoint script logic
 * Updated CI/CD 

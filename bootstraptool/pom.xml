@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.horizen</groupId>
   <artifactId>bootstraptool</artifactId>
-  <version>0.2.0-1</version>
+  <version>1.0.0-SNAPSHOT</version>
   <inceptionYear>2023</inceptionYear>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,19 +15,13 @@
   <dependencies>
     <dependency>
       <groupId>io.horizen</groupId>
-      <artifactId>sidechains-sdk-scbootstrappingtools</artifactId>
-      <version>0.7.1</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.horizen</groupId>
       <artifactId>sidechains-sdk-account_sctools</artifactId>
-      <version>0.7.1</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>io.horizen</groupId>
       <artifactId>eon</artifactId>
-      <version>0.2.0-1</version>
+      <version>1.0.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -46,7 +40,6 @@
       </snapshots>
     </repository>
   </repositories>
-
     <profiles>
         <profile>
             <id>default</id>
@@ -183,7 +176,4 @@
             </build>
         </profile>
     </profiles>
-
-
-
 </project>
