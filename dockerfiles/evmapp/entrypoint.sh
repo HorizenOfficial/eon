@@ -137,16 +137,16 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
      port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
      port="${port:-80}"
      # make sure host and port are reachable
-    # i=0
-    # while ! nc -z "${host}" "${port}" &> /dev/null; do
-    #   echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
-    #   sleep 5
-    #   i="$((i+1))"
-    #   if [ "$i" -gt 48 ]; then
-    #     echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
-    #     exit 1
-    #   fi
-    # done
+     i=0
+     while ! nc -z "${host}" "${port}" &> /dev/null; do
+       echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
+       sleep 5
+       i="$((i+1))"
+       if [ "$i" -gt 48 ]; then
+         echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
+         exit 1
+       fi
+     done
    fi
 fi
 
