@@ -2,9 +2,7 @@ package io.horizen.eon;
 
 import io.horizen.account.fork.GasFeeFork;
 import io.horizen.account.fork.ZenDAOFork;
-import io.horizen.fork.ForkConfigurator;
-import io.horizen.fork.OptionalSidechainFork;
-import io.horizen.fork.SidechainForkConsensusEpoch;
+import io.horizen.fork.*;
 import io.horizen.utils.Pair;
 
 import java.math.BigInteger;
@@ -49,9 +47,47 @@ public class EonForkConfigurator extends ForkConfigurator {
 
                 new Pair<>(new SidechainForkConsensusEpoch(
                         ZENDAO_REGTEST_FORKPOINT,
-                        getZenDAOTestnetActivation(sidechainId),
+                        0,
                         ZENDAO_MAINNET_FORKPOINT),
-                        zenDAOFork)
+                        zenDAOFork),
+                new Pair<>(new SidechainForkConsensusEpoch(
+                        5,
+                        5,
+                        5),
+                        new ConsensusParamsFork(
+                                2000,
+                                2
+                        )
+
+                ),
+                new Pair<>(new SidechainForkConsensusEpoch(
+                        5,
+                        5,
+                        5),
+                        new ActiveSlotCoefficientFork(
+                                0.12
+                        )
+
+                ),
+                new Pair<>(new SidechainForkConsensusEpoch(
+                        20,
+                        20,
+                        20),
+                        new ConsensusParamsFork(
+                                720,
+                                12
+                        )
+
+                ),
+                new Pair<>(new SidechainForkConsensusEpoch(
+                        20,
+                        20,
+                        20),
+                        new ActiveSlotCoefficientFork(
+                                0.65
+                        )
+
+                )
         );
         mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
     }
