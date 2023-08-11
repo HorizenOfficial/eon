@@ -17,9 +17,9 @@ public class EonForkConfigurator extends ForkConfigurator {
     static final int FEE_TESTNET_FORKPOINT = 0;
     static final int FEE_MAINNET_FORKPOINT = 0;
 
-    static final int ZENDAO_REGTEST_FORKPOINT = 7;
+    static final int ZENDAO_REGTEST_FORKPOINT = 5;
     static final int ZENDAO_TESTNET_FORKPOINT = 800;
-    static final int ZENDAO_MAINNET_FORKPOINT = 7;
+    static final int ZENDAO_MAINNET_FORKPOINT = 5;
 
     private final SidechainForkConsensusEpoch mandatorySidechainFork1;
     private final List<Pair<SidechainForkConsensusEpoch, OptionalSidechainFork>> optionalSidechainForks;
@@ -47,7 +47,7 @@ public class EonForkConfigurator extends ForkConfigurator {
 
                 new Pair<>(new SidechainForkConsensusEpoch(
                         ZENDAO_REGTEST_FORKPOINT,
-                        0,
+                        5,
                         ZENDAO_MAINNET_FORKPOINT),
                         zenDAOFork),
                 new Pair<>(new SidechainForkConsensusEpoch(
