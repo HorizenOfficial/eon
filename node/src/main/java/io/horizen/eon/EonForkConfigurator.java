@@ -68,25 +68,6 @@ public class EonForkConfigurator extends ForkConfigurator {
                                 0.12
                         )
 
-                ),
-                new Pair<>(new SidechainForkConsensusEpoch(
-                        20,
-                        20,
-                        20),
-                        new ConsensusParamsFork(
-                                720,
-                                12
-                        )
-
-                ),
-                new Pair<>(new SidechainForkConsensusEpoch(
-                        20,
-                        20,
-                        20),
-                        new ActiveSlotCoefficientFork(
-                                0.65
-                        )
-
                 )
         );
         mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
