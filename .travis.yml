@@ -14,7 +14,7 @@ git:
 env:
   global:
     - PROD_RELEASE_BRANCH=main
-    - DEV_RELEASE_BRANCH=consensus_params
+    - DEV_RELEASE_BRANCH=tip_delay_and_consensus_params
 
 before_script:
   - source ci/setup_env.sh
