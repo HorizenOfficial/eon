@@ -56,6 +56,8 @@ public class EonAppModule extends AccountAppModule {
         // No rejected SDK core API
         List<Pair<String, String>> rejectedApiPaths = new ArrayList<>();
 
+        int mcBlockReferenceDelay = 6;
+
 
         bind(SidechainSettings.class)
                 .annotatedWith(Names.named("SidechainSettings"))
@@ -99,6 +101,10 @@ public class EonAppModule extends AccountAppModule {
         bind(String.class)
                 .annotatedWith(Names.named("AppVersion"))
                 .toInstance(getEONVersion());
+
+        bind(Integer.class)
+                .annotatedWith(Names.named("MainchainBlockReferenceDelay"))
+                .toInstance(mcBlockReferenceDelay);
     }
 
     /**
