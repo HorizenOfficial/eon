@@ -93,8 +93,8 @@ public class EonAppModule extends AccountAppModule {
                 .toInstance(customMessageProcessors);
 
         bind(Integer.class)
-                .annotatedWith(Names.named("ConsensusSecondsInSlot"))
-                .toInstance(CONSENSUS_SLOT_TIME);
+                .annotatedWith(Names.named("MainchainBlockReferenceDelay"))
+                .toInstance(MAINCHAIN_BLOCK_REFERENCE_DELAY);
 
         bind(String.class)
                 .annotatedWith(Names.named("AppVersion"))
