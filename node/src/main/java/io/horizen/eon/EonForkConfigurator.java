@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class EonForkConfigurator extends ForkConfigurator {
 
-    static final int FEE_REGTEST_FORKPOINT = 0;
+    static final int FEE_REGTEST_FORKPOINT = 7;
     static final int FEE_PREGOBI_TESTNET_FORKPOINT = 718;
     static final int FEE_GOBI_TESTNET_FORKPOINT = 624;
     static final int FEE_TESTNET_FORKPOINT = 0;
