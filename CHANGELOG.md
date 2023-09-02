@@ -1,4 +1,7 @@
 # Changelog
+## 0.2.1
+* Updated SDK dependency to 0.7.2
+
 ## 0.2.0-1
 * Updated entrypoint script logic
 * Updated CI/CD 
