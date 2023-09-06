@@ -2,9 +2,7 @@ package io.horizen.eon;
 
 import io.horizen.account.fork.GasFeeFork;
 import io.horizen.account.fork.ZenDAOFork;
-import io.horizen.fork.ForkConfigurator;
-import io.horizen.fork.OptionalSidechainFork;
-import io.horizen.fork.SidechainForkConsensusEpoch;
+import io.horizen.fork.*;
 import io.horizen.utils.Pair;
 
 import java.math.BigInteger;
@@ -13,15 +11,20 @@ import java.util.Optional;
 
 public class EonForkConfigurator extends ForkConfigurator {
 
-    static final int FEE_REGTEST_FORKPOINT = 0;
-    static final int FEE_PREGOBI_TESTNET_FORKPOINT = 718;
-    static final int FEE_GOBI_TESTNET_FORKPOINT = 624;
-    static final int FEE_TESTNET_FORKPOINT = 0;
-    static final int FEE_MAINNET_FORKPOINT = 0;
+    //EON fork 1: change of fee params
+    static final int F1_REGTEST_FORKPOINT = 7;
+    static final int F1_PREGOBI_TESTNET_FORKPOINT = 718;
+    static final int F1_GOBI_TESTNET_FORKPOINT = 624;
+    static final int F1_TESTNET_FORKPOINT = 0;
+    static final int F1_MAINNET_FORKPOINT = 0;
 
-    static final int ZENDAO_REGTEST_FORKPOINT = 7;
-    static final int ZENDAO_TESTNET_FORKPOINT = 800;
-    static final int ZENDAO_MAINNET_FORKPOINT = 7;
+    //EON fork 2: ZenDAO + Change of consensus params + change of active slot coefficient
+    static final int F2_REGTEST_FORKPOINT = 7;
+    static final int F2_PREGOBI_TESTNET_FORKPOINT = 1698; //estimated start: Wed 13 Sept 2023 15:31 Milano time
+    static final int F2_GOBI_TESTNET_FORKPOINT = 100000000; //todo
+    static final int F2_TESTNET_FORKPOINT = 800;
+    static final int F2_MAINNET_FORKPOINT = 100000000;  //todo
+
 
     private final SidechainForkConsensusEpoch mandatorySidechainFork1;
     private final List<Pair<SidechainForkConsensusEpoch, OptionalSidechainFork>> optionalSidechainForks;
@@ -40,18 +43,36 @@ public class EonForkConfigurator extends ForkConfigurator {
 
         ZenDAOFork zenDAOFork = new ZenDAOFork(true);
 
+        ConsensusParamsFork consensusParamsFork = new ConsensusParamsFork(15000, 3);
+
+        ActiveSlotCoefficientFork activeSlotCoefficientFork = new ActiveSlotCoefficientFork(0.167);
+
+
         optionalSidechainForks = List.of(
                 new Pair<>(new SidechainForkConsensusEpoch(
-                        FEE_REGTEST_FORKPOINT,
+                        F1_REGTEST_FORKPOINT,
                         getFeeForkTestnetActivation(sidechainId),
-                        FEE_MAINNET_FORKPOINT),
+                        F1_MAINNET_FORKPOINT),
                         feeFork1Params),
 
                 new Pair<>(new SidechainForkConsensusEpoch(
-                        ZENDAO_REGTEST_FORKPOINT,
-                        getZenDAOTestnetActivation(sidechainId),
-                        ZENDAO_MAINNET_FORKPOINT),
-                        zenDAOFork)
+                        F2_REGTEST_FORKPOINT,
+                        getFork2TestnetActivation(sidechainId),
+                        F2_MAINNET_FORKPOINT),
+                        zenDAOFork),
+
+                new Pair<>(new SidechainForkConsensusEpoch(
+                        F2_REGTEST_FORKPOINT,
+                        getFork2TestnetActivation(sidechainId),
+                        F2_MAINNET_FORKPOINT),
+                        consensusParamsFork),
+
+                new Pair<>(new SidechainForkConsensusEpoch(
+                        F2_REGTEST_FORKPOINT,
+                        getFork2TestnetActivation(sidechainId),
+                        F2_MAINNET_FORKPOINT),
+                        activeSlotCoefficientFork)
+
         );
         mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
     }
@@ -61,29 +82,34 @@ public class EonForkConfigurator extends ForkConfigurator {
             switch (sidechainId.get()){
                 case ApplicationConstants.PREGOBI_SIDECHAINID:
                     //Pre-Gobi (parallel testnet) fork configuration
-                    return FEE_PREGOBI_TESTNET_FORKPOINT;
+                    return F1_PREGOBI_TESTNET_FORKPOINT;
                 case ApplicationConstants.GOBI_SIDECHAINID:
                     //Gobi (official testnet) fork configuration
-                    return FEE_GOBI_TESTNET_FORKPOINT;
+                    return F1_GOBI_TESTNET_FORKPOINT;
                 default:
                     //any other testnet
-                    return FEE_TESTNET_FORKPOINT;
+                    return F1_TESTNET_FORKPOINT;
             }
         }else{
-            return 0;
+            return F1_TESTNET_FORKPOINT;
         }
     }
 
-    private int getZenDAOTestnetActivation(Optional<String> sidechainId){
+    private int getFork2TestnetActivation(Optional<String> sidechainId){
         if (sidechainId.isPresent()){
             switch (sidechainId.get()){
-                // TODO: handle any specific sidechain if any. For the time being there is only one possibility
+                case ApplicationConstants.PREGOBI_SIDECHAINID:
+                    //Pre-Gobi (parallel testnet) fork configuration
+                    return F2_PREGOBI_TESTNET_FORKPOINT;
+                case ApplicationConstants.GOBI_SIDECHAINID:
+                    //Gobi (official testnet) fork configuration
+                    return F2_GOBI_TESTNET_FORKPOINT;
                 default:
                     //any other testnet
-                    return ZENDAO_TESTNET_FORKPOINT;
+                    return F2_TESTNET_FORKPOINT;
             }
         } else {
-            return ZENDAO_TESTNET_FORKPOINT;
+            return F2_TESTNET_FORKPOINT;
         }
     }
 
