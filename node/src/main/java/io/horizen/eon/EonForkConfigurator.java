@@ -12,11 +12,11 @@ import java.util.Optional;
 public class EonForkConfigurator extends ForkConfigurator {
 
     //EON fork 1: change of fee params
-    static final int FEE_REGTEST_FORKPOINT = 7;
-    static final int FEE_PREGOBI_TESTNET_FORKPOINT = 718;
-    static final int FEE_GOBI_TESTNET_FORKPOINT = 624;
-    static final int FEE_TESTNET_FORKPOINT = 0;
-    static final int FEE_MAINNET_FORKPOINT = 0;
+    static final int F1_REGTEST_FORKPOINT = 7;
+    static final int F1_PREGOBI_TESTNET_FORKPOINT = 718;
+    static final int F1_GOBI_TESTNET_FORKPOINT = 624;
+    static final int F1_TESTNET_FORKPOINT = 0;
+    static final int F1_MAINNET_FORKPOINT = 0;
 
     //EON fork 2: ZenDAO + Change of consensus params + change of active slot coefficient
     static final int F2_REGTEST_FORKPOINT = 7;
@@ -50,9 +50,9 @@ public class EonForkConfigurator extends ForkConfigurator {
 
         optionalSidechainForks = List.of(
                 new Pair<>(new SidechainForkConsensusEpoch(
-                        FEE_REGTEST_FORKPOINT,
+                        F1_REGTEST_FORKPOINT,
                         getFeeForkTestnetActivation(sidechainId),
-                        FEE_MAINNET_FORKPOINT),
+                        F1_MAINNET_FORKPOINT),
                         feeFork1Params),
 
                 new Pair<>(new SidechainForkConsensusEpoch(
@@ -82,16 +82,16 @@ public class EonForkConfigurator extends ForkConfigurator {
             switch (sidechainId.get()){
                 case ApplicationConstants.PREGOBI_SIDECHAINID:
                     //Pre-Gobi (parallel testnet) fork configuration
-                    return FEE_PREGOBI_TESTNET_FORKPOINT;
+                    return F1_PREGOBI_TESTNET_FORKPOINT;
                 case ApplicationConstants.GOBI_SIDECHAINID:
                     //Gobi (official testnet) fork configuration
-                    return FEE_GOBI_TESTNET_FORKPOINT;
+                    return F1_GOBI_TESTNET_FORKPOINT;
                 default:
                     //any other testnet
-                    return FEE_TESTNET_FORKPOINT;
+                    return F1_TESTNET_FORKPOINT;
             }
         }else{
-            return 0;
+            return F1_TESTNET_FORKPOINT;
         }
     }
 
@@ -109,7 +109,7 @@ public class EonForkConfigurator extends ForkConfigurator {
                     return F2_TESTNET_FORKPOINT;
             }
         } else {
-            return 0;
+            return F2_TESTNET_FORKPOINT;
         }
     }
 
