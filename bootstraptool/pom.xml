@@ -58,6 +58,7 @@
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
                                     <mainClass>io.horizen.bootstraptool.EonBootstrappingTool</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -101,6 +102,7 @@
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
                                     <mainClass>io.horizen.bootstraptool.EonBootstrappingToolPregobi</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
                             <finalName>${project.artifactId}-${project.version}-pregobi</finalName>
@@ -145,6 +147,7 @@
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
                                     <mainClass>io.horizen.bootstraptool.EonBootstrappingToolGobi</mainClass>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                             </archive>
                             <finalName>${project.artifactId}-${project.version}-gobi</finalName>
