@@ -6,6 +6,16 @@ USER_ID="${LOCAL_USER_ID:-9001}"
 GRP_ID="${LOCAL_GRP_ID:-9001}"
 LD_PRELOAD="${LD_PRELOAD:-}"
 
+REMOTE_KEY_MANAGER_REQUEST_TIMEOUT=""
+REMOTE_KEY_MANAGER_PARALLEL_REQUESTS=""
+SCNODE_REST_APIKEYHASH=""
+MAX_INCOMING_CONNECTIONS=""
+MAX_OUTGOING_CONNECTIONS=""
+WS_ADDRESS=""
+
+SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
+export SCNODE_REMOTE_KEY_MANAGER_ENABLED
+
 if [ "$USER_ID" != "0"  ]; then
     getent group "$GRP_ID" &> /dev/null || groupadd -g "$GRP_ID" user
     id -u user &> /dev/null || useradd --shell /bin/bash -u "$USER_ID" -g "$GRP_ID" -o -c "" -m user
@@ -90,47 +100,40 @@ done
 
 if [ "${SCNODE_FORGER_RESTRICT:-}" = "true" ]; then
   if [ -z "${SCNODE_ALLOWED_FORGERS:-}" ]; then
-    echo "Error: Environment variable SCNODE_ALLOWED_FORGERS required when SCNODE_FORGER_RESTRICT=true."
+    echo "Error: Environment variable SCNODE_ALLOWED_FORGERS is required when SCNODE_FORGER_RESTRICT=true."
     sleep 5
     exit 1
   fi
 fi
 
-SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
-export SCNODE_REMOTE_KEY_MANAGER_ENABLED
-
+# Cert signing
 if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
-  if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ] && [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
-    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true either environment variable SCNODE_CERT_SIGNERS_SECRETS is required or remote key manager SCNODE_REMOTE_KEY_MANAGER_ENABLED=true is required."
+
+  # Requirement when SCNODE_CERT_SIGNING_ENABLED = true
+  if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true, 'SCNODE_CERT_SIGNERS_SECRETS' variable is required to be set."
     sleep 5
     exit 1
   fi
 
-  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
-    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
+  # Requirement when SCNODE_CERT_SIGNING_ENABLED = true
+  if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_ENABLED=true' variable is required to be set."
     sleep 5
     exit 1
-  fi
-
-  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
-    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT needs to be set."
-    sleep 5
-    exit 1
-  fi
-
-  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
-    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS needs to be set."
-    sleep 5
-    exit 1
-  fi
-
-  if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -n "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
-     host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
-     port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
-     port="${port:-80}"
-     # make sure host and port are reachable
-     i=0
-     while ! nc -z "${host}" "${port}" &> /dev/null; do
+  else
+    # Checking KEY_MANAGER_ADDRESS
+    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
+      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_ADDRESS' variable is required to be set."
+      sleep 5
+      exit 1
+    else
+      host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
+      port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
+      port="${port:-80}"
+      # make sure host and port are reachable
+      i=0
+      while ! nc -z "${host}" "${port}" &> /dev/null; do
        echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
        sleep 5
        i="$((i+1))"
@@ -138,8 +141,29 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
          echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
          exit 1
        fi
-     done
-   fi
+      done
+    fi
+
+    # Checking KEY_MANAGER_REQUEST_TIMEOUT
+    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
+      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT' variable is required to be set."
+      sleep 5
+      exit 1
+    else
+      REMOTE_KEY_MANAGER_REQUEST_TIMEOUT="$(echo -en "\n        requestTimeout = ${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT}")"
+      export REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
+    fi
+
+    # Checking KEY_MANAGER_PARALLEL_REQUESTS
+    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
+      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS' variable is required to be set."
+      sleep 5
+      exit 1
+    else
+      REMOTE_KEY_MANAGER_PARALLEL_REQUESTS="$(echo -en "\n        numOfParallelRequests = ${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS}")"
+      export REMOTE_KEY_MANAGER_PARALLEL_REQUESTS
+    fi
+  fi
 fi
 
 if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABLED:-}" = "true" ]; then
@@ -161,21 +185,18 @@ fi
 export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL
 
 # set REST API password hash
-SCNODE_REST_APIKEYHASH=""
 if [ -n "${SCNODE_REST_PASSWORD:-}" ]; then
   SCNODE_REST_APIKEYHASH="$(echo -en "\n        apiKeyHash = \"$(htpasswd -nbBC 10 "" "${SCNODE_REST_PASSWORD}" | tr -d ':\n')\"")"
 fi
 export SCNODE_REST_APIKEYHASH
 
 # setting maxIncomingConnections if provided
-MAX_INCOMING_CONNECTIONS=""
 if [ -n "${SCNODE_NET_MAX_IN_CONNECTIONS:-}" ]; then
   MAX_INCOMING_CONNECTIONS="$(echo -en "\n        maxIncomingConnections = ${SCNODE_NET_MAX_IN_CONNECTIONS}")"
 fi
 export MAX_INCOMING_CONNECTIONS
 
 # setting maxOutgoingConnections if provided
-MAX_OUTGOING_CONNECTIONS=""
 if [ -n "${SCNODE_NET_MAX_OUT_CONNECTIONS:-}" ]; then
   MAX_OUTGOING_CONNECTIONS="$(echo -en "\n        maxOutgoingConnections = ${SCNODE_NET_MAX_OUT_CONNECTIONS}")"
 fi
@@ -191,7 +212,6 @@ if [ -n "${SCNODE_BACKUP_TAR_GZ_URL:-}" ] && ! [ -f "${backupdir}/.import_done" 
 fi
 
 # detect zend container IP, check zend is up and websocket port is reachable
-WS_ADDRESS=""
 if [ -n "${SCNODE_WS_ZEN_FQDN:-}" ]; then
   to_check=(
     "RPC_PASSWORD"
