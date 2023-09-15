@@ -108,23 +108,25 @@ fi
 
 # Cert signing
 if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
-
-  # Requirement when SCNODE_CERT_SIGNING_ENABLED = true
+  # Checking first for either SCNODE_CERT_SIGNERS_SECRETS not empty and SCNODE_REMOTE_KEY_MANAGER_ENABLED !=true and vice versa
   if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ]; then
-    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true, 'SCNODE_CERT_SIGNERS_SECRETS' variable is required to be set."
-    sleep 5
-    exit 1
+    if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
+      echo "Error: if SCNODE_CERT_SIGNING_ENABLED=true either SCNODE_CERT_SIGNERS_SECRETS must NOT be empty or SCNODE_REMOTE_KEY_MANAGER_ENABLED=true is required to be set."
+      sleep 5
+      exit 1
+    fi
+  else
+    if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ]; then
+      echo "Error: if SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_CERT_SIGNERS_SECRETS is NOT empty, then SCNODE_REMOTE_KEY_MANAGER_ENABLED must be set to false."
+      sleep 5
+      exit 1
+    fi
   fi
 
-  # Requirement when SCNODE_CERT_SIGNING_ENABLED = true
-  if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
-    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_ENABLED=true' variable is required to be set."
-    sleep 5
-    exit 1
-  else
-    # Checking KEY_MANAGER_ADDRESS
+  # Checking all REMOTE_KEY_MANAGER_ENABLED parameters when SCNODE_REMOTE_KEY_MANAGER_ENABLED=true
+  if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ]; then
     if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_ADDRESS' variable is required to be set."
+      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
       sleep 5
       exit 1
     else
