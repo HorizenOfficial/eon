@@ -115,12 +115,6 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
       sleep 5
       exit 1
     fi
-  else
-    if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ]; then
-      echo "Error: if SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_CERT_SIGNERS_SECRETS is NOT empty, then SCNODE_REMOTE_KEY_MANAGER_ENABLED must be set to false."
-      sleep 5
-      exit 1
-    fi
   fi
 
   # Checking all REMOTE_KEY_MANAGER_ENABLED parameters when SCNODE_REMOTE_KEY_MANAGER_ENABLED=true
