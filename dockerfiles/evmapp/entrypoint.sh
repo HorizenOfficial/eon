@@ -109,16 +109,35 @@ fi
 # Cert signing
 if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
   # Checking first for either SCNODE_CERT_SIGNERS_SECRETS not empty and SCNODE_REMOTE_KEY_MANAGER_ENABLED !=true and vice versa
-  if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ]; then
-    if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
-      echo "Error: if SCNODE_CERT_SIGNING_ENABLED=true either SCNODE_CERT_SIGNERS_SECRETS must NOT be empty or SCNODE_REMOTE_KEY_MANAGER_ENABLED=true is required to be set."
-      sleep 5
-      exit 1
-    fi
+  if [ -z "${SCNODE_CERT_SIGNERS_SECRETS:-}" ] && [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" != "true" ]; then
+    echo "Error: if SCNODE_CERT_SIGNING_ENABLED=true either SCNODE_CERT_SIGNERS_SECRETS must NOT be empty or SCNODE_REMOTE_KEY_MANAGER_ENABLED=true is required to be set."
+    sleep 5
+    exit 1
   fi
 
   # Checking all REMOTE_KEY_MANAGER_ENABLED parameters when SCNODE_REMOTE_KEY_MANAGER_ENABLED=true
   if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ]; then
+    # Checking KEY_MANAGER_REQUEST_TIMEOUT
+    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
+      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT' variable is required to be set."
+      sleep 5
+      exit 1
+    else
+      REMOTE_KEY_MANAGER_REQUEST_TIMEOUT="$(echo -en "\n        requestTimeout = ${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT}")"
+      export REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
+    fi
+
+    # Checking KEY_MANAGER_PARALLEL_REQUESTS
+    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
+      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS' variable is required to be set."
+      sleep 5
+      exit 1
+    else
+      REMOTE_KEY_MANAGER_PARALLEL_REQUESTS="$(echo -en "\n        numOfParallelRequests = ${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS}")"
+      export REMOTE_KEY_MANAGER_PARALLEL_REQUESTS
+    fi
+
+    # Checking REMOTE_KEY_MANAGER_ADDRESS and its connectivity
     if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
       echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
       sleep 5
@@ -138,26 +157,6 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
          exit 1
        fi
       done
-    fi
-
-    # Checking KEY_MANAGER_REQUEST_TIMEOUT
-    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT' variable is required to be set."
-      sleep 5
-      exit 1
-    else
-      REMOTE_KEY_MANAGER_REQUEST_TIMEOUT="$(echo -en "\n        requestTimeout = ${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT}")"
-      export REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
-    fi
-
-    # Checking KEY_MANAGER_PARALLEL_REQUESTS
-    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS' variable is required to be set."
-      sleep 5
-      exit 1
-    else
-      REMOTE_KEY_MANAGER_PARALLEL_REQUESTS="$(echo -en "\n        numOfParallelRequests = ${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS}")"
-      export REMOTE_KEY_MANAGER_PARALLEL_REQUESTS
     fi
   fi
 fi
