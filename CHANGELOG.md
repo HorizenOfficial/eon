@@ -1,4 +1,6 @@
 # Changelog
+## 1.0.1-SNAPSHOT
+* SDK dependency updated to version 0.8.1
 
 ## 1.0.0-SNAPSHOT
 * SDK dependency updated to version 0.8.0
