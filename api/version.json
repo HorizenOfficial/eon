@@ -1,0 +1,16 @@
+[
+   {
+      "network":"mainnet",
+      "networkName": "eon",
+      "version":"0.2.1",
+      "dockerImages":["zencash/evmapp:0.2.1","zencash/evmapp:latest"],
+      "ghReleaseLink":"github.com/HorizenOfficial/eon/releases/tag/0.2.1"
+   },
+   {
+      "network":"testnet",
+      "networkName": "gobi",
+      "version":"0.2.1",
+      "dockerImages":["zencash/evmapp:0.2.1","zencash/evmapp:latest"],
+      "ghReleaseLink":"github.com/HorizenOfficial/eon/releases/tag/0.2.1"
+   }
+]

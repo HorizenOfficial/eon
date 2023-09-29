@@ -5,6 +5,9 @@
 * Fork configuration to enable ZenDao support and change consensus parameters (consensus epoch slot time and lenght, acrive slot coefficient)
 * Introduced a delay of 6 blocks in the inclusion of the mainchain blocks
 
+## 0.2.1
+* Updated SDK dependency to 0.7.2
+
 ## 0.2.0-1
 * Updated entrypoint script logic
 * Updated CI/CD 
