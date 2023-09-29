@@ -6,6 +6,10 @@ Horizen EON is a public proof-of-stake sidechain and a fully EVM-compatible smar
 
 [Changelog](/CHANGELOG.md)
 
+### EVM compatibility
+Current EVM implementation is based on go-ethereum [Paravin](https://github.com/ethereum/go-ethereum/releases/tag/v1.10.26) (`v1.10.26`).<br>
+Solidity compiler is supported up to version `0.8.19`.
+
 ### Supported platforms
 
 EON node is available on Linux and Windows (64bit).
