@@ -144,28 +144,27 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
     fi
   fi
 
-    # Checking REMOTE_KEY_MANAGER_ADDRESS and its connectivity
-    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
+  # Checking REMOTE_KEY_MANAGER_ADDRESS and its connectivity
+  if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
+    sleep 5
+    exit 1
+  else
+    host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
+    port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
+    port="${port:-80}"
+    # make sure host and port are reachable
+    i=0
+    while ! nc -z "${host}" "${port}" &> /dev/null; do
+      echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
       sleep 5
-      exit 1
-    else
-      host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
-      port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
-      port="${port:-80}"
-      # make sure host and port are reachable
-      i=0
-      while ! nc -z "${host}" "${port}" &> /dev/null; do
-       echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
-       sleep 5
-       i="$((i+1))"
-       if [ "$i" -gt 48 ]; then
-         echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
-         exit 1
-       fi
-      done
-    fi
-  fi
+      i="$((i+1))"
+      if [ "$i" -gt 48 ]; then
+        echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
+        exit 1
+      fi
+    done
+  fi  
 fi
 
 if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABLED:-}" = "true" ]; then
