@@ -64,6 +64,8 @@ if [ "$#" -eq 2 ]; then
   seed_size="${2}"
 fi
 
+# Always pull latest image
+docker pull "${docker_org}/${docker_image}:${docker_tag}" > /dev/null
 
 if [ "${1}" = "forger" ]; then
   seed_raw=$(docker run --rm "${docker_org}/${docker_image}:${docker_tag}" pwgen -1s "${seed_size}" 1)
