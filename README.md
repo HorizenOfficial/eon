@@ -23,7 +23,8 @@ More information of how to connect wallets, write smart contracts, run a local n
   the module contains everything you need to run an EON node;
  
 - bootstraptool: <br>
-  the module contains the tools you need in order to register and create the configuration file for the EON sidechain.<br>
+  the module contains the tools you need if you intend to register a new sidechain and create the configuration file for it
+  <br>
   Usage:<br>
     - obtain the jar by running <b>mvn package [-Ppregobi] [-Pgobi]</b> <br>
       NOTE: The -Ppregobi OR -Pgobi suffix is needed ONLY to build a bootstrapping tool for Pregobi/Gobi testnet network.
