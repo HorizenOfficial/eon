@@ -2,10 +2,13 @@
 ## 1.0.1-SNAPSHOT
 * SDK dependency updated to version 0.8.1
 
-## 1.0.0-SNAPSHOT
+## 1.0.0
 * SDK dependency updated to version 0.8.0
-* Fork configuration to enable ZenDao support and change consensus parameters (consensus epoch slot time and lenght, acrive slot coefficient)
+* Fork configuration to enable decentralized governance (ZenDao) and change consensus parameters (consensus epoch slot time and lenght, acrive slot coefficient)
 * Introduced a delay of 6 blocks in the inclusion of the mainchain blocks
+
+## 0.2.1
+* Updated SDK dependency to 0.7.2
 
 ## 0.2.0-1
 * Updated entrypoint script logic

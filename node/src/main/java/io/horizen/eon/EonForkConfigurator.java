@@ -21,9 +21,10 @@ public class EonForkConfigurator extends ForkConfigurator {
     //EON fork 2: ZenDAO + Change of consensus params + change of active slot coefficient
     static final int F2_REGTEST_FORKPOINT = 7;
     static final int F2_PREGOBI_TESTNET_FORKPOINT = 1698; //estimated start: Wed 13 Sept 2023 15:31 Milano time
-    static final int F2_GOBI_TESTNET_FORKPOINT = 100000000; //todo
+    static final int F2_GOBI_TESTNET_FORKPOINT = 1804; ///estimated start: Mon 09 Oct 2023 16:21 Milano time
     static final int F2_TESTNET_FORKPOINT = 800;
-    static final int F2_MAINNET_FORKPOINT = 100000000;  //todo
+    static final int F2_MAINNET_FORKPOINT = 1109;  ///estimated start: Thu 19 Oct 2023 15:55 Milano time
+
 
 
     private final SidechainForkConsensusEpoch mandatorySidechainFork1;

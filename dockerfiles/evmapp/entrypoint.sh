@@ -12,6 +12,8 @@ SCNODE_REST_APIKEYHASH=""
 MAX_INCOMING_CONNECTIONS=""
 MAX_OUTGOING_CONNECTIONS=""
 WS_ADDRESS=""
+ONLY_CONNECT_TO_KNOWN_PEERS=""
+FORGER_MAXCONNECTIONS=""
 
 SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
 export SCNODE_REMOTE_KEY_MANAGER_ENABLED
@@ -87,8 +89,6 @@ to_check=(
   "SCNODE_WS_SERVER_PORT"
   "SCNODE_WS_CLIENT_ENABLED"
   "SCNODE_WS_SERVER_ENABLED"
-  "SCNODE_ONLY_CONNECT_TO_KNOWN_PEERS"
-  "SCNODE_FORGER_MAXCONNECTIONS"
 )
 for var in "${to_check[@]}"; do
   if [ -z "${!var:-}" ]; then
@@ -115,50 +115,56 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
     exit 1
   fi
 
-  # Checking all REMOTE_KEY_MANAGER_ENABLED parameters when SCNODE_REMOTE_KEY_MANAGER_ENABLED=true
-  if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ]; then
-    # Checking KEY_MANAGER_REQUEST_TIMEOUT
-    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT' variable is required to be set."
-      sleep 5
-      exit 1
-    else
-      REMOTE_KEY_MANAGER_REQUEST_TIMEOUT="$(echo -en "\n        requestTimeout = ${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT}")"
-      export REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
-    fi
+  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
+    sleep 5
+    exit 1
+  fi
 
-    # Checking KEY_MANAGER_PARALLEL_REQUESTS
-    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true, 'SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS' variable is required to be set."
-      sleep 5
-      exit 1
-    else
+  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT needs to be set."
+    sleep 5
+    exit 1
+  elif [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -n "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
+  # setting SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT if provided
+    REMOTE_KEY_MANAGER_REQUEST_TIMEOUT=""
+    REMOTE_KEY_MANAGER_REQUEST_TIMEOUT="$(echo -en "\n        requestTimeout = ${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT}")"
+    export REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
+  fi
+
+  if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -z "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS needs to be set."
+    sleep 5
+    exit 1
+    if  [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -n "${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:-}" ]; then
+    # setting SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS if provided
+      REMOTE_KEY_MANAGER_PARALLEL_REQUESTS=""
       REMOTE_KEY_MANAGER_PARALLEL_REQUESTS="$(echo -en "\n        numOfParallelRequests = ${SCNODE_REMOTE_KEY_MANAGER_PARALLEL_REQUESTS}")"
       export REMOTE_KEY_MANAGER_PARALLEL_REQUESTS
     fi
-
-    # Checking REMOTE_KEY_MANAGER_ADDRESS and its connectivity
-    if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
-      echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
-      sleep 5
-      exit 1
-    else
-      host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
-      port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
-      port="${port:-80}"
-      # make sure host and port are reachable
-      i=0
-      while ! nc -z "${host}" "${port}" &> /dev/null; do
-       echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
-       sleep 5
-       i="$((i+1))"
-       if [ "$i" -gt 48 ]; then
-         echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
-         exit 1
-       fi
-      done
-    fi
   fi
+
+  # Checking REMOTE_KEY_MANAGER_ADDRESS and its connectivity
+  if [ -z "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS:-}" ]; then
+    echo "Error: When SCNODE_CERT_SIGNING_ENABLED=true and SCNODE_REMOTE_KEY_MANAGER_ENABLED=true SCNODE_REMOTE_KEY_MANAGER_ADDRESS needs to be set."
+    sleep 5
+    exit 1
+  else
+    host="$(cut -d'/' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}" | cut -d':' -f 1)"
+    port="$(cut -d ':' -f 3 <<< "${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}")"
+    port="${port:-80}"
+    # make sure host and port are reachable
+    i=0
+    while ! nc -z "${host}" "${port}" &> /dev/null; do
+      echo "Waiting for '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint to be ready."
+      sleep 5
+      i="$((i+1))"
+      if [ "$i" -gt 48 ]; then
+        echo "Error: '${SCNODE_REMOTE_KEY_MANAGER_ADDRESS}' endpoint is not ready after 4 minutes."
+        exit 1
+      fi
+    done
+  fi  
 fi
 
 if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABLED:-}" = "true" ]; then
@@ -168,6 +174,24 @@ if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABL
     exit 1
   fi
 fi
+
+# Checking SCNODE_FORGER_MAXCONNECTIONS for Forger nodes
+if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ]; then
+  if [ -n "${SCNODE_FORGER_MAXCONNECTIONS:-}" ]; then
+    FORGER_MAXCONNECTIONS="$(echo -en "\n        maxForgerConnections = ${SCNODE_FORGER_MAXCONNECTIONS}")"
+  else
+    echo "Error: Environment variable SCNODE_FORGER_MAXCONNECTIONS is required when SCNODE_FORGER_ENABLED=true !!!"
+    sleep 5
+    exit 1
+  fi
+fi
+export FORGER_MAXCONNECTIONS
+
+# setting onlyConnectToKnownPeers if provided
+if [ -n "${SCNODE_ONLY_CONNECT_TO_KNOWN_PEERS:-}" ]; then
+  ONLY_CONNECT_TO_KNOWN_PEERS="$(echo -en "\n        onlyConnectToKnownPeers = ${SCNODE_ONLY_CONNECT_TO_KNOWN_PEERS}")"
+fi
+export ONLY_CONNECT_TO_KNOWN_PEERS
 
 # Flexibility for log levels
 if [ -z "${SCNODE_LOG_FILE_LEVEL:-}" ]; then
@@ -290,7 +314,7 @@ SUBST='$SCNODE_CERT_MASTERS_PUBKEYS:$SCNODE_CERT_SIGNERS_MAXPKS:$SCNODE_CERT_SIG
 '$SCNODE_NET_DECLAREDADDRESS:$SCNODE_NET_KNOWNPEERS:$SCNODE_NET_MAGICBYTES:$SCNODE_NET_NODENAME:$SCNODE_NET_P2P_PORT:$SCNODE_NET_API_LIMITER_ENABLED:$SCNODE_NET_SLOW_MODE:$SCNODE_NET_REBROADCAST_TXS:$SCNODE_NET_HANDLING_TXS:'\
 '$SCNODE_WALLET_GENESIS_SECRETS:$SCNODE_WALLET_MAXTX_FEE:$SCNODE_WALLET_SEED:$WS_ADDRESS:$MAX_INCOMING_CONNECTIONS:$MAX_OUTGOING_CONNECTIONS:$SCNODE_WS_SERVER_PORT:'\
 '$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL:$REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:$REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:'\
-'$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$SCNODE_ONLY_CONNECT_TO_KNOWN_PEERS:$SCNODE_FORGER_MAXCONNECTIONS'\
+'$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$ONLY_CONNECT_TO_KNOWN_PEERS:$FORGER_MAXCONNECTIONS'\
 
 export SUBST
 envsubst "${SUBST}" < /sidechain/config/sc_settings.conf.tmpl > /sidechain/config/sc_settings.conf
