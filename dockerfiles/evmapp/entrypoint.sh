@@ -127,7 +127,7 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
       export REMOTE_KEY_MANAGER_REQUEST_TIMEOUT
     fi
 
-  elif [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -n "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
+  if [ "${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-}" = "true" ] && [ -n "${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:-}" ]; then
   # setting SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT if provided
     REMOTE_KEY_MANAGER_REQUEST_TIMEOUT=""
     REMOTE_KEY_MANAGER_REQUEST_TIMEOUT="$(echo -en "\n        requestTimeout = ${SCNODE_REMOTE_KEY_MANAGER_REQUEST_TIMEOUT}")"
@@ -171,7 +171,8 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
         exit 1
       fi
     done
-  fi  
+    fi
+  fi
 fi
 
 
