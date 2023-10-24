@@ -18,29 +18,33 @@ Following endpoints are available on EON node:
 [/block/generate](/doc/api/block/generate.md)
 
 ## Transaction endpoints 
+
+[/transaction/createLegacyEIP155Transaction] (/doc/api/transaction/createLegacyEIP155Transaction.md) 
+[/transaction/createEIP1559Transaction] (/doc/api/transaction/createEIP1559Transaction.md) 
+[/transaction/createLegacyTransaction] (/doc/api/transaction/createLegacyTransaction.md) 
+[/transaction/sendTransaction] (/doc/api/transaction/sendTransaction.md) 
+[/transaction/signTransaction] (/doc/api/transaction/signTransaction.md) 
+[/transaction/decodeTransactionBytes] (/doc/api/transaction/decodeTransactionBytes.md) 
+[/transaction/createSmartContract] (/doc/api/transaction/createSmartContract.md) 
+
 [/transaction/allTransactions](/doc/api/transaction/allTransactions.md) 
-[/transaction/createLegacyEIP155Transaction](/doc/api/transaction/createLegacyEIP155Transaction.md) 
-[/transaction/createEIP1559Transaction](/doc/api/transaction/createEIP1559Transaction.md) 
-[/transaction/createLegacyTransaction](/doc/api/transaction/createLegacyTransaction.md) 
-[/transaction/sendTransaction](/doc/api/transaction/sendTransaction.md) 
-[/transaction/signTransaction](/doc/api/transaction/signTransaction.md) 
-[/transaction/makeForgerStake](/doc/api/transaction/makeForgerStake.md) 
-[/transaction/spendForgingStake](/doc/api/transaction/spendForgingStake.md) 
 [/transaction/withdrawCoins](/doc/api/transaction/withdrawCoins.md)
-[/transaction/createSmartContract](/doc/api/transaction/createSmartContract.md) 
 [/transaction/allWithdrawalRequests](/doc/api/transaction/allWithdrawalRequests.md) 
-[/transaction/allForgingStakes](/doc/api/transaction/allForgingStakes.md) 
-[/transaction/myForgingStakes](/doc/api/transaction/myForgingStakes.md) 
-[/transaction/decodeTransactionBytes](/doc/api/transaction/decodeTransactionBytes.md) 
-[/transaction/openForgerList](/doc/api/transaction/openForgerList.md) 
-[/transaction/allowedForgerList](/doc/api/transaction/allowedForgerList.md) 
-[/transaction/createKeyRotationTransaction](/doc/api/transaction/createKeyRotationTransaction.md) 
-[/transaction/invokeProxyCall](/doc/api/transaction/invokeProxyCall.md) 
-[/transaction/invokeProxyStaticCall](/doc/api/transaction/invokeProxyStaticCall.md) 
-[/transaction/sendKeysOwnership](/doc/api/transaction/sendKeysOwnership.md) 
-[/transaction/getKeysOwnership](/doc/api/transaction/getKeysOwnership.md) 
-[/transaction/removeKeysOwnership](/doc/api/transaction/removeKeysOwnership.md) 
-[/transaction/getKeysOwnerScAddresses](/doc/api/transaction/getKeysOwnerScAddresses.md) 
+
+[/transaction/makeForgerStake] (/doc/api/transaction/makeForgerStake.md) 
+[/transaction/spendForgingStake] (/doc/api/transaction/spendForgingStake.md) 
+[/transaction/allForgingStakes] (/doc/api/transaction/allForgingStakes.md) 
+[/transaction/myForgingStakes] (/doc/api/transaction/myForgingStakes.md) 
+[/transaction/openForgerList] (/doc/api/transaction/openForgerList.md) 
+[/transaction/allowedForgerList] (/doc/api/transaction/allowedForgerList.md) 
+[/transaction/createKeyRotationTransaction] (/doc/api/transaction/createKeyRotationTransaction.md) 
+
+[/transaction/invokeProxyCall] (/doc/api/transaction/invokeProxyCall.md) 
+[/transaction/invokeProxyStaticCall] (/doc/api/transaction/invokeProxyStaticCall.md) 
+[/transaction/sendKeysOwnership] (/doc/api/transaction/sendKeysOwnership.md) 
+[/transaction/getKeysOwnership] (/doc/api/transaction/getKeysOwnership.md) 
+[/transaction/removeKeysOwnership] (/doc/api/transaction/removeKeysOwnership.md) 
+[/transaction/getKeysOwnerScAddresses] (/doc/api/transaction/getKeysOwnerScAddresses.md) 
 
 ## Wallet endpoints
 
