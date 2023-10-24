@@ -27,9 +27,9 @@ Following endpoints are available on EON node:
 [/transaction/decodeTransactionBytes] (/doc/api/transaction/decodeTransactionBytes.md) 
 [/transaction/createSmartContract] (/doc/api/transaction/createSmartContract.md) 
 
-[/transaction/allTransactions](/doc/api/transaction/allTransactions.md) 
-[/transaction/withdrawCoins](/doc/api/transaction/withdrawCoins.md)
-[/transaction/allWithdrawalRequests](/doc/api/transaction/allWithdrawalRequests.md) 
+[/transaction/allTransactions](/doc/api/transaction/allTransactions.md)\
+[/transaction/withdrawCoins](/doc/api/transaction/withdrawCoins.md)\
+[/transaction/allWithdrawalRequests](/doc/api/transaction/allWithdrawalRequests.md)
 
 [/transaction/makeForgerStake] (/doc/api/transaction/makeForgerStake.md) 
 [/transaction/spendForgingStake] (/doc/api/transaction/spendForgingStake.md) 
