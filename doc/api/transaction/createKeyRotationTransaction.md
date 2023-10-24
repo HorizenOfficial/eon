@@ -1,9 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/createKeyRotationTransaction
 
-Creates and signs sidechain transaction for signers or masters certificate submitter key rotation.\n
-If automaticSend is set to true, it validates and sends the transaction, then returns its id. 
-Otherwise, it returns the new transaction as a hex string if format = false, otherwise its JSON representation.
+Creates and signs sidechain transaction for signers or masters certificate submitter key rotation.
 
 **Parameters**
 
