@@ -36,8 +36,9 @@ Following endpoints are available on EON node:
 [/transaction/allForgingStakes] (/doc/api/transaction/allForgingStakes.md) 
 [/transaction/myForgingStakes] (/doc/api/transaction/myForgingStakes.md) 
 [/transaction/openForgerList] (/doc/api/transaction/openForgerList.md) 
-[/transaction/allowedForgerList] (/doc/api/transaction/allowedForgerList.md) 
-[/transaction/createKeyRotationTransaction] (/doc/api/transaction/createKeyRotationTransaction.md) 
+
+[/transaction/allowedForgerList](/doc/api/transaction/allowedForgerList.md)\
+[/transaction/createKeyRotationTransaction](/doc/api/transaction/createKeyRotationTransaction.md) 
 
 [/transaction/invokeProxyCall] (/doc/api/transaction/invokeProxyCall.md) 
 [/transaction/invokeProxyStaticCall] (/doc/api/transaction/invokeProxyStaticCall.md) 
