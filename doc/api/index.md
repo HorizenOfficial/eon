@@ -4,18 +4,18 @@ Following endpoints are available on EON node:
 
 
 ## Blocks endpoints 
-[/block/findById](/doc/api/block/findById.md) 
-[/block/findLastIds](/doc/api/block/findLastIds.md) 
-[/block/findIdByHeight](/doc/api/block/findIdByHeight.md) 
-[/block/best](/doc/api/block/best.md) 
-[/block/currentHeight](/doc/api/block/currentHeight.md) 
-[/block/findBlockInfoById](/doc/api/block/findBlockInfoById.md) 
-[/block/getFeePayments](/doc/api/block/getFeePayments.md) 
-[/block/getForwardTransfers](/doc/api/block/getForwardTransfers.md) 
-[/block/startForging](/doc/api/block/startForging.md) 
-[/block/stopForging](/doc/api/block/stopForging.md) 
-[/block/forgingInfo](/doc/api/block/forgingInfo.md) 
-[/block/generate](/doc/api/block/generate.md) 
+[/block/findById](/doc/api/block/findById.md)\
+[/block/findLastIds](/doc/api/block/findLastIds.md)\ 
+[/block/findIdByHeight](/doc/api/block/findIdByHeight.md)\ 
+[/block/best](/doc/api/block/best.md)\ 
+[/block/currentHeight](/doc/api/block/currentHeight.md)\ 
+[/block/findBlockInfoById](/doc/api/block/findBlockInfoById.md)\ 
+[/block/getFeePayments](/doc/api/block/getFeePayments.md)\ 
+[/block/getForwardTransfers](/doc/api/block/getForwardTransfers.md)\ 
+[/block/startForging](/doc/api/block/startForging.md)\ 
+[/block/stopForging](/doc/api/block/stopForging.md)\ 
+[/block/forgingInfo](/doc/api/block/forgingInfo.md)\ 
+[/block/generate](/doc/api/block/generate.md)\ 
 
 
 ## Transaction endpoints 
