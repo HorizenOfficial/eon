@@ -15,7 +15,7 @@ Following endpoints are available on EON node:
 [/block/startForging](/doc/api/block/startForging.md)\
 [/block/stopForging](/doc/api/block/stopForging.md)\
 [/block/forgingInfo](/doc/api/block/forgingInfo.md)\
-[/block/generate](/doc/api/block/generate.md)\
+[/block/generate](/doc/api/block/generate.md)
 
 ## Transaction endpoints 
 [/transaction/allTransactions](/doc/api/transaction/allTransactions.md) 
@@ -44,16 +44,16 @@ Following endpoints are available on EON node:
 
 ## Wallet endpoints
 
-[/wallet/createPrivateKey25519](/doc/api/wallet/createPrivateKey25519.md) 
-[/wallet/createPrivateKeySecp256k1](/doc/api/wallet/createPrivateKeySecp256k1.md) 
-[/wallet/createVrfSecret](/doc/api/wallet/createVrfSecret.md) 
-[/wallet/allPublicKeys](/doc/api/wallet/allPublicKeys.md) 
-[/wallet/getBalance](/doc/api/wallet/getBalance.md) 
-[/wallet/getTotalBalance](/doc/api/wallet/getTotalBalance.md) 
-[/wallet/getAllBalances](/doc/api/wallet/getAllBalances.md) 
-[/wallet/importSecret](/doc/api/wallet/importSecret.md) 
-[/wallet/exportSecret](/doc/api/wallet/exportSecret.md) 
-[/wallet/dumpSecrets](/doc/api/wallet/dumpSecrets.md) 
+[/wallet/createPrivateKey25519](/doc/api/wallet/createPrivateKey25519.md)\
+[/wallet/createPrivateKeySecp256k1](/doc/api/wallet/createPrivateKeySecp256k1.md)\
+[/wallet/createVrfSecret](/doc/api/wallet/createVrfSecret.md)\
+[/wallet/allPublicKeys](/doc/api/wallet/allPublicKeys.md)\
+[/wallet/getBalance](/doc/api/wallet/getBalance.md)\
+[/wallet/getTotalBalance](/doc/api/wallet/getTotalBalance.md)\
+[/wallet/getAllBalances](/doc/api/wallet/getAllBalances.md)\
+[/wallet/importSecret](/doc/api/wallet/importSecret.md)\
+[/wallet/exportSecret](/doc/api/wallet/exportSecret.md)\
+[/wallet/dumpSecrets](/doc/api/wallet/dumpSecrets.md)\
 [/wallet/importSecrets](/doc/api/wallet/importSecrets.md) 
 
 ## Mainchain related endpoints
@@ -61,7 +61,7 @@ Following endpoints are available on EON node:
 [/mainchain/bestBlockReferenceInfo](/doc/api/mainchain/bestBlockReferenceInfo.md)\
 [/mainchain/blockReferenceInfoBy](/doc/api/mainchain/blockReferenceInfoBy.md)\
 [/mainchain/blockReferenceByHash](/doc/api/mainchain/blockReferenceByHash.md)\
-[/mainchain/mainchainHeaderInfoByHash](/doc/api/mainchain/mainchainHeaderInfoByHash.md)\
+[/mainchain/mainchainHeaderInfoByHash](/doc/api/mainchain/mainchainHeaderInfoByHash.md)
 
 ## Node management endpoints
 
@@ -76,5 +76,5 @@ Following endpoints are available on EON node:
 [/node/addToBlacklist](/doc/api/node/addToBlacklist.md)\
 [/node/removeFromBlacklist](/doc/api/node/removeFromBlacklist.md)\
 [/node/blacklistedPeers](/doc/api/node/blacklistedPeers.md)\
-[/node/stop](/doc/api/node/stop.md)\
+[/node/stop](/doc/api/node/stop.md)
 
