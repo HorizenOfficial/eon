@@ -19,9 +19,10 @@ Following endpoints are available on EON node:
 
 ## Transaction endpoints 
 
-[/transaction/createLegacyEIP155Transaction] (/doc/api/transaction/createLegacyEIP155Transaction.md) 
-[/transaction/createEIP1559Transaction] (/doc/api/transaction/createEIP1559Transaction.md) 
-[/transaction/createLegacyTransaction] (/doc/api/transaction/createLegacyTransaction.md) 
+[/transaction/createLegacyEIP155Transaction](/doc/api/transaction/createLegacyEIP155Transaction.md)\
+[/transaction/createEIP1559Transaction](/doc/api/transaction/createEIP1559Transaction.md) 
+[/transaction/createLegacyTransaction](/doc/api/transaction/createLegacyTransaction.md) 
+
 [/transaction/sendTransaction] (/doc/api/transaction/sendTransaction.md) 
 [/transaction/signTransaction] (/doc/api/transaction/signTransaction.md) 
 [/transaction/decodeTransactionBytes] (/doc/api/transaction/decodeTransactionBytes.md) 

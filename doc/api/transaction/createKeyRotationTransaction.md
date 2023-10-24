@@ -5,12 +5,12 @@ Creates and signs sidechain transaction for signers or masters certificate submi
 
 **Parameters**
 
-See reuquest body below.
+See request body below.
 
 
 **Example request**
 
-    curl -sX POST 'http://127.0.0.1:9085/transaction/createKeyRotationTransaction' -H 'Content-Type: application/json' -H 'accept: application/json' -d 'xxxxxx'
+    curl -sX POST 'http://127.0.0.1:9085/transaction/createKeyRotationTransaction' -H 'Content-Type: application/json' -H 'accept: application/json' -d 'requestBody'
 
 The request body format is like this:
 
@@ -30,5 +30,9 @@ The request body format is like this:
     }
 
 **Example response**
+
+{
+    "transactionId": "xxxxxxxxxxxxxxxxx"
+}
 
  
