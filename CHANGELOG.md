@@ -1,6 +1,7 @@
 # Changelog
-## 1.1.0-SNAPSHOT
+## 1.1.0
 * SDK dependency updated to version 0.9.0
+* Fork configuration to enable Native<>Real smart contract interoperability
 
 ## 1.0.0
 * SDK dependency updated to version 0.8.0
