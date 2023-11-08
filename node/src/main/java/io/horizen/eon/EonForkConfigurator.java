@@ -1,5 +1,6 @@
 package io.horizen.eon;
 
+import io.horizen.account.fork.ContractInteroperabilityFork;
 import io.horizen.account.fork.GasFeeFork;
 import io.horizen.account.fork.ZenDAOFork;
 import io.horizen.fork.*;
@@ -24,6 +25,14 @@ public class EonForkConfigurator extends ForkConfigurator {
     static final int F2_GOBI_TESTNET_FORKPOINT = 1804; ///estimated start: Mon 09 Oct 2023 16:21 Milano time
     static final int F2_TESTNET_FORKPOINT = 800;
     static final int F2_MAINNET_FORKPOINT = 1109;  ///estimated start: Thu 19 Oct 2023 15:55 Milano time
+
+    //EON fork 3: Native <> Real smart contract interoperability
+    static final int F3_REGTEST_FORKPOINT = 7;
+    static final int F3_PREGOBI_TESTNET_FORKPOINT = 1815; //estimated start: Mon 13 Nov 2023 13:01 Milano time
+    static final int F3_GOBI_TESTNET_FORKPOINT = 500000000; ///TODO: to be estimated
+    static final int F3_TESTNET_FORKPOINT = 500000000; //not used
+    static final int F3_MAINNET_FORKPOINT = 500000000;  ///TODO: to be estimated
+
 
 
 
@@ -72,7 +81,15 @@ public class EonForkConfigurator extends ForkConfigurator {
                         F2_REGTEST_FORKPOINT,
                         getFork2TestnetActivation(sidechainId),
                         F2_MAINNET_FORKPOINT),
-                        activeSlotCoefficientFork)
+                        activeSlotCoefficientFork),
+
+                new Pair<>(
+                          new SidechainForkConsensusEpoch(
+                        F3_REGTEST_FORKPOINT,
+                        getFork3TestnetActivation(sidechainId),
+                        F3_MAINNET_FORKPOINT),
+                        new ContractInteroperabilityFork(true)
+                )
 
         );
         mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
@@ -111,6 +128,24 @@ public class EonForkConfigurator extends ForkConfigurator {
             }
         } else {
             return F2_TESTNET_FORKPOINT;
+        }
+    }
+
+    private int getFork3TestnetActivation(Optional<String> sidechainId){
+        if (sidechainId.isPresent()){
+            switch (sidechainId.get()){
+                case ApplicationConstants.PREGOBI_SIDECHAINID:
+                    //Pre-Gobi (parallel testnet) fork configuration
+                    return F3_PREGOBI_TESTNET_FORKPOINT;
+                case ApplicationConstants.GOBI_SIDECHAINID:
+                    //Gobi (official testnet) fork configuration
+                    return F3_GOBI_TESTNET_FORKPOINT;
+                default:
+                    //any other testnet
+                    return F3_TESTNET_FORKPOINT;
+            }
+        } else {
+            return F3_TESTNET_FORKPOINT;
         }
     }
 
