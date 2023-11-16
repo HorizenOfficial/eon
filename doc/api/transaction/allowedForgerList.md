@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/allowedForgerList
 
-Returns the list of the initial allowed forgers, tracking also their votes to open the forgers' list (when the majority have voted to open forging, everyone will be allowed to forge).
+Returns the list of the initial allowed forgers, tracking also their votes to open the forgers' list (when the majority have voted to open forging, everyone will be allowed to stake and partecipate in forging).
 
 **Parameters**
 
