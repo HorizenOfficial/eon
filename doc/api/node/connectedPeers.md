@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/connectedPeers
 
-Returns the list of node peers currently connected to this node
+Returns the list of node peers currently connected to this node.
 
 **Parameters**
 
@@ -25,7 +25,8 @@ No parameters
                     "agentName" : "2-Hop",
                     "protocolVersion" : "Version(0,0,1)",
                     "connectionType" : "Outgoing"
-                    }, {
+                },
+                {
                     "remoteAddress" : "/172.105.185.87:5674",
                     "localAddress" : "/10.0.2.15:43622",
                     "lastHandshake" : 1698066486764,

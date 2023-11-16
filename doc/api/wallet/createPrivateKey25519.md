@@ -1,9 +1,9 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### wallet/createPrivateKeySecp256k1
 
-Create a private key in the Secp256k1 format.
-Secp256k1 keys are the standard used in Ethereum EVM and also by EON EVM.
-Returns the correspondent address.
+Create a private key in the Secp256k1 format.\
+Secp256k1 keys are the standard used in Ethereum EVMs and also by EON.\
+Returns the correspondent public address.
 
 **Parameters**
 

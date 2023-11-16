@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### mainchain/genesisBlockReferenceInfo
 
-Returns info about the mainchain block containing the transaction that created this sidechain 
+Returns info about the mainchain block containing the transaction that created this sidechain. 
 
 **Parameters**
 

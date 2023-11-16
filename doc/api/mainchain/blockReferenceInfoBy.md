@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### mainchain/blockReferenceInfoBy
 
-Returns a specific mainchain block reference by block hash or height (in the mainchain) 
+Returns a specific mainchain block reference by block hash or height (in the mainchain).\
 Only mainchain blocks referenced by the sidechain are returned.
 
 **Parameters**
@@ -10,6 +10,7 @@ Only mainchain blocks referenced by the sidechain are returned.
 | -------- | ------- | -------     | -------          | 
 | hash     | string  | no          | Mainchain block hash to query       |
 | height   | int     | no          | Height in the mainchain to query  |
+| format   | boolean | no          | If true, the response is returned in a json (human readable) format. Otherwise the hex representation is returned. |
 
 **Example request**
 

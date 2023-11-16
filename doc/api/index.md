@@ -88,7 +88,7 @@ Following endpoints are available on EON node:
 [/node/connectedPeers](/doc/api/node/connectedPeers.md)\
 [/node/peer](/doc/api/node/peer.md)\
 [/node/info](/doc/api/node/info.md)\
-[/node/sidechainId](/doc/api/sidechainId/sidechainId.md)\
+[/node/sidechainId](/doc/api/node/sidechainId.md)\
 [/node/storageVersions](/doc/api/node/storageVersions.md)\
 [/node/connect](/doc/api/node/connect.md)\
 [/node/disconnect](/doc/api/node/disconnect.md)\

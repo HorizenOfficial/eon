@@ -8,7 +8,7 @@ Only mainchain block headers referenced by the sidechain are returned.
 
 | Name     | Type    | Required    | Description      |
 | -------- | ------- | -------     | -------          | 
-| hash     | string  | no          | Mainchain block hash to query      |
+| hash     | string  | yes          | Mainchain block hash to query      |
 
 **Example request**
 

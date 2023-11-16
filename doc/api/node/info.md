@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/info
 
-Returns info about this node
+Returns info about this node.
 
 **Parameters**
 

@@ -9,6 +9,7 @@ Only mainchain blocks referenced by the sidechain are returned.
 | Name     | Type    | Required    | Description      |
 | -------- | ------- | -------     | -------          | 
 | hash     | string  | no          | Mainchain block hash to query      |
+| format   | boolean | no          | If true, the response is returned in a json (human readable) format. Otherwise the hex representation is returned. |
 
 **Example request**
 

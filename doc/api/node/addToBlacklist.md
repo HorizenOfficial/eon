@@ -7,8 +7,8 @@ Force the node to add a specific peer to the blacklisted ones.
 
 | Name     | Type    | Required    | Description    |
 | -------- | ------- | -------     | -------        | 
-| address  | string  | yes         | Peer to blacklist (format: ip:port)  |
-| durationInMinutes  | int  | yes         | Duration for the ban  |
+| address            | string  | yes         | Peer to blacklist (format: ip:port)  |
+| durationInMinutes  | int     | yes         | Duration for the ban (in minutes). Must be > 0  |
 
 
 **Example request**

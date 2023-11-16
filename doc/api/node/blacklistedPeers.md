@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/blacklistedPeers
 
-Return the list of the blacklisted peers
+Return the list of the blacklisted peers.
 
 **Parameters**
 

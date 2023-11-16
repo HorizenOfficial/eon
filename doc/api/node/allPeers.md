@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/allPeers
 
-Returns the list of all sidechain node peers
+Returns the list of all sidechain nodes known by this node.
 
 **Parameters**
 

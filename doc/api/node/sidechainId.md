@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/sidechainId
 
-Returns info about the sidechain Id
+Returns info about the sidechain Id.
 
 **Parameters**
 

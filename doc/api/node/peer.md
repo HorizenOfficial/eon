@@ -1,13 +1,13 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/peer
 
-Returns info about a specific node peer
+Returns info about a specific node peer.
 
 **Parameters**
 
 | Name     | Type    | Required    | Description    |
 | -------- | ------- | -------     | -------        | 
-| address  | string  | yes         | Peer to blacklist (format: ip:port)  |
+| address  | string  | yes         | Peer to look at (format: ip:port)  |
 
 **Example request**
 
@@ -27,7 +27,7 @@ Returns info about a specific node peer
                     "protocolVersion" : "Version(0,0,1)"
                 }
             }
-        }
+    }
 
 
 

@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### wallet/importSecret
 
-Import a specific private key in the local wallet
+Import a specific private key in the local wallet.
 
 **Parameters**
 

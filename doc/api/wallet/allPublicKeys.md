@@ -2,7 +2,7 @@
 ### wallet/allPublicKeys
 
 Returns the list of all keys contained in this node wallet.
-For 25519 and VRF keys, the public key is returned, for Secp256k1 the EVM public address is returned.
+For 25519 and VRF keys, the public key is returned, for Secp256k1 keys the EVM public address is returned.
 
 **Parameters**
 

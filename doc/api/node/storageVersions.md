@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### node/storageVersions
 
-Returns info about most recent version recorded in the internal storages.
+Returns info about the most recent version recorded in the internal storages.
 
 **Parameters**
 

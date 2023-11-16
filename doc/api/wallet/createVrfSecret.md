@@ -1,8 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### wallet/createVrfSecret
 
-Create a VrfSecret.
-VrfSecrets are used by forgers to partecipate at the forgers' lottery.
+Create a VrfSecret.\
+VrfSecrets are used by forgers to partecipate at the forgers' lottery.\
 Returns the correspondent public key.
 
 **Parameters**
