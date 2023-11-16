@@ -1,6 +1,6 @@
 # Changelog
 ## 1.1.0
-* SDK dependency updated to version 0.9.0
+* SDK dependency updated to version 0.9.0 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/master/CHANGELOG.md))
 * Fork configuration to enable Native<>Real smart contract interoperability
 
 ## 1.0.0
