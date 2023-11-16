@@ -1,8 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### block/generate
 
-Tries to generate new block by epoch and slot number. Returns id of generated sidechain block.
-**This endpoint can be used only in REGTEST mode**
+Tries to generate a new block by epoch and slot number. Returns id of generated sidechain block.\
+**This endpoint can be used only in REGTEST mode, to manually force block production**
 
 **Parameters**
 

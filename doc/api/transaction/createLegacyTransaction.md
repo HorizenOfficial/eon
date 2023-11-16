@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/createLegacyTransaction
 
-Creates and signs a legacy transaction.
+Creates and signs a legacy transaction.\
 These are the type0 "old" legacy version ethereum transactions without replay protection.
 
 **Parameters**

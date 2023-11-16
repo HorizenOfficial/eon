@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### block/stopForging
 
-Stop forging activity.
+Stop forging activity: the node will end to partecipate at the forgers lottery on every slot.\n
 
 **Parameters**
 

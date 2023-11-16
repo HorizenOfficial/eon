@@ -1,8 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/createEIP1559Transaction
 
-Creates and signs an EIP155 transaction.
-These are the new type2 version standard ethereum transactions with also priority fee and gasTip with replay protection.
+Creates and signs an EIP155 transaction.\
+These are the new type2 version standard ethereum transactions with also priority fee and gasTip and with replay protection.
 
 **Parameters**
 

@@ -1,8 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### block/getFeePayments
 
-Returns info on the fee redistributed to forgers, at the end of each withdrawal epoch.
-**This endpoint returns a non-empty result only for the last block of each withrawal epoch.**
+Returns info on the fee redistributed to forgers at the specific block id.\
+**This endpoint returns a non-empty result only for the last block of each withrawal epoch (because fees are redistributed only there).**
 
 **Parameters**
 

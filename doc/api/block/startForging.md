@@ -1,7 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### block/startForging
 
-Start forging activity.
+Start forging activity: the node will start to partecipate at the forgers lottery on every slot.\n
+The probability of being elected as forge leader and being able to propose a block is proportional to the owned stake. 
 
 **Parameters**
 

@@ -1,7 +1,7 @@
-[&lt; EON API Documentation](/doc/api/findIdByHeight.md) 
+[&lt; EON API Documentation](/doc/api/index.md) 
 ### block/findIdByHeight
 
-Returns a sidechain block Id by its height in the blockchain
+Returns a sidechain block Id by its height in the active chain
 
 **Parameters**
 

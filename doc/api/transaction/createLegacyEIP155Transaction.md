@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/createLegacyEIP155Transaction
 
-Creates and signs a legacy EIP155 transaction.
+Creates and signs a legacy EIP155 transaction.\
 These are the type0 "old" legacy version ethereum transactions with replay protection.
 
 **Parameters**

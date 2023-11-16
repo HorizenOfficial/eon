@@ -1,7 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### block/getForwardTransfers
 
-Returns info on the forward transfer included a specific block (if any).
+Returns info on the forward transfer included a specific block (if any).\n
+A forward transfer is a transfer of ZEN originated from the mainchain.
 
 
 **Parameters**

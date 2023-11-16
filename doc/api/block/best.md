@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### block/best
 
-Returns best sidechain block id and height in active chain
+Returns best sidechain block and height in active chain
 
 **Parameters**
 
