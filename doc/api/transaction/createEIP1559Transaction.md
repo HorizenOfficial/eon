@@ -14,7 +14,7 @@ See request body below.
 
 The request body format is like this:
 
-{
+    {
         "from": fromAddress,
         "to": toAddress,
         "nonce": nonce,
@@ -30,6 +30,6 @@ The request body format is like this:
 
 **Example response**
 
-{
-    "transactionId": "xxxxxxxxxxxxxxxxx"
-}
+    {
+        "transactionId": "xxxxxxxxxxxxxxxxx"
+    }
