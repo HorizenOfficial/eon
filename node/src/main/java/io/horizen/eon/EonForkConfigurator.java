@@ -31,7 +31,7 @@ public class EonForkConfigurator extends ForkConfigurator {
     static final int F3_PREGOBI_TESTNET_FORKPOINT = 1815; //estimated start: Mon 13 Nov 2023 13:01 Milano time
     static final int F3_GOBI_TESTNET_FORKPOINT = 1900; //estimated  start; Tue 28 Nov 11 2023 15:21 Milano time
     static final int F3_TESTNET_FORKPOINT = 1900; //not used
-    static final int F3_MAINNET_FORKPOINT = 1211;   //estimated  start; Mon 11 Dec 2023 17:55 Milano time
+    static final int F3_MAINNET_FORKPOINT = 1213;   //estimated  start; Tue 12 Dec 2023 18:55 Milano time
 
 
 
