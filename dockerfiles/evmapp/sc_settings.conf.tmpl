@@ -14,6 +14,10 @@ sparkz {
         timeout = 5s
     }
 
+    history {
+        resetModifiersStatus = $HISTORY_RESET_MODIFIER_STATUS
+    }
+
     network {
         nodeName = "$SCNODE_NET_NODENAME"
         bindAddress = "0.0.0.0:$SCNODE_NET_P2P_PORT"
