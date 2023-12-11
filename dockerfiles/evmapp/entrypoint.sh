@@ -202,7 +202,7 @@ export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL
 
 # setting resetModifiersStatus if provided
 if [ -n "${SCNODE_HISTORY_RESET_MODIFIER_STATUS:-}" ]; then
-  HISTORY_RESET_MODIFIER_STATUS="$(echo -en "        history {resetModifiersStatus = ${SCNODE_HISTORY_RESET_MODIFIER_STATUS}}")"
+  HISTORY_RESET_MODIFIER_STATUS="$(echo -n "history {resetModifiersStatus = ${SCNODE_HISTORY_RESET_MODIFIER_STATUS}}")"
 fi
 export HISTORY_RESET_MODIFIER_STATUS
 
