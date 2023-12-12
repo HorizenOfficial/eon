@@ -9,6 +9,7 @@ import io.horizen.utils.Pair;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+import io.horizen.account.fork.Version1_2_0Fork;
 
 public class EonForkConfigurator extends ForkConfigurator {
 
@@ -32,6 +33,14 @@ public class EonForkConfigurator extends ForkConfigurator {
     static final int F3_GOBI_TESTNET_FORKPOINT = 1900; //estimated  start; Tue 28 Nov 11 2023 15:21 Milano time
     static final int F3_TESTNET_FORKPOINT = 1900; //not used
     static final int F3_MAINNET_FORKPOINT = 1213;   //estimated  start; Tue 12 Dec 2023 18:55 Milano time
+
+    //EON fork 4: ZenIP 42203/42206, ZenDao Multisig
+    static final int F4_REGTEST_FORKPOINT = 7;
+    static final int F4_PREGOBI_TESTNET_FORKPOINT = 1875; //estimated start: Thu 14 Dec 2023 19:01 Milano time
+    static final int F4_GOBI_TESTNET_FORKPOINT = 100000000; //TBD
+    static final int F4_TESTNET_FORKPOINT = 100000000; //TBD
+    static final int F4_MAINNET_FORKPOINT = 100000000; //TBD
+
 
 
 
@@ -89,6 +98,14 @@ public class EonForkConfigurator extends ForkConfigurator {
                         getFork3TestnetActivation(sidechainId),
                         F3_MAINNET_FORKPOINT),
                         new ContractInteroperabilityFork(true)
+                ),
+
+                new Pair<>(
+                        new SidechainForkConsensusEpoch(
+                                F4_REGTEST_FORKPOINT,
+                                getFork4TestnetActivation(sidechainId),
+                                F4_MAINNET_FORKPOINT),
+                        new Version1_2_0Fork(true)
                 )
 
         );
@@ -148,6 +165,25 @@ public class EonForkConfigurator extends ForkConfigurator {
             return F3_TESTNET_FORKPOINT;
         }
     }
+
+    private int getFork4TestnetActivation(Optional<String> sidechainId){
+        if (sidechainId.isPresent()){
+            switch (sidechainId.get()){
+                case ApplicationConstants.PREGOBI_SIDECHAINID:
+                    //Pre-Gobi (parallel testnet) fork configuration
+                    return F4_PREGOBI_TESTNET_FORKPOINT;
+                case ApplicationConstants.GOBI_SIDECHAINID:
+                    //Gobi (official testnet) fork configuration
+                    return F4_GOBI_TESTNET_FORKPOINT;
+                default:
+                    //any other testnet
+                    return F4_TESTNET_FORKPOINT;
+            }
+        } else {
+            return F4_TESTNET_FORKPOINT;
+        }
+    }
+
 
     @Override
     public SidechainForkConsensusEpoch fork1activation() {
