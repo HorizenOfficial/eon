@@ -37,9 +37,9 @@ public class EonForkConfigurator extends ForkConfigurator {
     //EON fork 4: ZenIP 42203/42206, ZenDao Multisig
     static final int F4_REGTEST_FORKPOINT = 7;
     static final int F4_PREGOBI_TESTNET_FORKPOINT = 1875; //estimated start: Thu 14 Dec 2023 19:01 Milano time
-    static final int F4_GOBI_TESTNET_FORKPOINT = 100000000; //TBD
-    static final int F4_TESTNET_FORKPOINT = 100000000; //TBD
-    static final int F4_MAINNET_FORKPOINT = 100000000; //TBD
+    static final int F4_GOBI_TESTNET_FORKPOINT = 1982;  //estimated start: Wed  10 Jan 2024 08:21 Milano time
+    static final int F4_TESTNET_FORKPOINT = 1982;  //not used
+    static final int F4_MAINNET_FORKPOINT = 1297; //estimated start: Thu 25 Jan 2024 12:55 Milano Time
 
 
 
