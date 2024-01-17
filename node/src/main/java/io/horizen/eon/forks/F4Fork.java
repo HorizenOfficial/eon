@@ -1,11 +1,9 @@
 package io.horizen.eon.forks;
 
-import io.horizen.account.fork.ContractInteroperabilityFork;
 import io.horizen.account.fork.Version1_2_0Fork;
 import io.horizen.fork.OptionalSidechainFork;
 import io.horizen.fork.SidechainForkConsensusEpoch;
 import io.horizen.utils.Pair;
-
 import java.util.List;
 import java.util.Optional;
 
