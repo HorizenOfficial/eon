@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -eEuo pipefail
 
 USER_ID="${LOCAL_USER_ID:-9001}"
@@ -14,7 +13,6 @@ MAX_OUTGOING_CONNECTIONS=""
 WS_ADDRESS=""
 ONLY_CONNECT_TO_KNOWN_PEERS=""
 FORGER_MAXCONNECTIONS=""
-
 
 SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
 export SCNODE_REMOTE_KEY_MANAGER_ENABLED
@@ -32,7 +30,7 @@ detect_ext_ip() {
     exit 1
   fi
 
-  ip_address="$(dig -"${ip_type}" +short +time=2 @resolver1.opendns.com A myip.opendns.com 2> /dev/null | grep -v ";" || true)"
+  ip_address="$(dig -"${ip_type}" +short +time=2 @resolver1.opendns.com ANY myip.opendns.com 2> /dev/null | grep -v ";" || true)"
   if [ -z "${ip_address:-}" ]; then
     ip_address="$(curl -s -"${ip_type}" icanhazip.com 2>/dev/null || true)"
   fi
@@ -40,7 +38,8 @@ detect_ext_ip() {
   echo "${ip_address}"
 }
 
-if [ "$USER_ID" != "0"  ]; then
+
+if [ "$USER_ID" != "0" ]; then
     getent group "$GRP_ID" &> /dev/null || groupadd -g "$GRP_ID" user
     id -u user &> /dev/null || useradd --shell /bin/bash -u "$USER_ID" -g "$GRP_ID" -o -c "" -m user
     CURRENT_UID="$(id -u user)"
@@ -63,19 +62,33 @@ else
     export HOME=/root
 fi
 
-# Detecting external IPv4 vs IPv6 address
-SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
-if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
-  SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 6)"
-fi
+# Checking if external IP address is provided by the user via ENV var
+if [ -n "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  # Checking IPv(4|6) address validity
+  ipv4_pattern="^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+  ipv6_pattern="^((([0-9a-fA-F]){1,4})\:){7}([0-9a-fA-F]){1,4}$"
 
-# Falling over to internal IP
-if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
-  echo "Error: Failed to detect external IPv(4|6) address, using internal address."
-  SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1)"
-  SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
+  if ! [[ "${SCNODE_NET_DECLAREDADDRESS}" =~ ${ipv4_pattern} ]] && ! [[ "${SCNODE_NET_DECLAREDADDRESS}" =~ ${ipv6_pattern} ]]; then
+    echo "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format. Fix it before proceeding any further.  Exiting ..."
+    sleep 5
+    exit 1
+  fi
+  export SCNODE_NET_DECLAREDADDRESS
+else
+  # Detecting IPv4 vs IPv6 address
+  SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
+  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+    SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 6)"
+  fi
+
+  # Falling over to internal IP
+  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+    echo "Warning: failed to detect external IPv(4|6) address, using internal address for 'declaredAddress' parameter."
+    SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1)"
+    SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
+  fi
+  export SCNODE_NET_DECLAREDADDRESS
 fi
-export SCNODE_NET_DECLAREDADDRESS
 
 to_check=(
   "SCNODE_CERT_SIGNERS_MAXPKS"
