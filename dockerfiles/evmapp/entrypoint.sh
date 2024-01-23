@@ -58,6 +58,18 @@ if [ -z "${SCNODE_NET_DECLAREDADDRESS}" ]; then
 fi
 export SCNODE_NET_DECLAREDADDRESS
 
+#Custom log4j file (optional)
+LOG4J_CUSTOM_CONFIG=""
+if [ -n "${SCNODE_LOG4J_CUSTOM_CONFIG:-}" ]; then
+  echo "qui"
+  if ! [ -f "${SCNODE_LOG4J_CUSTOM_CONFIG}" ]; then
+    echo "Error: Custom log4j file not found in path ${SCNODE_LOG4J_CUSTOM_CONFIG} - check env property SCNODE_LOG4J_CUSTOM_CONFIG and if using docker compose be sure to map the file in the volumes properties"
+    sleep 5
+    exit 1
+  fi
+  LOG4J_CUSTOM_CONFIG="-Dlog4j.configurationFile=${SCNODE_LOG4J_CUSTOM_CONFIG}"
+fi
+
 to_check=(
   "SCNODE_CERT_SIGNERS_MAXPKS"
   "SCNODE_CERT_SIGNERS_PUBKEYS"
@@ -324,7 +336,7 @@ path_to_jemalloc="$(ldconfig -p | grep "$(arch)" | grep 'libjemalloc\.so\.2$' | 
 export LD_PRELOAD="${path_to_jemalloc}:${LD_PRELOAD}"
 
 if [ "${1}" = "/usr/bin/true" ]; then
-  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "$SC_MAIN_CLASS" "$SC_CONF_PATH"
+  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' ${LOG4J_CUSTOM_CONFIG} "$SC_MAIN_CLASS" "$SC_CONF_PATH"
 fi
 
 echo "Username: ${USERNAME}, UID: ${CURRENT_UID}, GID: ${CURRENT_GID}"
