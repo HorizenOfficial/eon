@@ -19,6 +19,27 @@ FORGER_MAXCONNECTIONS=""
 SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
 export SCNODE_REMOTE_KEY_MANAGER_ENABLED
 
+
+# Function(s)
+detect_ext_ip() {
+  local usage="Detect external IPv(4|6) address - usage: ${FUNCNAME[0]} {(4|6)}}"
+  [ "${1:-}" = "usage" ] && echo "${usage}" && return
+  [ "$#" -ne 1 ] && { echo -e "${FUNCNAME[0]} error: function requires exactly one argument.\n\n${usage}"; exit 1;}
+
+  local ip_type="${1}"
+  if ! [[ "${ip_type}" =~ ^(4|6)$ ]]; then
+    echo -e "${FUNCNAME[0]} error: function expects either '4' or '6' as an argument.\n\n${usage}"
+    exit 1
+  fi
+
+  ip_address="$(dig -"${ip_type}" +short +time=2 @resolver1.opendns.com A myip.opendns.com 2> /dev/null | grep -v ";" || true)"
+  if [ -z "${ip_address:-}" ]; then
+    ip_address="$(curl -s -"${ip_type}" icanhazip.com 2>/dev/null || true)"
+  fi
+
+  echo "${ip_address}"
+}
+
 if [ "$USER_ID" != "0"  ]; then
     getent group "$GRP_ID" &> /dev/null || groupadd -g "$GRP_ID" user
     id -u user &> /dev/null || useradd --shell /bin/bash -u "$USER_ID" -g "$GRP_ID" -o -c "" -m user
@@ -42,17 +63,15 @@ else
     export HOME=/root
 fi
 
-# detect external IPv4 address
-SCNODE_NET_DECLAREDADDRESS="$(dig -4 +short +time=2 @resolver1.opendns.com A myip.opendns.com | grep -v ";" || true)"
-
-# Using diff resolver
-if [ -z "${SCNODE_NET_DECLAREDADDRESS}" ]; then
-  SCNODE_NET_DECLAREDADDRESS="$(dig -4 +short +time=2 txt ch whoami.cloudflare @1.0.0.1 | tr -d '"' || true)"
+# Detecting external IPv4 vs IPv6 address
+SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
+if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 6)"
 fi
 
 # Falling over to internal IP
-if [ -z "${SCNODE_NET_DECLAREDADDRESS}" ]; then
-  echo "Error: Failed to detect external IPv4 address, using internal address."
+if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  echo "Error: Failed to detect external IPv(4|6) address, using internal address."
   SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1)"
   SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
 fi
