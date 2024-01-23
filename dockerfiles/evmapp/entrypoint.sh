@@ -61,9 +61,8 @@ export SCNODE_NET_DECLAREDADDRESS
 #Custom log4j file (optional)
 LOG4J_CUSTOM_CONFIG=""
 if [ -n "${SCNODE_LOG4J_CUSTOM_CONFIG:-}" ]; then
-  echo "qui"
   if ! [ -f "${SCNODE_LOG4J_CUSTOM_CONFIG}" ]; then
-    echo "Error: Custom log4j file not found in path ${SCNODE_LOG4J_CUSTOM_CONFIG} - check env property SCNODE_LOG4J_CUSTOM_CONFIG and if using docker compose be sure to map the file in the volumes properties"
+    echo "Error: Custom log4j file not found in path ${SCNODE_LOG4J_CUSTOM_CONFIG} - check env property SCNODE_LOG4J_CUSTOM_CONFIG and be sure to have the file in the container"
     sleep 5
     exit 1
   fi
