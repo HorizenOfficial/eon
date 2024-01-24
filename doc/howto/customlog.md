@@ -11,12 +11,14 @@ Edit the following variables in the node configuration file to customize path an
 
 - **sparkz.logInfo.logFileName**
 
-  Name of the log file
+  Name of the log file.  
+  If you are running via Docker, you can also change it by setting the  environment variable: **SCNODE_LOG_FILE_NAME**
 
 - **sparkz.logInfo.logFileLevel** and **sparkz.logInfo.logConsoleLevel**
 
-  Level of logging used for file and console appenders. 
-  Can be one of the following: off, fatal, error, warn, info, debug, trace, all
+  Level of logging used for file and console appenders.   
+  Can be one of the following: off, fatal, error, warn, info, debug, trace, all  
+  If you are running via Docker, you can also change them by setting the  environment variables: **SCNODE_LOG_FILE_LEVEL** and **SCNODE_LOG_CONSOLE_LEVEL**
 
 
 ## Advanced logging customization
