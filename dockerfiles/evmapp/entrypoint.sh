@@ -38,6 +38,12 @@ detect_ext_ip() {
   echo "${ip_address}"
 }
 
+fn_die() {
+  echo -e "$1" >&2
+  sleep 5
+  exit "${2:-1}"
+}
+
 
 if [ "$USER_ID" != "0" ]; then
     getent group "$GRP_ID" &> /dev/null || groupadd -g "$GRP_ID" user
@@ -66,14 +72,10 @@ fi
 if [ -n "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
   # Checking IPv(4|6) address validity
   ipv4_pattern="^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
-  ipv6_pattern="^((([0-9a-fA-F]){1,4})\:){7}([0-9a-fA-F]){1,4}$"
 
-  if ! [[ "${SCNODE_NET_DECLAREDADDRESS}" =~ ${ipv4_pattern} ]] && ! [[ "${SCNODE_NET_DECLAREDADDRESS}" =~ ${ipv6_pattern} ]]; then
-    echo "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format. Fix it before proceeding any further.  Exiting ..."
-    sleep 5
-    exit 1
+  if ! [[ "${SCNODE_NET_DECLAREDADDRESS}" =~ ${ipv4_pattern} ]] && ! ipv6calc -I ipv6addr -O ipv6addr "${SCNODE_NET_DECLAREDADDRESS}"; then
+    fn_die "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format. Fix it before proceeding any further.  Exiting ..."
   fi
-  export SCNODE_NET_DECLAREDADDRESS
 else
   # Detecting IPv4 vs IPv6 address
   SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
@@ -83,12 +85,17 @@ else
 
   # Falling over to internal IP
   if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
-    echo "Warning: failed to detect external IPv(4|6) address, using internal address for 'declaredAddress' parameter."
-    SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1)"
-    SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
+    echo "Error: Failed to detect external IPv(4|6) address, using internal address."
+    SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1 || true)"
+
+    if [ -n "${SCNODE_NET_DECLAREDADDRESS}" ]; then
+      SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
+    else
+      SCNODE_NET_DECLAREDADDRESS="127.0.0.1"
+    fi
   fi
-  export SCNODE_NET_DECLAREDADDRESS
 fi
+export SCNODE_NET_DECLAREDADDRESS
 
 to_check=(
   "SCNODE_CERT_SIGNERS_MAXPKS"
