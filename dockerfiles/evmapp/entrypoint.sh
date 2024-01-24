@@ -70,11 +70,11 @@ fi
 
 # Checking if external IP address is provided by the user via ENV var
 if [ -n "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
-  # Checking IPv(4|6) address validity
-  ipv4_pattern="^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
-
-  if ! [[ "${SCNODE_NET_DECLAREDADDRESS}" =~ ${ipv4_pattern} ]] && ! ipv6calc -I ipv6addr -O ipv6addr "${SCNODE_NET_DECLAREDADDRESS}"; then
-    fn_die "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format. Fix it before proceeding any further.  Exiting ..."
+  # Checking user provided public IPv(4|6) address validity
+  if ! ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep 'TYPE' | grep -q 'global' &>/dev/null; then
+    fn_die "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format or is NOT a PUBLIC address.\nFix it before proceeding any further.  Exiting ..."
+  else
+    SCNODE_NET_DECLAREDADDRESS="$(ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep -E 'IPV(4|6)=' | cut -d '=' -f2)"
   fi
 else
   # Detecting IPv4 vs IPv6 address
