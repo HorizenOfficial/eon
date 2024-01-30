@@ -1,13 +1,15 @@
 [&lt; EON Native Smart contracts Documentation](/doc/nativesc/index.md) 
 ### WithdrawalRequests
 
-Allows to request a new withdrawal of founds to the mainchain (also called backward trasnfer), and see the list of the previous executed ones.
+Allows to request a new withdrawal of founds to the mainchain (also called backward transfer), and see the list of the previous executed ones.
 
 |    |    | 
 | --------             | -------      | 
 | Contract address:    | 0x0000000000000000000011111111111111111111   | 
 | ABI descriptor:       | [Click here](/doc/nativesc/contracts/WithdrawalRequests.abi.json)   |
+| Solidity interface:       | [Click here](/doc/nativesc/contracts/WithdrawalRequests.sol)   |
 
+  
 
 **Methods availables**
 
