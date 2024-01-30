@@ -1,0 +1,175 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getAllKeyOwnerships",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "scAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes3",
+              "name": "mcAddrBytes1",
+              "type": "bytes3"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "mcAddrBytes2",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct McAddrOwnership.McAddrOwnershipData[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getKeyOwnerScAddresses",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "scAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getKeyOwnerships",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "scAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes3",
+              "name": "mcAddrBytes1",
+              "type": "bytes3"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "mcAddrBytes2",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct McAddrOwnership.McAddrOwnershipData[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes3",
+          "name": "mcAddrBytes1",
+          "type": "bytes3"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "mcAddrBytes2",
+          "type": "bytes32"
+        }
+      ],
+      "name": "removeKeysOwnership",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes3",
+          "name": "mcAddrBytes1",
+          "type": "bytes3"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "mcAddrBytes2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes24",
+          "name": "signature1",
+          "type": "bytes24"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signature2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signature3",
+          "type": "bytes32"
+        }
+      ],
+      "name": "sendKeysOwnership",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "mcMultisigAddress",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "redeemScript",
+          "type": "string"
+        },
+        {
+          "internalType": "string[]",
+          "name": "mcSignatures",
+          "type": "string[]"
+        }
+      ],
+      "name": "sendMultisigKeysOwnership",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

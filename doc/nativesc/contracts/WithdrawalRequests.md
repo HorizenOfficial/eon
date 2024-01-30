@@ -6,7 +6,7 @@ Allows to request a new withdrawal of founds to the mainchain (also called backw
 |    |    | 
 | --------             | -------      | 
 | Contract address:    | 0x0000000000000000000011111111111111111111   | 
-| ABI descriptor:       | [Click here](/doc/nativesc/contracts/WithdrawalRequests.abi.json)   |
+| ABI descriptor:       | [Click here](/doc/nativesc/contracts/WithdrawalRequests.json)   |
 | Solidity interface:       | [Click here](/doc/nativesc/contracts/WithdrawalRequests.sol)   |
 
   

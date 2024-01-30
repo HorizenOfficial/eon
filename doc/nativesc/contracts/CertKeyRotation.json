@@ -1,0 +1,103 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "key_type",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "index",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "newKey_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "newKey_2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signKeySig_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signKeySig_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "masterKeySig_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "masterKeySig_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "newKeySig_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "newKeySig_2",
+          "type": "bytes32"
+        }
+      ],
+      "name": "submitKeyRotation",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
