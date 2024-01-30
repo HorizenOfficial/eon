@@ -3,7 +3,7 @@ sparkz {
     logDir = /sidechain/logs
 
     logInfo {
-       logFileName = "debug.log"
+       logFileName = "$SCNODE_LOG_FILE_NAME"
        # levels: off, fatal, error, warn, info, debug, trace, all
        logFileLevel = "$SCNODE_LOG_FILE_LEVEL"
        logConsoleLevel = "$SCNODE_LOG_CONSOLE_LEVEL"
