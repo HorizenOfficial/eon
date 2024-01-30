@@ -81,6 +81,7 @@ RUN set -eEuo pipefail && mv /sidechain/entrypoint.sh /usr/local/bin/entrypoint.
       jq \
       netcat-openbsd \
       apache2-utils \
+      ipv6calc \
     && savedAptMark="$(apt-mark showmanual)" \
     && if ! command -v gosu &> /dev/null; then \
       if ! command -v gpg2 &> /dev/null; then \
