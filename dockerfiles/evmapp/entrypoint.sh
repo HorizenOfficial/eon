@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -eEuo pipefail
 
 USER_ID="${LOCAL_USER_ID:-9001}"
@@ -14,12 +13,40 @@ MAX_OUTGOING_CONNECTIONS=""
 WS_ADDRESS=""
 ONLY_CONNECT_TO_KNOWN_PEERS=""
 FORGER_MAXCONNECTIONS=""
-
+LOG4J_CUSTOM_CONFIG=""
 
 SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
 export SCNODE_REMOTE_KEY_MANAGER_ENABLED
 
-if [ "$USER_ID" != "0"  ]; then
+
+# Function(s)
+detect_ext_ip() {
+  local usage="Detect external IPv(4|6) address - usage: ${FUNCNAME[0]} {(4|6)}}"
+  [ "${1:-}" = "usage" ] && echo "${usage}" && return
+  [ "$#" -ne 1 ] && { echo -e "${FUNCNAME[0]} error: function requires exactly one argument.\n\n${usage}"; exit 1;}
+
+  local ip_type="${1}"
+  if ! [[ "${ip_type}" =~ ^(4|6)$ ]]; then
+    echo -e "${FUNCNAME[0]} error: function expects either '4' or '6' as an argument.\n\n${usage}"
+    exit 1
+  fi
+
+  ip_address="$(dig -"${ip_type}" +short +time=2 @resolver1.opendns.com ANY myip.opendns.com 2> /dev/null | grep -v ";" || true)"
+  if [ -z "${ip_address:-}" ]; then
+    ip_address="$(curl -s -"${ip_type}" icanhazip.com 2>/dev/null || true)"
+  fi
+
+  echo "${ip_address}"
+}
+
+fn_die() {
+  echo -e "$1" >&2
+  sleep 5
+  exit "${2:-1}"
+}
+
+
+if [ "$USER_ID" != "0" ]; then
     getent group "$GRP_ID" &> /dev/null || groupadd -g "$GRP_ID" user
     id -u user &> /dev/null || useradd --shell /bin/bash -u "$USER_ID" -g "$GRP_ID" -o -c "" -m user
     CURRENT_UID="$(id -u user)"
@@ -42,21 +69,44 @@ else
     export HOME=/root
 fi
 
-# detect external IPv4 address
-SCNODE_NET_DECLAREDADDRESS="$(dig -4 +short +time=2 @resolver1.opendns.com A myip.opendns.com | grep -v ";" || true)"
+# Checking if external IP address is provided by the user via ENV var
+if [ -n "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  # Checking user provided public IPv(4|6) address validity
+  if ! ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep 'TYPE' | grep -q 'global' &>/dev/null; then
+    fn_die "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format or is NOT a PUBLIC address.\nFix it before proceeding any further.  Exiting ..."
+  else
+    SCNODE_NET_DECLAREDADDRESS="$(ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep -E 'IPV(4|6)=' | cut -d '=' -f2)"
+  fi
+else
+  # Detecting IPv4 vs IPv6 address
+  SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
+  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+    SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 6)"
+  fi
 
-# Using diff resolver
-if [ -z "${SCNODE_NET_DECLAREDADDRESS}" ]; then
-  SCNODE_NET_DECLAREDADDRESS="$(dig -4 +short +time=2 txt ch whoami.cloudflare @1.0.0.1 | tr -d '"' || true)"
-fi
+  # Falling over to internal IP
+  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+    echo "Error: Failed to detect external IPv(4|6) address, using internal address."
+    SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1 || true)"
 
-# Falling over to internal IP
-if [ -z "${SCNODE_NET_DECLAREDADDRESS}" ]; then
-  echo "Error: Failed to detect external IPv4 address, using internal address."
-  SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1)"
-  SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
+    if [ -n "${SCNODE_NET_DECLAREDADDRESS}" ]; then
+      SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
+    else
+      SCNODE_NET_DECLAREDADDRESS="127.0.0.1"
+    fi
+  fi
 fi
 export SCNODE_NET_DECLAREDADDRESS
+
+#Custom log4j file (optional)
+if [ -n "${SCNODE_LOG4J_CUSTOM_CONFIG:-}" ]; then
+  if ! [ -f "${SCNODE_LOG4J_CUSTOM_CONFIG}" ]; then
+    echo "Error: Custom log4j file was not found under the provided path = ${SCNODE_LOG4J_CUSTOM_CONFIG}. Please check the value of the environment variable 'SCNODE_LOG4J_CUSTOM_CONFIG' and make sure your custom log4j file is correctly mapped to the container."
+    sleep 5
+    exit 1
+  fi
+  LOG4J_CUSTOM_CONFIG="-Dlog4j.configurationFile=${SCNODE_LOG4J_CUSTOM_CONFIG}"
+fi
 
 to_check=(
   "SCNODE_CERT_SIGNERS_MAXPKS"
@@ -189,7 +239,7 @@ if [ -n "${SCNODE_ONLY_CONNECT_TO_KNOWN_PEERS:-}" ]; then
 fi
 export ONLY_CONNECT_TO_KNOWN_PEERS
 
-# Flexibility for log levels
+# Flexibility for log levels and log file name
 if [ -z "${SCNODE_LOG_FILE_LEVEL:-}" ]; then
   SCNODE_LOG_FILE_LEVEL='info'
 fi
@@ -197,7 +247,11 @@ fi
 if [ -z "${SCNODE_LOG_CONSOLE_LEVEL:-}" ]; then
   SCNODE_LOG_CONSOLE_LEVEL='info'
 fi
-export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL
+
+if [ -z "${SCNODE_LOG_FILE_NAME:-}" ]; then
+  SCNODE_LOG_FILE_NAME='debug.log'
+fi
+export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL SCNODE_LOG_FILE_NAME
 
 # set REST API password hash
 if [ -n "${SCNODE_REST_PASSWORD:-}" ]; then
@@ -309,7 +363,7 @@ SUBST='$SCNODE_CERT_MASTERS_PUBKEYS:$SCNODE_CERT_SIGNERS_MAXPKS:$SCNODE_CERT_SIG
 '$SCNODE_GENESIS_WITHDRAWALEPOCHLENGTH:$SCNODE_GENESIS_COMMTREEHASH:$SCNODE_GENESIS_ISNONCEASING:$SCNODE_ALLOWED_FORGERS:$SCNODE_FORGER_ENABLED:$SCNODE_FORGER_RESTRICT:'\
 '$SCNODE_NET_DECLAREDADDRESS:$SCNODE_NET_KNOWNPEERS:$SCNODE_NET_MAGICBYTES:$SCNODE_NET_NODENAME:$SCNODE_NET_P2P_PORT:$SCNODE_NET_API_LIMITER_ENABLED:$SCNODE_NET_SLOW_MODE:$SCNODE_NET_REBROADCAST_TXS:$SCNODE_NET_HANDLING_TXS:'\
 '$SCNODE_WALLET_GENESIS_SECRETS:$SCNODE_WALLET_MAXTX_FEE:$SCNODE_WALLET_SEED:$WS_ADDRESS:$MAX_INCOMING_CONNECTIONS:$MAX_OUTGOING_CONNECTIONS:$SCNODE_WS_SERVER_PORT:'\
-'$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL:$REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:$REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:'\
+'$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL:$SCNODE_LOG_FILE_NAME:$REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:$REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:'\
 '$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$ONLY_CONNECT_TO_KNOWN_PEERS:$FORGER_MAXCONNECTIONS'\
 
 export SUBST
@@ -324,7 +378,7 @@ path_to_jemalloc="$(ldconfig -p | grep "$(arch)" | grep 'libjemalloc\.so\.2$' | 
 export LD_PRELOAD="${path_to_jemalloc}:${LD_PRELOAD}"
 
 if [ "${1}" = "/usr/bin/true" ]; then
-  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "$SC_MAIN_CLASS" "$SC_CONF_PATH"
+  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "${LOG4J_CUSTOM_CONFIG}" "$SC_MAIN_CLASS" "$SC_CONF_PATH"
 fi
 
 echo "Username: ${USERNAME}, UID: ${CURRENT_UID}, GID: ${CURRENT_GID}"
