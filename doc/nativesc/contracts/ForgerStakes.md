@@ -39,11 +39,32 @@ This native smartcontract manages the forger stakes.
 
           function openStakeForgerList(uint32 forgerIndex, bytes32 signature1, bytes32 signature2) external returns (bytes memory);
   
-     Execute a transaction  expressing the vote for opening the restricted forgers list.
+     Execute a transaction expressing the vote for opening the restricted forgers list.
      This transaction is allowed only when the forgers are initially restricted, and can be executed only by one of the allowed forgers.  
      The forger index is determined by the position of the forger in the allowed forger list.  
      The message to sign is composed by the concatenation of foreger index + sender address + invocation nonce, and is verified against the blockSignerProposition.
 
+- upgrade
+
+          function upgrade() external view returns (uint32);
+
+     This method upgrades the model of the forger stakes storage. It can be called just once. If successful, it returns 
+     the number identifying the new storage version (1 => Version 2). It emits a StakeUpgrade event, with the storage 
+     versions before and after the upgrade.
+
+- getAllForgersStakesOfUser
+
+          function getAllForgersStakesOfUser(address owner) external view returns (StakeInfo[] memory);
+
+  Returns all forger stakes owned by the specified address. This method requires the Forger Stake storage model version 
+  2, so it fails when invoked before the “upgrade()” method.
+
+- stakeOf
+
+          function stakeOf(address owner) external view returns (uint256);
+
+  Returns the total amount of forger stakes owned by the specified address. This method requires the Forger Stake 
+  storage model version 2, so it fails when invoked before the “upgrade()”  method.
 
     
 

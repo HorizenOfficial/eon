@@ -1,6 +1,43 @@
 {
   "abi": [
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint32",
+          "name": "keyType",
+          "type": "uint32"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint32",
+          "name": "keyIndex",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "newKeyValue_32",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes1",
+          "name": "newKeyValue_1",
+          "type": "bytes1"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "epochNumber",
+          "type": "uint32"
+        }
+      ],
+      "name": "SubmitKeyRotation",
+      "type": "event"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint32",

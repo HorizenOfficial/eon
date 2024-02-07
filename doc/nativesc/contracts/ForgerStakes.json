@@ -1,6 +1,100 @@
 {
   "abi": [
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "stakeId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "DelegateForgerStake",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint32",
+          "name": "forgerIndex",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "blockSignProposition",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OpenForgerList",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "oldVersion",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "newVersion",
+          "type": "uint32"
+        }
+      ],
+      "name": "StakeUpgrade",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "stakeId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "WithdrawForgerStake",
+      "type": "event"
+    },
+    {
       "inputs": [
         {
           "internalType": "bytes32",
@@ -82,6 +176,57 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "getAllForgersStakesOfUser",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "StakeID",
+              "name": "stakeId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "stakedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "publicKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "vrf1",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes1",
+              "name": "vrf2",
+              "type": "bytes1"
+            }
+          ],
+          "internalType": "struct ForgerStakes.StakeInfo[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint32",
           "name": "forgerIndex",
           "type": "uint32"
@@ -106,6 +251,38 @@
         }
       ],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "stakeOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "upgrade",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {

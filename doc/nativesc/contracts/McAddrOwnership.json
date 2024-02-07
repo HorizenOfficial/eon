@@ -1,6 +1,56 @@
 {
   "abi": [
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "scAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes3",
+          "name": "mcAddress_3",
+          "type": "bytes3"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "mcAddress_32",
+          "type": "bytes32"
+        }
+      ],
+      "name": "AddMcAddrOwnership",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "scAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes3",
+          "name": "mcAddress_3",
+          "type": "bytes3"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "mcAddress_32",
+          "type": "bytes32"
+        }
+      ],
+      "name": "RemoveMcAddrOwnership",
+      "type": "event"
+    },
+    {
       "inputs": [],
       "name": "getAllKeyOwnerships",
       "outputs": [
