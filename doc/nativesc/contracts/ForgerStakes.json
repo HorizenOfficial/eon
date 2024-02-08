@@ -179,10 +179,25 @@
           "internalType": "address",
           "name": "owner",
           "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "startIndex",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "pageSize",
+          "type": "uint32"
         }
       ],
-      "name": "getAllForgersStakesOfUser",
+      "name": "getPagedForgersStakesByUser",
       "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
         {
           "components": [
             {
