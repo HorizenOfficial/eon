@@ -1,7 +1,7 @@
-[&lt; EON Native Smart contracts Documentation](/doc/nativesc/index.md) 
+[&lt; EON Native Smart Contracts Documentation](/doc/nativesc/index.md) 
 ### McAddrOwnership
 
-This native smartcontract is used as a support to the ZenDao voting system.  
+This native smart contract is used as a support to the ZenDao voting system.  
 It allows to track associations between mainchain addresses and EON addresses, in order to sum the ZEN balances in both the chains for calculating voting powers.
 
 |    |    | 
@@ -12,7 +12,7 @@ It allows to track associations between mainchain addresses and EON addresses, i
 
   
 
-**Methods availables**
+**Methods available**
 
 - getAllKeyOwnerships
 
@@ -37,7 +37,7 @@ It allows to track associations between mainchain addresses and EON addresses, i
           function sendKeysOwnership(bytes3 mcAddrBytes1, bytes32 mcAddrBytes2, bytes24 signature1, bytes32 signature2, bytes32 signature3) external returns (bytes32);
 
     Associate a mainchain address to the EON address that invoked the method.  
-    Mainchain address is split in 2 parameters, being long more than 32bytes.  
+    Mainchain address is split in 2 parameters, being longer than 32 bytes.  
     Signature is split in 3 parameters for the same reason. The message to sign is the string representation of the EON address (format EIP-55: Mixed-case checksum address encoding).
     In case of success, the returned value is the id of the new ownership record created.  
     
@@ -54,7 +54,7 @@ It allows to track associations between mainchain addresses and EON addresses, i
           function removeKeysOwnership(bytes3 mcAddrBytes1, bytes32 mcAddrBytes2) external returns (bytes32);
 
      Remove an association between the EON address that invoked the method and the specified mainchain address.  
-     Mainchain address is split in 2 parameters, being long more than 32bytes.  
+     Mainchain address is split in 2 parameters, being longer more than 32 bytes.  
      In case of success, the returned value is the id of the  ownership record removed.
 
     

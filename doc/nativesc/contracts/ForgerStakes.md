@@ -1,7 +1,7 @@
-[&lt; EON Native Smart contracts Documentation](/doc/nativesc/index.md) 
+[&lt; EON Native Smart Contracts Documentation](/doc/nativesc/index.md) 
 ### ForgerStakes
 
-This native smartcontract manages the forger stakes.
+This native smart contract manages the forger stakes.
 
 |    |    | 
 | --------             | -------      | 
@@ -11,7 +11,7 @@ This native smartcontract manages the forger stakes.
 
   
 
-**Methods availables**
+**Methods available**
 
 - getAllForgersStakes
 
@@ -23,17 +23,18 @@ This native smartcontract manages the forger stakes.
 
           function delegate(bytes32 publicKey, bytes32 vrf1, bytes1 vrf2, address owner) external payable returns (StakeID);
 
-     Create a new stake and assign it to the forger identified by the specified pubblic key + vrf key.  
-     Vrf key is split in two separate parameters, being long more than 32bytes.  
-     The owner parameter is the address authorized to remove the stake by calling the withdraw founctions.
+     Create a new stake and assign it to the forger identified by the specified public key + vrf key.  
+     Vrf key is split in two separate parameters, being longer than 32 bytes.  
+     The owner parameter is the address authorized to remove the stake by calling the withdraw functions.
+     The amount of the stake is specified in the "value" field of the transaction.
          
 - withdraw
 
           function withdraw(StakeID stakeId, bytes1 signatureV, bytes32 signatureR, bytes32 signatureS) external returns (StakeID);
   
-     Remove the stake identified by stakeId and withdraw the founds, by providing the correct signature.  
+     Remove the stake identified by stakeId and withdraw the funds, by providing the correct signature.  
      The message to sign is composed by the concatenation of stakeId + sender address + invocation nonce, and is verified against the owner of the stake.  
-     Note: the whole amount staked will be removed, it is not allowd to remove only partially a stake.
+     Note: the whole amount staked will be removed, it is not allowed to remove only partially a stake.
 
 - openStakeForgerList
 
@@ -42,7 +43,7 @@ This native smartcontract manages the forger stakes.
      Execute a transaction expressing the vote for opening the restricted forgers list.
      This transaction is allowed only when the forgers are initially restricted, and can be executed only by one of the allowed forgers.  
      The forger index is determined by the position of the forger in the allowed forger list.  
-     The message to sign is composed by the concatenation of foreger index + sender address + invocation nonce, and is verified against the blockSignerProposition.
+     The message to sign is composed by the concatenation of forger index + sender address + invocation nonce, and is verified against the blockSignerProposition.
 
 - upgrade
 

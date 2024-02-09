@@ -1,7 +1,7 @@
-[&lt; EON Native Smart contracts Documentation](/doc/nativesc/index.md) 
+[&lt; EON Native Smart Contracts Documentation](/doc/nativesc/index.md) 
 ### WithdrawalRequests
 
-Allows to request a new withdrawal of founds to the mainchain (also called backward transfer), and see the list of the previous executed ones.
+Allows to request a new withdrawal of funds to the mainchain (also called backward transfer), and see the list of the previous executed ones.
 
 |    |    | 
 | --------             | -------      | 
@@ -11,13 +11,13 @@ Allows to request a new withdrawal of founds to the mainchain (also called backw
 
   
 
-**Methods availables**
+**Methods available**
 
 - getBackwardTransfers
 
           function getBackwardTransfers(uint32 withdrawalEpoch) external view returns (WithdrawalRequest[] memory);
   
-     Return a list of all the backward trasnfers executed in a specific withdrawal epoch.
+     Return a list of all the backward transfers executed in a specific withdrawal epoch.
 
 - backwardTransfer
 
