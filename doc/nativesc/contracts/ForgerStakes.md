@@ -25,7 +25,7 @@ This native smart contract manages the forger stakes.
 
      Create a new stake and assign it to the forger identified by the specified public key + vrf key.  
      Vrf key is split in two separate parameters, being longer than 32 bytes.  
-     The owner parameter is the address authorized to remove the stake by calling the withdraw functions.
+     The owner parameter is the address authorized to remove the stake by calling the withdraw function.
      The amount of the stake is specified in the "value" field of the transaction.
          
 - withdraw
@@ -34,7 +34,7 @@ This native smart contract manages the forger stakes.
   
      Remove the stake identified by stakeId and withdraw the funds, by providing the correct signature.  
      The message to sign is composed by the concatenation of stakeId + sender address + invocation nonce, and is verified against the owner of the stake.  
-     Note: the whole amount staked will be removed, it is not allowed to remove only partially a stake.
+     Note: the whole amount staked will be removed, it is not allowed to remove only partially a stake. The amount of the stake spent is sent to the balance of the owner.
 
 - openStakeForgerList
 
