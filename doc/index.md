@@ -2,6 +2,10 @@
 
 Find [here documentation](/doc/api/index.md) about how to interact with a running EON node.
 
+#  EON Native smart contracts documentation
+
+Find [here documentation](/doc/nativesc/index.md) about EON native smart contracts
+
 #  HowTOs and tutorials
 
 - [EON logging configuration](/doc/howto/customlog.md) 
