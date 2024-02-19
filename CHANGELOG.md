@@ -24,7 +24,7 @@
 
 ## 1.0.0
 * SDK dependency updated to version 0.8.0
-* Fork configuration to enable decentralized governance (ZenDao) and change consensus parameters (consensus epoch slot time and lenght, acrive slot coefficient)
+* Fork configuration to enable decentralized governance (ZenDao) and change consensus parameters (consensus epoch slot time and length, active slot coefficient)
 * Introduced a delay of 6 blocks in the inclusion of the mainchain blocks
 
 ## 0.2.1
