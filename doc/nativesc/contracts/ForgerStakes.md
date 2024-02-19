@@ -53,9 +53,17 @@ This native smart contract manages the forger stakes.
      the number identifying the new storage version (1 => Version 2). It emits a StakeUpgrade event, with the storage 
      versions before and after the upgrade.
 
+- getPagedForgersStakes
+
+          function function getPagedForgersStakes(int32 startIndex, int32 pageSize) external view returns (int32, StakeInfo[] memory);
+
+  Returns the first "pageSize" forger stakes, starting from "startIndex". In case there 
+  are additional stakes left, it returns the index of the first of the remaining stakes, otherwise it returns -1.
+  This method requires the Forger Stake storage model version 2, so it will fail if invoked before the “upgrade()” method.
+
 - getPagedForgersStakesByUser
 
-          function function getPagedForgersStakesByUser(address owner, uint32 startIndex, uint32 pageSize) external view returns (uint32, StakeInfo[] memory);
+          function function getPagedForgersStakesByUser(address owner, int32 startIndex, int32 pageSize) external view returns (int32, StakeInfo[] memory);
 
   Returns the first "pageSize" forger stakes, owned by the specified address, starting from "startIndex". In case there 
   are additional stakes left, it returns the index of the first of the remaining stakes, otherwise it returns -1.

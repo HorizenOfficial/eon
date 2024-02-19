@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * EON fork 5 (introduced in Version 1.3.0)
- * EVM update to Shanghai, Updates to native stake smart contract
+ * EVM update to Shanghai, Updates to native stake smart contract, Pause forging
  */
 public class F5Fork extends EONFork {
     public F5Fork(Optional<String> sidechainId) {
