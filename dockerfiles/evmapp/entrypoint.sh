@@ -213,17 +213,20 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
   fi
 fi
 
-
 if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABLED:-}" = "true" ]; then
   if [ -z "${SCNODE_WS_ZEN_FQDN:-}" ]; then
     echo "Error: Environment variable SCNODE_WS_ZEN_FQDN is required when SCNODE_FORGER_ENABLED=true or SCNODE_CERT_SUBMITTER_ENABLED=true."
     sleep 5
     exit 1
-  fi
+  fi  
 fi
 
-if [ -n "${SC_NODE_FORGER_REWARD_ADDRESS:-}" ]; then
-    FORGER_REWARD_ADDRESS="$(echo -en "\n        forgerRewardAddress = \"${SC_NODE_FORGER_REWARD_ADDRESS}\"")"
+if [ -n "${SCNODE_FORGER_REWARD_ADDRESS:-}" ]; then
+  if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ]; then
+    FORGER_REWARD_ADDRESS="$(echo -en "\n        forgerRewardAddress = \"${SCNODE_FORGER_REWARD_ADDRESS}\"")"
+  else
+    echo "Warn: Environment variable SCNODE_FORGER_REWARD_ADDRESS is set but will be ignored since forging is not enabled"
+  fi
 fi
 export FORGER_REWARD_ADDRESS
 
