@@ -176,27 +176,88 @@
     {
       "inputs": [
         {
+          "internalType": "int32",
+          "name": "startIndex",
+          "type": "int32"
+        },
+        {
+          "internalType": "int32",
+          "name": "pageSize",
+          "type": "int32"
+        }
+      ],
+      "name": "getPagedForgersStakes",
+      "outputs": [
+        {
+          "internalType": "int32",
+          "name": "",
+          "type": "int32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "StakeID",
+              "name": "stakeId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "stakedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "publicKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "vrf1",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes1",
+              "name": "vrf2",
+              "type": "bytes1"
+            }
+          ],
+          "internalType": "struct ForgerStakes.StakeInfo[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "owner",
           "type": "address"
         },
         {
-          "internalType": "uint32",
+          "internalType": "int32",
           "name": "startIndex",
-          "type": "uint32"
+          "type": "int32"
         },
         {
-          "internalType": "uint32",
+          "internalType": "int32",
           "name": "pageSize",
-          "type": "uint32"
+          "type": "int32"
         }
       ],
       "name": "getPagedForgersStakesByUser",
       "outputs": [
         {
-          "internalType": "uint32",
+          "internalType": "int32",
           "name": "",
-          "type": "uint32"
+          "type": "int32"
         },
         {
           "components": [

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * EON fork 5 (introduced in Version 1.3.0)
- * EVM update to Shanghai, Updates to native stake smart contract
+ * EVM update to Shanghai, Updates to native stake smart contract, Pause forging
  */
 public class F5Fork extends EONFork {
     public F5Fork(Optional<String> sidechainId) {
@@ -21,9 +21,8 @@ public class F5Fork extends EONFork {
         return 7;
     }
     @Override
-    protected int getActivationTestnetPregobi() {
-        return 1000000; //TODO
-    }
+    protected int getActivationTestnetPregobi() {return 2007;} //estimated start at WED 21 Feb 2024 13:01 Milano time
+    
     @Override
     protected int getActivationTestnetGobi() {
         return 1000000;  //TODO

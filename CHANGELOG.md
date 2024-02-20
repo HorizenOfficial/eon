@@ -2,6 +2,7 @@
 
 ## 1.3.0
 * SDK dependency updated to version 0.11.0 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/0.11.0/CHANGELOG.md))
+* Fork configuration to enable: EVM Update, Forger stake native smart contract new methods, Pause Forging feature
 
 ## 1.2.1
 * SDK dependency updated to version 0.10.1 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/0.10.1/CHANGELOG.md))
@@ -23,7 +24,7 @@
 
 ## 1.0.0
 * SDK dependency updated to version 0.8.0
-* Fork configuration to enable decentralized governance (ZenDao) and change consensus parameters (consensus epoch slot time and lenght, acrive slot coefficient)
+* Fork configuration to enable decentralized governance (ZenDao) and change consensus parameters (consensus epoch slot time and length, active slot coefficient)
 * Introduced a delay of 6 blocks in the inclusion of the mainchain blocks
 
 ## 0.2.1
