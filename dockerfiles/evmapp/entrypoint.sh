@@ -1,6 +1,14 @@
 #!/bin/bash
 set -eEuo pipefail
 
+# check if this is an unsupported CPU, warn the user and bail
+if ! grep -iq adx /proc/cpuinfo || ! grep -iq bmi2 /proc/cpuinfo; then
+  echo "Error: the host does not support the required 'adx' and 'bmi2' CPU flags. The application cannot run on older CPUs. Exiting..."
+  sleep 5
+  exit 1
+fi
+
+
 USER_ID="${LOCAL_USER_ID:-9001}"
 GRP_ID="${LOCAL_GRP_ID:-9001}"
 LD_PRELOAD="${LD_PRELOAD:-}"
