@@ -22,17 +22,17 @@ public class F5Fork extends EONFork {
     }
     @Override
     protected int getActivationTestnetPregobi() {return 2007;} //estimated start at WED 21 Feb 2024 13:01 Milano time
-    
+
     @Override
     protected int getActivationTestnetGobi() {
-        return 1000000;  //TODO
+        return 2101;  //estimated start at TUE 12 March 2024 07:51 Milano time
     }
     @Override
-    protected int getActivationTestnet() { return 1000000; //TODO
+    protected int getActivationTestnet() { return 2101; //not used
     }
     @Override
     protected int getActivationMainnet() {
-        return  1000000; ///TODO
+        return  1405; //estimated start at THU 21 March 2024 18:55 Milano time
     }
 
     @Override
