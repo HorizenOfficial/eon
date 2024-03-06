@@ -47,7 +47,7 @@ This native smart contract manages the forger stakes.
 
 - upgrade
 
-          function upgrade() external view returns (uint32);
+          function upgrade() external returns (uint32);
 
      This method upgrades the model of the forger stakes storage. It can be called just once. If successful, it returns 
      the number identifying the new storage version (1 => Version 2). It emits a StakeUpgrade event, with the storage 
