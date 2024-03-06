@@ -99,6 +99,10 @@ public class EonAppModule extends AccountAppModule {
         bind(String.class)
                 .annotatedWith(Names.named("AppVersion"))
                 .toInstance(getEONVersion());
+
+        bind(Integer.class)
+                .annotatedWith(Names.named("MaxHistoryRewriteLength"))
+                .toInstance(MAX_HISTORY_REWRITING_LENGTH);
     }
 
     /**

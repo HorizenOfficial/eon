@@ -1,9 +1,9 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
-### wallet/createPrivateKey25519
+### wallet/createPrivateKeySecp256k1
 
-Create a private key in the 25519 format.
-25519 keys are used in EON for designating forgers.
-Returns the correspondent public key.
+Create a private key in the Secp256k1 format.\
+Secp256k1 keys are the standard used in Ethereum EVMs and also by EON.\
+Returns the correspondent public address.
 
 **Parameters**
 
@@ -11,14 +11,12 @@ No parameters
 
 **Example request**
 
-     curl -sX POST 'http://127.0.0.1:9085/wallet/createPrivateKey25519' -H 'Content-Type: application/json' -H 'accept: application/json' 
+     curl -sX POST 'http://127.0.0.1:9085/wallet/createPrivateKeySecp256k1' -H 'Content-Type: application/json' -H 'accept: application/json' 
 
 **Example response**
 
     {
         "result" : {
-            "proposition" : {
-            "publicKey" : "4b50edf43fddcf29afceacfcc9c5c16edb16de6550b9172c7190bfe9fdad0f45"
-            }
+            "address" : "00c8f107a09cd4f463afc2f1e6e5bf6022ad4600"
         }
     }

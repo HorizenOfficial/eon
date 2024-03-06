@@ -3,7 +3,7 @@ sparkz {
     logDir = /sidechain/logs
 
     logInfo {
-       logFileName = "debug.log"
+       logFileName = "$SCNODE_LOG_FILE_NAME"
        # levels: off, fatal, error, warn, info, debug, trace, all
        logFileLevel = "$SCNODE_LOG_FILE_LEVEL"
        logConsoleLevel = "$SCNODE_LOG_CONSOLE_LEVEL"
@@ -82,7 +82,7 @@ sparkz {
     forger {
         automaticForging = $SCNODE_FORGER_ENABLED
         restrictForgers = $SCNODE_FORGER_RESTRICT
-        allowedForgersList = [$SCNODE_ALLOWED_FORGERS]
+        allowedForgersList = [$SCNODE_ALLOWED_FORGERS]$FORGER_REWARD_ADDRESS
     }
 
     remoteKeysManager {

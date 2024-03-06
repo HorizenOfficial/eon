@@ -1,6 +1,14 @@
 #!/bin/bash
 set -eEuo pipefail
 
+# check if this is an unsupported CPU, warn the user and bail
+if ! grep -iq adx /proc/cpuinfo || ! grep -iq bmi2 /proc/cpuinfo; then
+  echo "Error: the host does not support the required 'adx' and 'bmi2' CPU flags. The application cannot run on older CPUs. Exiting..."
+  sleep 5
+  exit 1
+fi
+
+
 USER_ID="${LOCAL_USER_ID:-9001}"
 GRP_ID="${LOCAL_GRP_ID:-9001}"
 LD_PRELOAD="${LD_PRELOAD:-}"
@@ -13,6 +21,8 @@ MAX_OUTGOING_CONNECTIONS=""
 WS_ADDRESS=""
 ONLY_CONNECT_TO_KNOWN_PEERS=""
 FORGER_MAXCONNECTIONS=""
+FORGER_REWARD_ADDRESS=""
+LOG4J_CUSTOM_CONFIG=""
 
 SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
 export SCNODE_REMOTE_KEY_MANAGER_ENABLED
@@ -96,6 +106,16 @@ else
   fi
 fi
 export SCNODE_NET_DECLAREDADDRESS
+
+#Custom log4j file (optional)
+if [ -n "${SCNODE_LOG4J_CUSTOM_CONFIG:-}" ]; then
+  if ! [ -f "${SCNODE_LOG4J_CUSTOM_CONFIG}" ]; then
+    echo "Error: Custom log4j file was not found under the provided path = ${SCNODE_LOG4J_CUSTOM_CONFIG}. Please check the value of the environment variable 'SCNODE_LOG4J_CUSTOM_CONFIG' and make sure your custom log4j file is correctly mapped to the container."
+    sleep 5
+    exit 1
+  fi
+  LOG4J_CUSTOM_CONFIG="-Dlog4j.configurationFile=${SCNODE_LOG4J_CUSTOM_CONFIG}"
+fi
 
 to_check=(
   "SCNODE_CERT_SIGNERS_MAXPKS"
@@ -201,14 +221,22 @@ if [ "${SCNODE_CERT_SIGNING_ENABLED:-}" = "true" ]; then
   fi
 fi
 
-
 if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABLED:-}" = "true" ]; then
   if [ -z "${SCNODE_WS_ZEN_FQDN:-}" ]; then
     echo "Error: Environment variable SCNODE_WS_ZEN_FQDN is required when SCNODE_FORGER_ENABLED=true or SCNODE_CERT_SUBMITTER_ENABLED=true."
     sleep 5
     exit 1
+  fi  
+fi
+
+if [ -n "${SCNODE_FORGER_REWARD_ADDRESS:-}" ]; then
+  if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ]; then
+    FORGER_REWARD_ADDRESS="$(echo -en "\n        forgerRewardAddress = \"${SCNODE_FORGER_REWARD_ADDRESS}\"")"
+  else
+    echo "Warn: Environment variable SCNODE_FORGER_REWARD_ADDRESS is set but will be ignored since forging is not enabled"
   fi
 fi
+export FORGER_REWARD_ADDRESS
 
 # Checking SCNODE_FORGER_MAXCONNECTIONS for Forger nodes
 if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ]; then
@@ -228,7 +256,7 @@ if [ -n "${SCNODE_ONLY_CONNECT_TO_KNOWN_PEERS:-}" ]; then
 fi
 export ONLY_CONNECT_TO_KNOWN_PEERS
 
-# Flexibility for log levels
+# Flexibility for log levels and log file name
 if [ -z "${SCNODE_LOG_FILE_LEVEL:-}" ]; then
   SCNODE_LOG_FILE_LEVEL='info'
 fi
@@ -236,7 +264,11 @@ fi
 if [ -z "${SCNODE_LOG_CONSOLE_LEVEL:-}" ]; then
   SCNODE_LOG_CONSOLE_LEVEL='info'
 fi
-export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL
+
+if [ -z "${SCNODE_LOG_FILE_NAME:-}" ]; then
+  SCNODE_LOG_FILE_NAME='debug.log'
+fi
+export SCNODE_LOG_FILE_LEVEL SCNODE_LOG_CONSOLE_LEVEL SCNODE_LOG_FILE_NAME
 
 # set REST API password hash
 if [ -n "${SCNODE_REST_PASSWORD:-}" ]; then
@@ -348,8 +380,8 @@ SUBST='$SCNODE_CERT_MASTERS_PUBKEYS:$SCNODE_CERT_SIGNERS_MAXPKS:$SCNODE_CERT_SIG
 '$SCNODE_GENESIS_WITHDRAWALEPOCHLENGTH:$SCNODE_GENESIS_COMMTREEHASH:$SCNODE_GENESIS_ISNONCEASING:$SCNODE_ALLOWED_FORGERS:$SCNODE_FORGER_ENABLED:$SCNODE_FORGER_RESTRICT:'\
 '$SCNODE_NET_DECLAREDADDRESS:$SCNODE_NET_KNOWNPEERS:$SCNODE_NET_MAGICBYTES:$SCNODE_NET_NODENAME:$SCNODE_NET_P2P_PORT:$SCNODE_NET_API_LIMITER_ENABLED:$SCNODE_NET_SLOW_MODE:$SCNODE_NET_REBROADCAST_TXS:$SCNODE_NET_HANDLING_TXS:'\
 '$SCNODE_WALLET_GENESIS_SECRETS:$SCNODE_WALLET_MAXTX_FEE:$SCNODE_WALLET_SEED:$WS_ADDRESS:$MAX_INCOMING_CONNECTIONS:$MAX_OUTGOING_CONNECTIONS:$SCNODE_WS_SERVER_PORT:'\
-'$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL:$REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:$REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:'\
-'$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$ONLY_CONNECT_TO_KNOWN_PEERS:$FORGER_MAXCONNECTIONS'\
+'$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL:$SCNODE_LOG_FILE_NAME:$REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:$REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:'\
+'$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$ONLY_CONNECT_TO_KNOWN_PEERS:$FORGER_MAXCONNECTIONS:$FORGER_REWARD_ADDRESS'\
 
 export SUBST
 envsubst "${SUBST}" < /sidechain/config/sc_settings.conf.tmpl > /sidechain/config/sc_settings.conf
@@ -363,7 +395,11 @@ path_to_jemalloc="$(ldconfig -p | grep "$(arch)" | grep 'libjemalloc\.so\.2$' | 
 export LD_PRELOAD="${path_to_jemalloc}:${LD_PRELOAD}"
 
 if [ "${1}" = "/usr/bin/true" ]; then
-  set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "$SC_MAIN_CLASS" "$SC_CONF_PATH"
+  if [ -z "${LOG4J_CUSTOM_CONFIG:-}" ]; then
+     set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "$SC_MAIN_CLASS" "$SC_CONF_PATH"
+  else
+     set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "${LOG4J_CUSTOM_CONFIG}" "$SC_MAIN_CLASS" "$SC_CONF_PATH"
+  fi 
 fi
 
 echo "Username: ${USERNAME}, UID: ${CURRENT_UID}, GID: ${CURRENT_GID}"

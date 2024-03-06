@@ -1,0 +1,140 @@
+{
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint32",
+          "name": "keyType",
+          "type": "uint32"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint32",
+          "name": "keyIndex",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "newKeyValue_32",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes1",
+          "name": "newKeyValue_1",
+          "type": "bytes1"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "epochNumber",
+          "type": "uint32"
+        }
+      ],
+      "name": "SubmitKeyRotation",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "key_type",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "index",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "newKey_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "newKey_2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signKeySig_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signKeySig_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "masterKeySig_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "masterKeySig_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "newKeySig_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "newKeySig_2",
+          "type": "bytes32"
+        }
+      ],
+      "name": "submitKeyRotation",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
