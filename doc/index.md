@@ -12,6 +12,7 @@ Find [here documentation](/doc/nativesc/index.md) about EON native smart contrac
 
 # EON Release Notes
 
+## Version [1.4.0](/doc/release/1.4.0.md) 
 ## Version [1.3.0](/doc/release/1.3.0.md) 
 ## Version [1.2.1](/doc/release/1.2.1.md) 
 ## Version [1.2.0](/doc/release/1.2.0.md) 
