@@ -20,7 +20,7 @@ MAX_INCOMING_CONNECTIONS=""
 MAX_OUTGOING_CONNECTIONS=""
 WS_ADDRESS=""
 ONLY_CONNECT_TO_KNOWN_PEERS=""
-FORGER_MAXCONNECTIONS=""
+FORGER_MAXCONNECTIONS="100"
 FORGER_REWARD_ADDRESS=""
 LOG4J_CUSTOM_CONFIG=""
 
@@ -226,7 +226,7 @@ if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ] || [ "${SCNODE_CERT_SUBMITTER_ENABL
     echo "Error: Environment variable SCNODE_WS_ZEN_FQDN is required when SCNODE_FORGER_ENABLED=true or SCNODE_CERT_SUBMITTER_ENABLED=true."
     sleep 5
     exit 1
-  fi  
+  fi
 fi
 
 if [ -n "${SCNODE_FORGER_REWARD_ADDRESS:-}" ]; then
@@ -238,16 +238,11 @@ if [ -n "${SCNODE_FORGER_REWARD_ADDRESS:-}" ]; then
 fi
 export FORGER_REWARD_ADDRESS
 
-# Checking SCNODE_FORGER_MAXCONNECTIONS for Forger nodes
-if [ "${SCNODE_FORGER_ENABLED:-}" = "true" ]; then
-  if [ -n "${SCNODE_FORGER_MAXCONNECTIONS:-}" ]; then
-    FORGER_MAXCONNECTIONS="$(echo -en "\n        maxForgerConnections = ${SCNODE_FORGER_MAXCONNECTIONS}")"
-  else
-    echo "Error: Environment variable SCNODE_FORGER_MAXCONNECTIONS is required when SCNODE_FORGER_ENABLED=true !!!"
-    sleep 5
-    exit 1
-  fi
+# Checking SCNODE_FORGER_MAXCONNECTIONS
+if [ -n "${SCNODE_FORGER_MAXCONNECTIONS:-}" ]; then
+  FORGER_MAXCONNECTIONS="$(echo -en "\n        maxForgerConnections = ${SCNODE_FORGER_MAXCONNECTIONS}")"
 fi
+
 export FORGER_MAXCONNECTIONS
 
 # setting onlyConnectToKnownPeers if provided
@@ -399,7 +394,7 @@ if [ "${1}" = "/usr/bin/true" ]; then
      set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "$SC_MAIN_CLASS" "$SC_CONF_PATH"
   else
      set -- java -cp '/sidechain/'"${SC_JAR_NAME}"'-'"${SC_VERSION}"'.jar:/sidechain/lib/*' "${LOG4J_CUSTOM_CONFIG}" "$SC_MAIN_CLASS" "$SC_CONF_PATH"
-  fi 
+  fi
 fi
 
 echo "Username: ${USERNAME}, UID: ${CURRENT_UID}, GID: ${CURRENT_GID}"
