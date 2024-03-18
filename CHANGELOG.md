@@ -1,6 +1,8 @@
 # Changelog
 ## 1.4.0
 
+## 1.3.1
+* Bug fix: Modify entrypoint.sh: Allow all node types to set FORGER_MAXCONNECTIONS env variable
 
 ## 1.3.0
 * SDK dependency updated to version 0.11.0 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/0.11.0/CHANGELOG.md))
