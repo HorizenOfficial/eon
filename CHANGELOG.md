@@ -1,7 +1,6 @@
 # Changelog
 ## 1.4.0
 
-
 ## 1.3.1
 * Bug fix: Modify entrypoint.sh: Allow all node types to set FORGER_MAXCONNECTIONS env variable
 
