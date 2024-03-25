@@ -46,7 +46,7 @@ It allows to track associations between mainchain addresses and EON addresses, i
           function sendMultisigKeysOwnership(string memory mcMultisigAddress, string memory redeemScript, string[] memory mcSignatures) external returns (bytes32);
 
     Associate the specified mainchain multisig address to the EON address that invoked the method.  
-    Redeem script and signatures must be provided as well. 
+    Redeem script and signatures must be provided as well. The message to sign is obtained by concatenating the mainchain mcMultisigAddress and the EON address (msgTosSign = mcMultiSigAddress + scAddress). The EON address must be encoded in the EIP-155 Mixed-case checksum format as above. 
     In case of success, the returned value is the id of the new ownership record created.
 
 - removeKeysOwnership
