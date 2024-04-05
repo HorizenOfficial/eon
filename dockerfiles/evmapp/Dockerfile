@@ -124,9 +124,8 @@ RUN set -eEuo pipefail && mv /sidechain/entrypoint.sh /usr/local/bin/entrypoint.
     && DEBIAN_FRONTEND=noninteractive apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/{lib/apt/lists/*,cache/apt/archives/*.deb} /tmp/*
 
-VOLUME ["/sidechain/datadir/"]
-
-VOLUME ["/sidechain/logs/"]
+# Define volumes for data directory, logs, and snark keys
+VOLUME ["/sidechain/datadir/", "/sidechain/logs/", "/sidechain/snark_keys/"]
 
 ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
 
