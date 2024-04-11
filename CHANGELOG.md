@@ -1,5 +1,6 @@
 # Changelog
 ## 1.4.0
+* Bug fix: Modify entrypoint.sh: Improve declared ip detection in MacOS environments
 
 ## 1.3.1
 * Bug fix: Modify entrypoint.sh: Allow all node types to set FORGER_MAXCONNECTIONS env variable
