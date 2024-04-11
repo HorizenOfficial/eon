@@ -29,30 +29,30 @@ export SCNODE_REMOTE_KEY_MANAGER_ENABLED
 
 
 # Function(s)
+fn_die() {
+  echo -e "$1" >&2
+  sleep 5
+  exit "${2:-1}"
+}
+
 detect_ext_ip() {
   local usage="Detect external IPv(4|6) address - usage: ${FUNCNAME[0]} {(4|6)}}"
   [ "${1:-}" = "usage" ] && echo "${usage}" && return
-  [ "$#" -ne 1 ] && { echo -e "${FUNCNAME[0]} error: function requires exactly one argument.\n\n${usage}"; exit 1;}
+  [ "$#" -ne 1 ] && { fn_die "${FUNCNAME[0]} error: function requires exactly one argument.\n\n${usage}"; }
 
   local ip_type="${1}"
   if ! [[ "${ip_type}" =~ ^(4|6)$ ]]; then
-    echo -e "${FUNCNAME[0]} error: function expects either '4' or '6' as an argument.\n\n${usage}"
-    exit 1
+    fn_die "${FUNCNAME[0]} error: function expects either '4' or '6' as an argument.\n\n${usage}"
   fi
 
   ip_address="$(dig -"${ip_type}" +short +time=2 @resolver1.opendns.com ANY myip.opendns.com 2> /dev/null | grep -v ";" || true)"
-  if [ -z "${ip_address:-}" ]; then
+  if ! { ipv6calc -qim "${ip_address:-}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     ip_address="$(curl -s -"${ip_type}" icanhazip.com 2>/dev/null || true)"
   fi
 
   echo "${ip_address}"
 }
 
-fn_die() {
-  echo -e "$1" >&2
-  sleep 5
-  exit "${2:-1}"
-}
 
 
 if [ "$USER_ID" != "0" ]; then
@@ -81,23 +81,20 @@ fi
 # Checking if external IP address is provided by the user via ENV var
 if [ -n "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
   # Checking user provided public IPv(4|6) address validity
-  if ! ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep 'TYPE' | grep -q 'global' &>/dev/null; then
+  if ! { ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     fn_die "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format or is NOT a PUBLIC address.\nFix it before proceeding any further.  Exiting ..."
-  else
-    SCNODE_NET_DECLAREDADDRESS="$(ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep -E 'IPV(4|6)=' | cut -d '=' -f2)"
   fi
 else
   # Detecting IPv4 vs IPv6 address
   SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
-  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  if ! { ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS:-}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 6)"
   fi
 
   # Falling over to internal IP
-  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  if ! { ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS:-}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     echo "Error: Failed to detect external IPv(4|6) address, using internal address."
     SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1 || true)"
-
     if [ -n "${SCNODE_NET_DECLAREDADDRESS}" ]; then
       SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
     else
