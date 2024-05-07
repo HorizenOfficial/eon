@@ -1,5 +1,8 @@
 # Changelog
 ## 1.4.0
+* SDK dependency updated to version 0.12.0 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/0.12.0/CHANGELOG.md))
+* Fork configuration to enable new on-chain delegated staking reward mechanism 
+* Added support for metrics endpoint
 * Bug fix: Modify entrypoint.sh: Improve declared ip detection in MacOS environments
 
 ## 1.3.1

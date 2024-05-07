@@ -1,0 +1,660 @@
+{
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [],
+      "name": "ActivateStakeV2",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "DelegateForgerStake",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "rewardShare",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "reward_address",
+          "type": "address"
+        }
+      ],
+      "name": "RegisterForger",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "rewardShare",
+          "type": "uint32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "reward_address",
+          "type": "address"
+        }
+      ],
+      "name": "UpdateForger",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "WithdrawForgerStake",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "activate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        }
+      ],
+      "name": "delegate",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentConsensusEpoch",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "epoch",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        }
+      ],
+      "name": "getForger",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "signPubKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "vrf1",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes1",
+              "name": "vrf2",
+              "type": "bytes1"
+            },
+            {
+              "internalType": "uint32",
+              "name": "rewardShare",
+              "type": "uint32"
+            },
+            {
+              "internalType": "address",
+              "name": "reward_address",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ForgerStakesV2.ForgerInfo",
+          "name": "forgerInfo",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "int32",
+          "name": "startIndex",
+          "type": "int32"
+        },
+        {
+          "internalType": "int32",
+          "name": "pageSize",
+          "type": "int32"
+        }
+      ],
+      "name": "getPagedForgers",
+      "outputs": [
+        {
+          "internalType": "int32",
+          "name": "nextIndex",
+          "type": "int32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "signPubKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "vrf1",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes1",
+              "name": "vrf2",
+              "type": "bytes1"
+            },
+            {
+              "internalType": "uint32",
+              "name": "rewardShare",
+              "type": "uint32"
+            },
+            {
+              "internalType": "address",
+              "name": "reward_address",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ForgerStakesV2.ForgerInfo[]",
+          "name": "listOfForgerInfo",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "delegator",
+          "type": "address"
+        },
+        {
+          "internalType": "int32",
+          "name": "startIndex",
+          "type": "int32"
+        },
+        {
+          "internalType": "int32",
+          "name": "pageSize",
+          "type": "int32"
+        }
+      ],
+      "name": "getPagedForgersStakesByDelegator",
+      "outputs": [
+        {
+          "internalType": "int32",
+          "name": "nextIndex",
+          "type": "int32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "signPubKey",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "vrf1",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes1",
+              "name": "vrf2",
+              "type": "bytes1"
+            },
+            {
+              "internalType": "uint256",
+              "name": "stakedAmount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct ForgerStakesV2.StakeDataForger[]",
+          "name": "listOfForgerStakes",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "int32",
+          "name": "startIndex",
+          "type": "int32"
+        },
+        {
+          "internalType": "int32",
+          "name": "pageSize",
+          "type": "int32"
+        }
+      ],
+      "name": "getPagedForgersStakesByForger",
+      "outputs": [
+        {
+          "internalType": "int32",
+          "name": "nextIndex",
+          "type": "int32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "delegator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "stakedAmount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct ForgerStakesV2.StakeDataDelegator[]",
+          "name": "listOfDelegatorStakes",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrfKey1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrfKey2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "uint32",
+          "name": "rewardShare",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "rewardAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign1_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign1_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign2_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign2_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign2_3",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "sign2_4",
+          "type": "bytes1"
+        }
+      ],
+      "name": "registerForger",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "uint32",
+          "name": "consensusEpochStart",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "maxNumOfEpoch",
+          "type": "uint32"
+        }
+      ],
+      "name": "rewardsReceived",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "listOfRewards",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "address",
+          "name": "delegator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "consensusEpochStart",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "maxNumOfEpoch",
+          "type": "uint32"
+        }
+      ],
+      "name": "stakeTotal",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "listOfStakes",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "uint32",
+          "name": "rewardShare",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "rewardAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signature1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "signature2",
+          "type": "bytes32"
+        }
+      ],
+      "name": "updateForger",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
