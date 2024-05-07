@@ -40,10 +40,13 @@ Following endpoints are available on EON node:
 
 #### Forge stakes management:
 
-[/transaction/makeForgerStake](/doc/api/transaction/makeForgerStake.md)\
-[/transaction/spendForgingStake](/doc/api/transaction/spendForgingStake.md)\
 [/transaction/allForgingStakes](/doc/api/transaction/allForgingStakes.md)\
 [/transaction/myForgingStakes](/doc/api/transaction/myForgingStakes.md)
+
+Deprecated methods: 
+
+[/transaction/makeForgerStake](/doc/api/transaction/makeForgerStake.md)\
+[/transaction/spendForgingStake](/doc/api/transaction/spendForgingStake.md)
 
 #### Restricted forgers management:
 
