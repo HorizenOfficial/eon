@@ -41,7 +41,12 @@ Following endpoints are available on EON node:
 #### Forge stakes management:
 
 [/transaction/allForgingStakes](/doc/api/transaction/allForgingStakes.md)\
-[/transaction/myForgingStakes](/doc/api/transaction/myForgingStakes.md)
+[/transaction/myForgingStakes](/doc/api/transaction/myForgingStakes.md)\
+[/transaction/pagedForgingStakes](/doc/api/transaction/pagedForgingStakes.md)\
+[/transaction/pagedForgersStakesByForger](/doc/api/transaction/pagedForgersStakesByForger.md)\
+[/transaction/pagedForgersStakesByDelegator](/doc/api/transaction/pagedForgersStakesByDelegator.md)\
+[/transaction/registerForger](/doc/api/transaction/registerForger.md)\
+[/transaction/updateForger](/doc/api/transaction/updateForger.md)\
 
 Deprecated methods: 
 
