@@ -39,19 +39,19 @@ The request body format is like this:
 
 **Example response**
 
-{
-  "result" : {
-    "nextPos": 10,
-    "stakes" : [ {
-        "delegator" : {
-          "address" : "62b1bc6fd237b775138d910274ff2911d7aea5cc"
-        },
-        "stakedAmount" : 1000000000000000000
-    }, {
-        "delegator" : {
-          "address" : "775138d910274ff291162b1bc6fd237bd7aea5cc"
-        },
-        "stakedAmount" : 99000000000000000000
-    }]
-  }
-}
+    {
+      "result" : {
+        "nextPos": 10,
+        "stakes" : [ {
+            "delegator" : {
+              "address" : "62b1bc6fd237b775138d910274ff2911d7aea5cc"
+            },
+            "stakedAmount" : 1000000000000000000
+        }, {
+            "delegator" : {
+              "address" : "775138d910274ff291162b1bc6fd237bd7aea5cc"
+            },
+            "stakedAmount" : 99000000000000000000
+        }]
+      }
+    }

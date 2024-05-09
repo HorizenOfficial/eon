@@ -37,29 +37,29 @@ The request body format is like this:
 
 **Example response**
 
-{
-  "result" : {
-    "nextPos": 10,
-    "stakes" : [ {
-        "forgerPublicKeys" : {
-          "blockSignPublicKey" : {
-            "publicKey" : "10e9b5236a56cddb9f0332e9dd6d69151494f24172b26ab24a27473bbc92a181"
-          },
-          "vrfPublicKey" : {
-            "publicKey" : "6a376f8a88b386f69296baa0792641d393c85a19b28dfd4a11d8f0a74618873280"
-          }
-        },
-        "stakedAmount" : 1000000000000000000
-    }, {
-        "forgerPublicKeys" : {
-          "blockSignPublicKey" : {
-            "publicKey" : "4172b26ab24a27473bbc910e9b5236a56cddb9f0332e9dd6d69151494f22a181"
-          },
-          "vrfPublicKey" : {
-            "publicKey" : "aa0792641d393c85a19b28dfd4a6a376f8a88b386f69296b11d8f0a74618873280"
-          }
-        },
-        "stakedAmount" : 99000000000000000000
-    }]
-  }
-}
+    {
+      "result" : {
+        "nextPos": 10,
+        "stakes" : [ {
+            "forgerPublicKeys" : {
+              "blockSignPublicKey" : {
+                "publicKey" : "10e9b5236a56cddb9f0332e9dd6d69151494f24172b26ab24a27473bbc92a181"
+              },
+              "vrfPublicKey" : {
+                "publicKey" : "6a376f8a88b386f69296baa0792641d393c85a19b28dfd4a11d8f0a74618873280"
+              }
+            },
+            "stakedAmount" : 1000000000000000000
+        }, {
+            "forgerPublicKeys" : {
+              "blockSignPublicKey" : {
+                "publicKey" : "4172b26ab24a27473bbc910e9b5236a56cddb9f0332e9dd6d69151494f22a181"
+              },
+              "vrfPublicKey" : {
+                "publicKey" : "aa0792641d393c85a19b28dfd4a6a376f8a88b386f69296b11d8f0a74618873280"
+              }
+            },
+            "stakedAmount" : 99000000000000000000
+        }]
+      }
+    }
