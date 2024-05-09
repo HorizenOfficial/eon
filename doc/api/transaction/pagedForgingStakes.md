@@ -37,6 +37,7 @@ The request body format is like this:
 
 {
   "result" : {
+    "nextPos": 10,
     "stakes" : [ {
       "forgerStakeData" : {
         "forgerPublicKeys" : {
