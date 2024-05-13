@@ -7,7 +7,7 @@ Creates and posts a  backward transfer transaction to sends some ZEN back to the
 
 | Name     | Type    | Required    | Description    |
 | -------- | ------- | -------     | -------        | 
-| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted the next valid nonce will be calculated automatically.  |
+| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
 | withdrawalRequest  | object  | yes         | Description of the  withdrawal request |
 | gasInfo  | object  | no         | Info about GAS |
 

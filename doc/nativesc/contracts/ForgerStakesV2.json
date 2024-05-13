@@ -562,6 +562,40 @@
           "internalType": "address",
           "name": "delegator",
           "type": "address"
+        }
+      ],
+      "name": "stakeStart",
+      "outputs": [
+        {
+          "internalType": "int32",
+          "name": "consensusEpochStart",
+          "type": "int32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "signPubKey",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "vrf1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "vrf2",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "address",
+          "name": "delegator",
+          "type": "address"
         },
         {
           "internalType": "uint32",

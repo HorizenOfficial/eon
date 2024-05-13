@@ -13,7 +13,7 @@ Note: is not possible to remove partially a forging stake, all the stacked ZEN a
 | Name     | Type    | Required    | Description    |
 | -------- | ------- | -------     | -------        | 
 | stakeId  | string  | yes         | Id of the stake to be removed  |
-| nonce    | string  | no         | Nonce associated to the address that is sending the tx. If omitted the next valid nonce will be calculated automatically.  |
+| nonce    | string  | no         | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
 | gasInfo  | object  | no         |   |
 
 Parameters of the gasInfo object:

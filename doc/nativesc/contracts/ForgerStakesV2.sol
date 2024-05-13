@@ -80,6 +80,8 @@ interface ForgerStakesV2 {
        Returns the total stake amount, at the end of one or more consensus epochs, assigned to a specific forger.
        vrf, signKey and delegator are optional: if all are null, the total stake amount will be returned. If only
        delegator is null, all the stakes assigned to the forger will be summed.
+       Be aware that following convention apply when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses.
+       For consensusEpochStart and maxNumOfEpoch, it is 0.
        If vrf and signKey are null, but delegator is defined, the method will fail.
        consensusEpochStart and maxNumOfEpoch are optional: if both null, the data at the current consensus epoch is returned.
        Returned array contains also elements with 0 value. Returned values are ordered by epoch, and the array length may
@@ -95,6 +97,13 @@ interface ForgerStakesV2 {
        registered after consensusEpochStart.
     */
     function rewardsReceived(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, uint32 consensusEpochStart, uint32 maxNumOfEpoch) external view returns (uint256[] memory listOfRewards);
+
+    /*
+       Returns the  first consensus epoch when a stake is present for a specific delegator.
+       signPubKey, vrf1, vrf2 and delegator parameters are mandatory.
+       If no stake has been found (the delegator never staked anything to this forger) the method returns -1
+    */
+    function stakeStart(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, address delegator) external view returns (int32 consensusEpochStart);
 
     /*
       Returns the info of a specific registered forger.

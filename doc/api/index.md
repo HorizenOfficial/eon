@@ -46,7 +46,7 @@ Following endpoints are available on EON node:
 [/transaction/pagedForgersStakesByForger](/doc/api/transaction/pagedForgersStakesByForger.md)\
 [/transaction/pagedForgersStakesByDelegator](/doc/api/transaction/pagedForgersStakesByDelegator.md)\
 [/transaction/registerForger](/doc/api/transaction/registerForger.md)\
-[/transaction/updateForger](/doc/api/transaction/updateForger.md)\
+[/transaction/updateForger](/doc/api/transaction/updateForger.md)
 
 Deprecated methods: 
 
@@ -104,4 +104,7 @@ Deprecated methods:
 [/node/removeFromBlacklist](/doc/api/node/removeFromBlacklist.md)\
 [/node/blacklistedPeers](/doc/api/node/blacklistedPeers.md)\
 [/node/stop](/doc/api/node/stop.md)
+
+## Metrics endpoints
+[/metrics](/doc/api/metrics/index.md)
 

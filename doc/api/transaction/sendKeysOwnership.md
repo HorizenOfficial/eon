@@ -11,7 +11,7 @@ This function is used for voting pourposes in ZENDAO.
 | Name     | Type    | Required  | Description    |
 | -------- | ------- | -------   | -------        | 
 | ownershipInfo  | object  | yes         | Info about keys ownership (see below) |
-| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted the next valid nonce will be calculated automatically.  |
+| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
 | gasInfo  | object  | no         | Info about GAS |
 
 Parameters of the ownershipInfo object:

@@ -12,7 +12,7 @@ Available from: EON 1.4.0
 | vrfPubKey   | string | yes | vrfPubKey identifying the forger  |
 | startPos | integer | no (default 0) | Start position in the paginated list  |
 | size     | integer | no (dafault 10)| Number of records to return |
-| nonce    | integer | no        | Nonce associated to the address that is sending the tx. If omitted the next valid nonce will be calculated automatically.  |
+| nonce    | integer | no        | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
 | gasInfo  | object  | no        | Info about GAS |
 
 Parameters of the gasInfo object:
