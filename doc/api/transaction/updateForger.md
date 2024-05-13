@@ -1,7 +1,7 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/updateForger
 
-Update an existing forger.<br>
+Updates an existing forger.<br>
 Available from: EON 1.4.0<br>
 
 Note: this action can be performed only for forgers with rewardShare = 0 and rewardAddress not set, and only to assign them a value.<br>

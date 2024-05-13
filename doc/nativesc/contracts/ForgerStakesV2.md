@@ -19,7 +19,7 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
         address rewardAddress, bytes32 sign1_1, bytes32 sign1_2,
         bytes32 sign2_1, bytes32 sign2_2, bytes32 sign2_3, bytes1 sign2_4) external payable;
   
-     Register a new forger.
+     Registers a new forger.
      rewardShare can range in [0..1000] and can be 0 if and only if rewardAddress == 0x000..00.<br>
      Vrf key and signatures are split in two or more separate parameters, being longer than 32 bytes.<br>
      sign1_x are the 25519 signature chunks and sign2_x are the Vfr signature chunks.<br>
@@ -32,7 +32,6 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
           function updateForger(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, uint32 rewardShare, address rewardAddress, bytes32 signature1, bytes32 signature2) external;
 
-
      Updates an existing forger.<br>
      A forger can be updated just once and only if rewardAddress == 0x000..00 and rewardShare == 0.<br>
      Vrf key is split in two separate parameters, being longer than 32 bytes.
@@ -41,7 +40,7 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
           function delegate(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2) external payable;
   
-     Delegate a stake to a previously registered forger.<br>
+     Delegates a stake to a previously registered forger.<br>
      Vrf key is split in two separate parameters, being longer than 32 bytes.<br>
      All the ZEN sent with the transaction will be delegated, and the owner will be the sender address.
 
@@ -49,7 +48,7 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
           function withdraw(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, uint256 amount) external;
   
-     Withdraw (unstake) a previously assigned stake.<br>
+     Withdraws (unstake) a previously assigned stake.<br>
      Vrf key is split in two separate parameters, being longer than 32 bytes.<br>
      The amount is added to the balance of the sender of the transaction.
 
@@ -57,11 +56,10 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
           function stakeTotal(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, address delegator, uint32 consensusEpochStart, uint32 maxNumOfEpoch) external view returns (uint256[] memory listOfStakes);
 
-
      Returns the total stake amount, at the end of one or more consensus epochs, assigned to a specific forger.<br>
      vrf, signKey and delegator are optional: if all are null, the total stake amount will be returned. If only
      delegator is null, all the stakes assigned to the forger will be summed.<br>
-     Be aware that following convention apply when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses. For consensusEpochStart and maxNumOfEpoch, it is 0.<br>
+     Be aware that following convention applies when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses. For consensusEpochStart and maxNumOfEpoch, it is 0.<br>
      If vrf and signKey are null, but delegator is defined, the method will fail.<br>
      consensusEpochStart and maxNumOfEpoch are optional: if both null, the data at the current consensus epoch is returned.
      Returned array contains also elements with 0 value. Returned values are ordered by epoch, and the array length may
@@ -71,8 +69,7 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
           function rewardsReceived(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, uint32 consensusEpochStart, uint32 maxNumOfEpoch) external view returns (uint256[] memory listOfRewards);
 
-
-     Return total sum paid to the forger reward_address at the end of one or more consensus epochs.<br>
+     Returns total sum paid to the forger reward_address at the end of one or more consensus epochs.<br>
      Returned array contains also elements with 0 value. Returned values are ordered by epoch, and the array length may
      be < maxNumOfEpoch if the current consensus epoch is < (consensusEpochStart + maxNumOfEpoch -1).
 
@@ -80,8 +77,7 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
           function stakeStart(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, address delegator) external view returns (int32 consensusEpochStart);
 
-
-     Returns the  first consensus epoch when a stake is present for a specific delegator.<br>
+     Returns the first consensus epoch when a stake is present for a specific delegator.<br>
      signPubKey, vrf1, vrf2 and delegator parameters are mandatory.<br>
      If no stake has been found (the delegator never staked anything to this forger) the method returns -1
  

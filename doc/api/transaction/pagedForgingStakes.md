@@ -10,16 +10,6 @@ Available from: EON 1.4.0
 | -------- | ------- | -------   | -------        | 
 | startPos | integer | no (default 0) | Start position in the paginated list  |
 | size     | integer | no (default 10)| Number of records to return |
-| nonce    | integer | no        | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
-| gasInfo  | object  | no        | Info about GAS |
-
-Parameters of the gasInfo object:
-
-| Name     | Type    | Required    | Description    |
-| -------- | ------- | -------     | -------        | 
-| gasLimit  | biginteger  | yes         | GAS limit |
-| maxPriorityFeePerGas  | biginteger  | yes         | Max priority fee|
-| maxFeePerGas  | biginteger  | yes         | Max fee per gas |
 
 **Example request**
 

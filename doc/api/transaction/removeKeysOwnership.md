@@ -2,7 +2,7 @@
 ### transaction/removeKeysOwnership
 
 Create and send a transaction to remove a previously created association between  Horizen mainchain address and  EON sidechain addres.\
-This function is used for voting pourposes in ZENDAO.
+This function is used for voting purposes in ZENDAO.
 
 **Parameters**
 

@@ -4,7 +4,7 @@
 Create and send a transaction to associate a Horizen mainchain address to one EON sidechain addres.\
 It internally performs the verification of the ownership of the mainchain address (a signature must be provided).\
 It can be called many times from the same EON address.\
-This function is used for voting pourposes in ZENDAO.
+This function is used for voting purposes in ZENDAO.
 
 **Parameters**
 

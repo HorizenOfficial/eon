@@ -1,5 +1,5 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
-### merics
+### metrics
 
 Returns metrics about this node in Prometheus format.
 
@@ -21,7 +21,7 @@ metric_id value
 
 Available metrics:
 
-Following  metrics will be available (also listed in the endpoint /metrics/help):
+Following metrics will be available (also listed in the endpoint /metrics/help):
 
 - **block_apply_time**<br>
 Time to apply block to node wallet and state (milliseconds)
