@@ -19,6 +19,7 @@ public class EonForkConfigurator extends ForkConfigurator {
         optionalSidechainForks.addAll(new F3Fork(sidechainId).getPairs());
         optionalSidechainForks.addAll(new F4Fork(sidechainId).getPairs());
         optionalSidechainForks.addAll(new F5Fork(sidechainId).getPairs());
+        optionalSidechainForks.addAll(new F6Fork(sidechainId).getPairs());
         mandatorySidechainFork1 = new SidechainForkConsensusEpoch(0, 0, 0);
     }
 
