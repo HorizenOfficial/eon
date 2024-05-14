@@ -4,14 +4,14 @@
 Create and send a transaction to associate a Horizen mainchain address to one EON sidechain addres.\
 It internally performs the verification of the ownership of the mainchain address (a signature must be provided).\
 It can be called many times from the same EON address.\
-This function is used for voting pourposes in ZENDAO.
+This function is used for voting purposes in ZENDAO.
 
 **Parameters**
 
 | Name     | Type    | Required  | Description    |
 | -------- | ------- | -------   | -------        | 
 | ownershipInfo  | object  | yes         | Info about keys ownership (see below) |
-| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted the next valid nonce will be calculated automatically.  |
+| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
 | gasInfo  | object  | no         | Info about GAS |
 
 Parameters of the ownershipInfo object:

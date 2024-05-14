@@ -10,7 +10,7 @@ When the majority of the closed forgers have voted to open forging, everyone wil
 | Name     | Type    | Required  | Description    |
 | -------- | ------- | -------   | -------        | 
 | forgerIndex  | integer  | yes         | Index (0-based) of the forger that is voting, referred to the allowed forgers list in the configuration file. Forger's keys of the voter must be present in the local wallet.  |
-| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted the next valid nonce will be calculated automatically.  |
+| nonce  | integer  | no         | Nonce associated to the address that is sending the tx. If omitted, the latest nonce saved in the state will be used by default.  |
 | gasInfo  | object  | no         | Info about GAS |
 
 Parameters of the gasInfo object:
