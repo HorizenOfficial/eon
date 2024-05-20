@@ -84,7 +84,7 @@ interface ForgerStakesV2 {
        delegator is null, all the stakes assigned to the forger will be summed.
        If vrf and signKey are null, but delegator is defined, the method will fail.
        consensusEpochStart and maxNumOfEpoch are optional: if both null, the data at the current consensus epoch is returned.
-       Be aware that following convention apply when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses.
+       Be aware that following convention applies when we talk about 'null' values: for bytes parameters, as addresses or keys etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses.
        For consensusEpochStart and maxNumOfEpoch, it is 0.
        Returned array contains also elements with 0 value. Returned values are ordered by epoch, and the array length may
        be < maxNumOfEpoch if the current consensus epoch is < (consensusEpochStart + maxNumOfEpoch).
