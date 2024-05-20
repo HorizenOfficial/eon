@@ -6,7 +6,7 @@ They can be invoked as any standard smart contract with rpc method calls or (sta
 Below a detailed list:
 
 [WithdrawalRequests](/doc/nativesc/contracts/WithdrawalRequests.md)  
-[ForgerStakesV2](/doc/nativesc/contracts/ForgerStakes.md)  
+[ForgerStakesV2](/doc/nativesc/contracts/ForgerStakesV2.md)  
 [McAddrOwnerships](/doc/nativesc/contracts/McAddrOwnership.md)  
 [CertKeyRotation](/doc/nativesc/contracts/CertKeyRotation.md)  
 

@@ -47,13 +47,13 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "sender",
           "type": "address"
         },
         {
-          "indexed": true,
+          "indexed": false,
           "internalType": "bytes32",
           "name": "signPubKey",
           "type": "bytes32"
@@ -648,13 +648,33 @@
         },
         {
           "internalType": "bytes32",
-          "name": "signature1",
+          "name": "sign1_1",
           "type": "bytes32"
         },
         {
           "internalType": "bytes32",
-          "name": "signature2",
+          "name": "sign1_2",
           "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign2_1",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign2_2",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "sign2_3",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes1",
+          "name": "sign2_4",
+          "type": "bytes1"
         }
       ],
       "name": "updateForger",
