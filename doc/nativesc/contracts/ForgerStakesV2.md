@@ -19,12 +19,13 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
         address rewardAddress, bytes32 sign1_1, bytes32 sign1_2,
         bytes32 sign2_1, bytes32 sign2_2, bytes32 sign2_3, bytes1 sign2_4) external payable;
   
-     Registers a new forger.
+     Register a new forger.
      rewardShare can range in [0..1000] and can be 0 if and only if rewardAddress == 0x000..00.<br>
      Vrf key and signatures are split in two or more separate parameters, being longer than 32 bytes.<br>
      sign1_x are the 25519 signature chunks and sign2_x are the Vfr signature chunks.<br>
-     The message to sign is a string concatenation of signPubKey+vrfKey+rewardShare+rewardAddress, where rewardAddress
-     is represented in the Eip55 checksum format.<br>
+     The message to sign is the first 31 bytes of Keccak256 hash of a string formed by the concatenation
+     of signPubKey+vrfKey+rewardShare+rewardAddress. rewardAddress is represented in the Eip55
+     checksum format and hex strings are lowercase with no prefix.<br>
      The method accepts WEI value: the sent value will be converted to the initial stake assigned to the forger.<br>
      The initial stake amount must be >= min threshold (10 Zen)
 
@@ -59,11 +60,13 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
      Returns the total stake amount, at the end of one or more consensus epochs, assigned to a specific forger.<br>
      vrf, signKey and delegator are optional: if all are null, the total stake amount will be returned. If only
      delegator is null, all the stakes assigned to the forger will be summed.<br>
-     Be aware that following convention applies when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses. For consensusEpochStart and maxNumOfEpoch, it is 0.<br>
      If vrf and signKey are null, but delegator is defined, the method will fail.<br>
      consensusEpochStart and maxNumOfEpoch are optional: if both null, the data at the current consensus epoch is returned.
+     Be aware that following convention apply when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses.<br>
+     For consensusEpochStart and maxNumOfEpoch, it is 0.<br>
      Returned array contains also elements with 0 value. Returned values are ordered by epoch, and the array length may
-     be < maxNumOfEpoch if the current consensus epoch is < (consensusEpochStart + maxNumOfEpoch - 1).
+     be < maxNumOfEpoch if the current consensus epoch is < (consensusEpochStart + maxNumOfEpoch).
+
 
 - rewardsReceived
 
@@ -113,6 +116,7 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
     
      Returns the paginated list of stakes delegated to a specific forger, grouped by delegator address.<br>
      Each element of the list is the total amount delegated by a specific address. The data structure has the following format:<br>
+     The returned array length may be less than pageSize even if there are still additional elements because stakes with 0 amount are filtered out.
 
           struct StakeDataDelegator {
                address delegator;
@@ -127,6 +131,8 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
      Returns the paginated list of stakes delegated by a specific address, grouped by forger.<br>
      Each element of the list is the total amount delegated to  a specific forger. The data structure has the following format:<br>
+     The returned array length may be less than pageSize even if there are still additional elements because stakes with 0 amount are filtered out.
+
      
           struct StakeDataForger {
                bytes32 signPubKey;

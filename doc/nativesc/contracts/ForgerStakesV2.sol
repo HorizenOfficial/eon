@@ -10,8 +10,8 @@ interface ForgerStakesV2 {
     // Event declaration
     // Up to 3 parameters can be indexed.
     // Indexed parameters help you filter the logs by the indexed parameter
-    event RegisterForger(address  sender, bytes32 indexed signPubKey, bytes32 indexed vrf1, bytes1 indexed vrf2, uint256 value, uint32 rewardShare, address reward_address);
-    event UpdateForger(address indexed sender, bytes32 signPubKey,  bytes32 indexed vrf1, bytes1 indexed vrf2,  uint32 rewardShare, address reward_address);
+    event RegisterForger(address indexed sender, bytes32 signPubKey, bytes32 indexed vrf1, bytes1 indexed vrf2, uint256 value, uint32 rewardShare, address reward_address);
+    event UpdateForger(address indexed sender, bytes32 signPubKey, bytes32 indexed vrf1, bytes1 indexed vrf2, uint32 rewardShare, address reward_address);
     event DelegateForgerStake(address indexed sender, bytes32 signPubKey, bytes32 indexed vrf1, bytes1 indexed vrf2, uint256 value);
     event WithdrawForgerStake(address indexed sender, bytes32 signPubKey, bytes32 indexed vrf1, bytes1 indexed vrf2, uint256 value);
     event ActivateStakeV2();
@@ -45,8 +45,9 @@ interface ForgerStakesV2 {
       rewardShare can range in [0..1000] and can be 0 if and only if rewardAddress == 0x000..00.
       Vrf key and signatures are split in two or more separate parameters, being longer than 32 bytes.
       sign1_x are the 25519 signature chunks and sign2_x are the Vfr signature chunks.
-      The message to sign is a string concatenation of signPubKey+vrfKey+rewardShare+rewardAddress, where rewardAddress
-      is represented in the Eip55 checksum format.
+      The message to sign is the first 31 bytes of Keccak256 hash of a string formed by the concatenation
+      of signPubKey+vrfKey+rewardShare+rewardAddress. rewardAddress is represented in the Eip55
+      checksum format and hex strings are lowercase with no prefix.
       The method accepts WEI value: the sent value will be converted to the initial stake assigned to the forger.
       The initial stake amount must be >= min threshold (10 Zen)
     */
@@ -86,8 +87,7 @@ interface ForgerStakesV2 {
        Be aware that following convention apply when we talk about 'null' values: for bytes parameters, as addresses of key etc., a byte array of the expected length with all 0 values is interpreted as null, eg "0x0000000000000000000000000000000000000000" for addresses.
        For consensusEpochStart and maxNumOfEpoch, it is 0.
        Returned array contains also elements with 0 value. Returned values are ordered by epoch, and the array length may
-       be < maxNumOfEpoch if the current consensus epoch is < (consensusEpochStart + maxNumOfEpoch) or if the forger was
-       registered after consensusEpochStart.
+       be < maxNumOfEpoch if the current consensus epoch is < (consensusEpochStart + maxNumOfEpoch).
     */
     function stakeTotal(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, address delegator, uint32 consensusEpochStart, uint32 maxNumOfEpoch) external view returns (uint256[] memory listOfStakes);
 
@@ -121,6 +121,7 @@ interface ForgerStakesV2 {
       Returns the paginated list of stakes delegated to a specific forger, grouped by delegator address.
       Each element of the list is the total amount delegated by a specific address.
       nextIndex will contain the index of the next element not returned yet. If no element is still present, next will be -1.
+      The returned array length may be less than pageSize even if there are still additional elements because stakes with 0 amount are filtered out.
     */
     function getPagedForgersStakesByForger(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, int32 startIndex, int32 pageSize) external view returns (int32 nextIndex, StakeDataDelegator[] memory listOfDelegatorStakes);
 
@@ -128,6 +129,7 @@ interface ForgerStakesV2 {
       Returns the paginated list of stakes delegated by a specific address, grouped by forger.
       Each element of the list is the total amount delegated to  a specific forger.
       nextIndex will contain the index of the next element not returned yet. If no element is still present, next will be -1.
+      The returned array length may be less than pageSize even if there are still additional elements because stakes with 0 amount are filtered out.
     */
     function getPagedForgersStakesByDelegator(address delegator, int32 startIndex, int32 pageSize) external view returns (int32 nextIndex, StakeDataForger[] memory listOfForgerStakes);
 

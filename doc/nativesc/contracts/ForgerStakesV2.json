@@ -47,13 +47,13 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "sender",
           "type": "address"
         },
         {
-          "indexed": true,
+          "indexed": false,
           "internalType": "bytes32",
           "name": "signPubKey",
           "type": "bytes32"
