@@ -2,7 +2,10 @@
 ### transaction/pagedForgingStakes
 
 Returns the paginated list of forging stakes.<br>
-Available from: EON 1.4.0
+Available from: EON 1.3.0
+
+> [!IMPORTANT]
+> This endpoint is deprecated and disabled from EON 1.4.0.
 
 **Parameters**
 
@@ -19,7 +22,7 @@ The request body format is like this:
 
     {
         "startPos": 0,
-        "size": 10
+        "size": 2
     }
 
 
@@ -27,37 +30,39 @@ The request body format is like this:
 
     {
       "result" : {
-        "nextPos": 10,
+        "nextPos": 2,
         "stakes" : [ {
-          "forgerStakeData" : {
-            "forgerPublicKeys" : {
-              "blockSignPublicKey" : {
-                "publicKey" : "10e9b5236a56cddb9f0332e9dd6d69151494f24172b26ab24a27473bbc92a181"
-              },
-              "vrfPublicKey" : {
-                "publicKey" : "6a376f8a88b386f69296baa0792641d393c85a19b28dfd4a11d8f0a74618873280"
-              }
+            "stakeId" : "74b685e3b35941394a88085e864810ced41f978b008c60c4b9bc6364ff80c3a3",
+            "forgerStakeData" : {
+                "forgerPublicKeys" : {
+                    "blockSignPublicKey" : {
+                        "publicKey" : "041e38dc04de208df1c05eeee8a91b92e4336e11f5113b6505dd745df417b4ae"
+                    },
+                    "vrfPublicKey" : {
+                        "publicKey" : "a6b64b0b6eff71b6514d9893d730664ef2297302db4f86e32280f270b5e4370a00"
+                    }
+                }
             },
             "ownerPublicKey" : {
-              "address" : "62b1bc6fd237b775138d910274ff2911d7aea5cc"
+                "address" : "edeb4bf692a4a1bfecad78e09be5c946ecf6c6da"
+            },
+            "stakedAmount" : 1000000000000000
+        }, {
+            "stakeId" : "665ea03b9f9c5e4060f28c50816289e69799548f6771de339ca4f318a845e9e0",
+            "forgerStakeData" : {
+                "forgerPublicKeys" : {
+                    "blockSignPublicKey" : {
+                        "publicKey" : "041e38dc04de208df1c05eeee8a91b92e4336e11f5113b6505dd745df417b4ae"
+                    },
+                    "vrfPublicKey" : {
+                        "publicKey" : "a6b64b0b6eff71b6514d9893d730664ef2297302db4f86e32280f270b5e4370a00"
+                    }
+                }
+            },
+            "ownerPublicKey" : {
+                "address" : "0676335330fa1e80427069a1de4612d9b79fcbe2"
             },
             "stakedAmount" : 1000000000000000000
-          }
-        }, {
-          "forgerStakeData" : {
-            "forgerPublicKeys" : {
-              "blockSignPublicKey" : {
-                "publicKey" : "10e9b5236a56cddb9f0332e9dd6d69151494f24172b26ab24a27473bbc92a181"
-              },
-              "vrfPublicKey" : {
-                "publicKey" : "6a376f8a88b386f69296baa0792641d393c85a19b28dfd4a11d8f0a74618873280"
-              }
-            },
-            "ownerPublicKey" : {
-              "address" : "138d910274ff29162b1bc6fd237b7751d7aea5cc"
-            },
-            "stakedAmount" : 99000000000000000000
-          }
-        }]
+        } ]
       }
     }
