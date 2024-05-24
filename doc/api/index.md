@@ -42,7 +42,6 @@ Following endpoints are available on EON node:
 
 [/transaction/allForgingStakes](/doc/api/transaction/allForgingStakes.md)\
 [/transaction/myForgingStakes](/doc/api/transaction/myForgingStakes.md)\
-[/transaction/pagedForgingStakes](/doc/api/transaction/pagedForgingStakes.md)\
 [/transaction/pagedForgersStakesByForger](/doc/api/transaction/pagedForgersStakesByForger.md)\
 [/transaction/pagedForgersStakesByDelegator](/doc/api/transaction/pagedForgersStakesByDelegator.md)\
 [/transaction/registerForger](/doc/api/transaction/registerForger.md)\
@@ -50,6 +49,7 @@ Following endpoints are available on EON node:
 
 Deprecated methods: 
 
+[/transaction/pagedForgingStakes](/doc/api/transaction/pagedForgingStakes.md)\
 [/transaction/makeForgerStake](/doc/api/transaction/makeForgerStake.md)\
 [/transaction/spendForgingStake](/doc/api/transaction/spendForgingStake.md)
 
