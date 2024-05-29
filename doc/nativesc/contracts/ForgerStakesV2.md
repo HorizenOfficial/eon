@@ -35,7 +35,8 @@ This native smart contract manages the forger stakes from EON 1.4.0 version.
 
      Updates an existing forger.<br>
      A forger can be updated just once and only if rewardAddress == 0x000..00 and rewardShare == 0.<br>
-     Vrf key is split in two separate parameters, being longer than 32 bytes.
+     Vrf key is split in two separate parameters, being longer than 32 bytes.<br>
+     This operation should be called only if at least 2 epochs are passed by since the 1.4 fork activation.
 
 - delegate
 

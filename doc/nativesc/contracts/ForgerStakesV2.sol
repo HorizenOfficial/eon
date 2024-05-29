@@ -59,6 +59,7 @@ interface ForgerStakesV2 {
       Updates an existing forger.
       A forger can be updated just once and only if rewardAddress == 0x000..00 and rewardShare == 0.
       See above the registerForger command for the parameters meaning.
+      This operation should be called only if at least 2 epochs are passed by since the 1.4 fork activation.
     */
     function updateForger(bytes32 signPubKey, bytes32 vrf1, bytes1 vrf2, uint32 rewardShare,
         address rewardAddress, bytes32 sign1_1, bytes32 sign1_2,

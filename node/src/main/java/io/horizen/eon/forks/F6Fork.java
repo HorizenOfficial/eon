@@ -45,10 +45,7 @@ public class F6Fork extends EONFork {
                                 getActivationRegtest(),
                                 getActivationTestnet(sidechainId),
                                 getActivationMainnet()),
-                        new Version1_4_0Fork(true,
-                                getActivationRegtest(),
-                                getActivationTestnet(sidechainId),
-                                getActivationMainnet())
+                        new Version1_4_0Fork(true)
                 )
         );
     }
