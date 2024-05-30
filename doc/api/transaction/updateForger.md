@@ -4,7 +4,7 @@
 Updates an existing forger.<br>
 Available from: EON 1.4.0<br>
 
-Note: this action can be performed only for forgers with rewardShare = 0 and rewardAddress not set, and only to assign them a value.<br>
+Note: this action can be performed only for forgers with rewardShare = 0 and rewardAddress not set, and only to assign them a value. This operation can be called only if at least 2 epochs are passed by since the 1.4 fork activation.<br>
 
 **Parameters**
 
