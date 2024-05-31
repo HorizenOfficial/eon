@@ -6,7 +6,7 @@ The Delegated Staking contract is used by Forgers to:
 - Receive block rewards for staking
 - Handle distribution of the rewards between the different delegators of the forger.
 
-A [template implementation](/doc/howto/DelegatedStaking.sol) is provided for the contract. The implementation has the following features:
+A [template implementation](/doc/howto/DelegatedStaking.sol) is provided for the contract.
 
 ## Template implementation details
 
@@ -23,6 +23,8 @@ A [template implementation](/doc/howto/DelegatedStaking.sol) is provided for the
 - Two methods are offered for the delegator(s):
   - `calcReward(address)` returns a tuple containing the total reward that the specified address could claim at the current moment as first element; an array of `ClaimData` objects, each one containing the number of the claimable epoch paired with the amount of ZEN that is claimed for that epoch. 
   - `claimReward(address)` executes the claim for the specified address, transferring the amount calculated by `calcReward` and updating the internal state. Please note that **any** address can execute the claim for another address, if the target one is a valid delegator. The method emit a `Claim` event with the forger's identifiers, the delegator address, and the `ClaimData` array. To avoid reentrancy attacks, the method uses the `nonReentrant` modifier inherited by OpenZeppelin's `ReentrancyGuard`.
+
+- The implementation is **not** upgradeable.
 
 ## Rewards Calculation
 
