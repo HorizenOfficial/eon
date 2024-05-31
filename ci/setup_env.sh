@@ -99,7 +99,7 @@ if [ -n "${TRAVIS_TAG}" ]; then
 
     # Checking format of production release pom version
     if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?$ ]]; then
-      echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d+(-[0-9]+)?. The build is not going to be released !!!"
+      echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d(-[0-9]+)?. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
 
