@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+set -x
 
 IS_A_RELEASE="false"
 IS_A_GH_PRERELEASE="false"
@@ -98,8 +99,8 @@ if [ -n "${TRAVIS_TAG}" ]; then
     check_signed_tag "${TRAVIS_TAG}"
 
     # Checking format of production release pom version
-    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-RC[0-9]+)?$ ]]; then
-      echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d(-RC[0-9]+)?. The build is not going to be released !!!"
+    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?$ ]]; then
+      echo "Warning: package(s) version is in the wrong format for PRODUCTION} release. Expecting: d.d.d+(-[0-9]+)?. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
 
@@ -124,21 +125,30 @@ if [ -n "${TRAVIS_TAG}" ]; then
     check_signed_tag "${TRAVIS_TAG}"
 
     # Checking if package version matches DEV release version
-    if ! [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-RC[0-9]+)?(-SNAPSHOT){1}$ ]]; then
-      echo "Warning: package(s) version is in the wrong format for DEVELOPMENT release. Expecting: d.d.d(-RC[0-9]+)?(-SNAPSHOT){1}. The build is not going to be released !!!"
-      export IS_A_RELEASE="false"
-    fi
-
-    # Checking Github tag format
-    if ! [[ "${TRAVIS_TAG}" =~ "${ROOT_POM_VERSION}"[0-9]*$ ]]; then
-      echo "" && echo "=== Warning: GIT tag format differs from the pom file version. ===" && echo ""
-      echo -e "Github tag name: ${TRAVIS_TAG}\nPom file version: ${ROOT_POM_VERSION}.\nThe build is not going to be released !!!"
+    if [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?(-SNAPSHOT){1}$ ]]; then
+      if [[ "${TRAVIS_TAG}" =~ "${ROOT_POM_VERSION}"[0-9]*$ ]]; then
+        echo "" && echo "=== Development release ===" && echo ""
+        export IS_A_RELEASE="true"
+      else
+        echo "" && echo "=== Warning: GIT tag format differs from the pom file version. ===" && echo ""
+        echo -e "Github tag name: ${TRAVIS_TAG}\nPom file version: ${ROOT_POM_VERSION}.\nThe build is not going to be released !!!"
+        export IS_A_RELEASE="false"
+      fi
+    elif [[ "${ROOT_POM_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-RC[0-9]+){1}$ ]]; then
+      if [[ "${TRAVIS_TAG}" == "${ROOT_POM_VERSION}" ]]; then
+        echo "" && echo "=== RC release ===" && echo ""
+        export IS_A_RELEASE="true"
+      else
+        echo "" && echo "=== Warning: GIT tag format differs from the pom file version. ===" && echo ""
+        echo -e "Github tag name: ${TRAVIS_TAG}\nPom file version: ${ROOT_POM_VERSION}.\nThe build is not going to be released !!!"
+        export IS_A_RELEASE="false"
+      fi
+    else
+      echo "Warning: package(s) version is in the wrong format for DEVELOPMENT or RC release. Expecting: d.d.d(-SNAPSHOT){1} or d.d.d(-RC[0-9]+){1}. The build is not going to be released !!!"
       export IS_A_RELEASE="false"
     fi
 
     if [ "${IS_A_RELEASE}" = "true" ]; then
-      echo "" && echo "=== Development release ===" && echo ""
-
       export PROD_RELEASE="false"
       export IS_A_GH_PRERELEASE="true"
     fi
