@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eo pipefail
-set -x
 
 IS_A_RELEASE="false"
 IS_A_GH_PRERELEASE="false"

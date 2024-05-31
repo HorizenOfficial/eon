@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eEuo pipefail
-set -x
 
 workdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." &> /dev/null && pwd )"
 evmapp_docker_image_name="${EVMAPP_DOCKER_IMAGE_NAME:-evmapp}"
@@ -67,7 +66,7 @@ if [ -n "${docker_tag}" ]; then
       for tag in "${tags[@]}"; do
         echo "" && echo "Publishing docker image: ${docker_image}:${tag}"
         docker tag "${docker_image}:${docker_tag}" "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
-#        docker push "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
+        docker push "index.docker.io/${docker_hub_org}/${docker_image}:${tag}"
       done
     done
   fi
