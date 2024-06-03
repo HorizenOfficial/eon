@@ -27,10 +27,10 @@ public class F6Fork extends EONFork {
 
     @Override
     protected int getActivationTestnetGobi() {
-        return 10000000;  //TBD
+        return 2274;  //estimated starts at MON 10 June 2024 11:21 Milano time
     }
     @Override
-    protected int getActivationTestnet() { return 2180; //not used
+    protected int getActivationTestnet() { return 2274; //not used
     }
     @Override
     protected int getActivationMainnet() {
