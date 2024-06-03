@@ -28,7 +28,7 @@ A [template implementation](/doc/howto/DelegatedStaking.sol) is provided for the
 
 ## Rewards Calculation
 
-The rewards foe each delegator in an epoch `N` are calculated as the following:
+The rewards for each delegator in an epoch `N` are calculated as the following:
 
 ```
 reward_at_epoch_N = (total_reward_for_forger_at_N-2 * current_delegator_stakes_at_epoch_N) / total_delegator_stakes_at_epoch_N
