@@ -34,7 +34,7 @@ public class F6Fork extends EONFork {
     }
     @Override
     protected int getActivationMainnet() {
-        return  10000000;  //TBD
+        return  1593;  //estimated starts at THU 27 June 2024 17:55 Milano time
     }
 
     @Override
