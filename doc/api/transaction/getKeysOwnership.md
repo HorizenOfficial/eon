@@ -2,7 +2,7 @@
 ### transaction/getKeysOwnership
 
 Return the list of Horizen mainchain addresses associated to a given EON sidechain addres.\
-This function is used for voting pourposes in ZENDAO.
+This function is used for voting purposes in ZENDAO.
 
 **Parameters**
 

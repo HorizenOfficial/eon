@@ -1,8 +1,8 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/getKeysOwnerScAddresses
 
-Return the list of all EON sidechain addresses that have at least one mainchain associated.\
-This function is used for voting pourposes in ZENDAO.
+Returns the list of all EON sidechain addresses that have at least one mainchain address associated.\
+This function is used for voting purposes in ZENDAO.
 
 **Parameters**
 

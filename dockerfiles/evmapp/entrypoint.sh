@@ -27,32 +27,37 @@ LOG4J_CUSTOM_CONFIG=""
 SCNODE_REMOTE_KEY_MANAGER_ENABLED="${SCNODE_REMOTE_KEY_MANAGER_ENABLED:-false}"
 export SCNODE_REMOTE_KEY_MANAGER_ENABLED
 
+SCNODE_METRICS_ENABLED="${SCNODE_METRICS_ENABLED:-false}"
+SCNODE_METRICS_PORT="${SCNODE_METRICS_PORT:-9088}"
+export SCNODE_METRICS_ENABLED SCNODE_METRICS_PORT
+SCNODE_METRICS_APIKEYHASH=""
+
 
 # Function(s)
+fn_die() {
+  echo -e "$1" >&2
+  sleep 5
+  exit "${2:-1}"
+}
+
 detect_ext_ip() {
   local usage="Detect external IPv(4|6) address - usage: ${FUNCNAME[0]} {(4|6)}}"
   [ "${1:-}" = "usage" ] && echo "${usage}" && return
-  [ "$#" -ne 1 ] && { echo -e "${FUNCNAME[0]} error: function requires exactly one argument.\n\n${usage}"; exit 1;}
+  [ "$#" -ne 1 ] && { fn_die "${FUNCNAME[0]} error: function requires exactly one argument.\n\n${usage}"; }
 
   local ip_type="${1}"
   if ! [[ "${ip_type}" =~ ^(4|6)$ ]]; then
-    echo -e "${FUNCNAME[0]} error: function expects either '4' or '6' as an argument.\n\n${usage}"
-    exit 1
+    fn_die "${FUNCNAME[0]} error: function expects either '4' or '6' as an argument.\n\n${usage}"
   fi
 
   ip_address="$(dig -"${ip_type}" +short +time=2 @resolver1.opendns.com ANY myip.opendns.com 2> /dev/null | grep -v ";" || true)"
-  if [ -z "${ip_address:-}" ]; then
+  if ! { ipv6calc -qim "${ip_address:-}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     ip_address="$(curl -s -"${ip_type}" icanhazip.com 2>/dev/null || true)"
   fi
 
   echo "${ip_address}"
 }
 
-fn_die() {
-  echo -e "$1" >&2
-  sleep 5
-  exit "${2:-1}"
-}
 
 
 if [ "$USER_ID" != "0" ]; then
@@ -81,23 +86,20 @@ fi
 # Checking if external IP address is provided by the user via ENV var
 if [ -n "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
   # Checking user provided public IPv(4|6) address validity
-  if ! ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep 'TYPE' | grep -q 'global' &>/dev/null; then
+  if ! { ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     fn_die "Error: provided via environment variable IP address = ${SCNODE_NET_DECLAREDADDRESS} does not match a valid IPv4 or IPv6 format or is NOT a PUBLIC address.\nFix it before proceeding any further.  Exiting ..."
-  else
-    SCNODE_NET_DECLAREDADDRESS="$(ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS}" | grep -E 'IPV(4|6)=' | cut -d '=' -f2)"
   fi
 else
   # Detecting IPv4 vs IPv6 address
   SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 4)"
-  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  if ! { ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS:-}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     SCNODE_NET_DECLAREDADDRESS="$(detect_ext_ip 6)"
   fi
 
   # Falling over to internal IP
-  if [ -z "${SCNODE_NET_DECLAREDADDRESS:-}" ]; then
+  if ! { ipv6calc -qim "${SCNODE_NET_DECLAREDADDRESS:-}" | grep 'TYPE' | grep -q 'global'; } 2>/dev/null; then
     echo "Error: Failed to detect external IPv(4|6) address, using internal address."
     SCNODE_NET_DECLAREDADDRESS="$(hostname -I | cut -d ' ' -f1 || true)"
-
     if [ -n "${SCNODE_NET_DECLAREDADDRESS}" ]; then
       SCNODE_NET_DECLAREDADDRESS="${SCNODE_NET_DECLAREDADDRESS%% }"
     else
@@ -267,6 +269,14 @@ if [ -n "${SCNODE_REST_PASSWORD:-}" ]; then
 fi
 export SCNODE_REST_APIKEYHASH
 
+# set Metrics API password hash
+if [ "${SCNODE_METRICS_ENABLED}" = "true" ]; then
+  if [ -n "${SCNODE_METRICS_REST_PASSWORD:-}" ]; then
+    SCNODE_METRICS_APIKEYHASH="$(echo -en "\n        apiKeyHash = \"$(htpasswd -nbBC 10 "" "${SCNODE_METRICS_REST_PASSWORD}" | tr -d ':\n')\"")"
+  fi
+fi
+export SCNODE_METRICS_APIKEYHASH
+
 # setting maxIncomingConnections if provided
 if [ -n "${SCNODE_NET_MAX_IN_CONNECTIONS:-}" ]; then
   MAX_INCOMING_CONNECTIONS="$(echo -en "\n        maxIncomingConnections = ${SCNODE_NET_MAX_IN_CONNECTIONS}")"
@@ -372,7 +382,7 @@ SUBST='$SCNODE_CERT_MASTERS_PUBKEYS:$SCNODE_CERT_SIGNERS_MAXPKS:$SCNODE_CERT_SIG
 '$SCNODE_NET_DECLAREDADDRESS:$SCNODE_NET_KNOWNPEERS:$SCNODE_NET_MAGICBYTES:$SCNODE_NET_NODENAME:$SCNODE_NET_P2P_PORT:$SCNODE_NET_API_LIMITER_ENABLED:$SCNODE_NET_SLOW_MODE:$SCNODE_NET_REBROADCAST_TXS:$SCNODE_NET_HANDLING_TXS:'\
 '$SCNODE_WALLET_GENESIS_SECRETS:$SCNODE_WALLET_MAXTX_FEE:$SCNODE_WALLET_SEED:$WS_ADDRESS:$MAX_INCOMING_CONNECTIONS:$MAX_OUTGOING_CONNECTIONS:$SCNODE_WS_SERVER_PORT:'\
 '$SCNODE_WS_CLIENT_ENABLED:$SCNODE_WS_SERVER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ENABLED:$SCNODE_REMOTE_KEY_MANAGER_ADDRESS:$SCNODE_LOG_FILE_LEVEL:$SCNODE_LOG_CONSOLE_LEVEL:$SCNODE_LOG_FILE_NAME:$REMOTE_KEY_MANAGER_REQUEST_TIMEOUT:$REMOTE_KEY_MANAGER_PARALLEL_REQUESTS:'\
-'$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$ONLY_CONNECT_TO_KNOWN_PEERS:$FORGER_MAXCONNECTIONS:$FORGER_REWARD_ADDRESS'\
+'$SCNODE_REST_APIKEYHASH:$SCNODE_REST_PORT:$ONLY_CONNECT_TO_KNOWN_PEERS:$FORGER_MAXCONNECTIONS:$FORGER_REWARD_ADDRESS:$SCNODE_METRICS_ENABLED:$SCNODE_METRICS_PORT:$SCNODE_METRICS_APIKEYHASH'\
 
 export SUBST
 envsubst "${SUBST}" < /sidechain/config/sc_settings.conf.tmpl > /sidechain/config/sc_settings.conf

@@ -13,6 +13,11 @@ sparkz {
         bindAddress = "0.0.0.0:$SCNODE_REST_PORT"$SCNODE_REST_APIKEYHASH
         timeout = 5s
     }
+
+    metricsApi {
+        enabled = $SCNODE_METRICS_ENABLED
+        bindAddress = "0.0.0.0:$SCNODE_METRICS_PORT"$SCNODE_METRICS_APIKEYHASH
+    }
     
     network {
         nodeName = "$SCNODE_NET_NODENAME"

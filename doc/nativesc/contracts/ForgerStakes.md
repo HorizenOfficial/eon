@@ -3,6 +3,9 @@
 
 This native smart contract manages the forger stakes.
 
+> [!IMPORTANT]
+> After the activation of the EON 1.4.0 hardfork, this smart contract has been deprecated, and replaced by [ForgerStakesV2](/doc/nativesc/contracts/ForgerStakesV2.md)
+
 |    |    | 
 | --------             | -------      | 
 | Contract address:    | 0x0000000000000000000022222222222222222222   | 
