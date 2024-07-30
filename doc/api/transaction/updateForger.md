@@ -34,7 +34,7 @@ The request body format is like this:
     {
         "blockSignPubKey": "10e9b5236a56cddb9f0332e9dd6d69151494f24172b26ab24a27473bbc92a181",
         "vrfPubKey": "6a376f8a88b386f69296baa0792641d393c85a19b28dfd4a11d8f0a74618873280",
-        "rewardShare": "234",
+        "rewardShare": 234,
         "rewardAddress": "62b1bc6fd237b775138d910274ff2911d7aea5cc"
     }
 
