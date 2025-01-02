@@ -29,7 +29,7 @@ public class F7Fork extends EONFork {
         return 10000000;  //TBD
     }
     @Override
-    protected int getActivationTestnet() { return 2180; //not used
+    protected int getActivationTestnet() { return 10000000; //not used
     }
     @Override
     protected int getActivationMainnet() {
