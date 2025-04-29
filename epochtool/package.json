@@ -1,0 +1,16 @@
+{
+  "name": "epochtool",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A simple tool to calculate EON epoch based on a date.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0"
+  },
+  "author": "Paolo Cappelletti",
+  "license": "ISC"
+}

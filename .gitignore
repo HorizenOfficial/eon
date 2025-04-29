@@ -2,3 +2,4 @@ pom.xml.versionsBackup
 .idea/
 target/
 *.iml
+epochtool/node_modules/
