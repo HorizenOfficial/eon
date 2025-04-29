@@ -4,8 +4,11 @@ const STARTING_POINTS = {   //Do not modify this!! known starting points (based 
     "gobi":    [1900, 1701181260], //Tue 28 Nov 11 2023 15:21 Milano time
     "pregobi": [1815, 1699876860], //Mon 13 Nov 2023 13:01 Milano time
 }
+const SLOT_IN_EPOCH = 15000;
+const SLOT_DURATION = 3;
+
 const DELTA = 10; //delta of +- 10 epochs 
-const DELTA_SECONDS = DELTA * 15000 * 3;
+const DELTA_SECONDS = DELTA * SLOT_IN_EPOCH * SLOT_DURATION;
 
 var args = process.argv.slice(2);
 if (args.length == 0){
@@ -56,9 +59,9 @@ export default function  calculate(network, timestamp, onlyCurrent){
         console.error("Timestmap is too old!");
     }else{
         while (time < endWindow){
-            time = time + 3;
+            time = time + SLOT_DURATION;
             slot = slot + 1;
-            if (slot == 15000){
+            if (slot == SLOT_IN_EPOCH){
                 epoch = epoch  + 1;
                 slot = 0;
             }
