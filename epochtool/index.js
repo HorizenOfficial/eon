@@ -56,7 +56,7 @@ export default function  calculate(network, timestamp, onlyCurrent){
     var found = false;
     var retObj =  [];
     if (timestamp < time){
-        console.error("Timestmap is too old!");
+        console.error("Timestamp is too old!");
     }else{
         while (time < endWindow){
             time = time + SLOT_DURATION;
