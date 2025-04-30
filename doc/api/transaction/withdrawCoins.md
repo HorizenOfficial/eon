@@ -1,8 +1,11 @@
 [&lt; EON API Documentation](/doc/api/index.md) 
 ### transaction/withdrawCoins
 
-Creates and posts a  backward transfer transaction to sends some ZEN back to the mainchain
+Creates and posts a backward transfer transaction to send some ZEN back to the mainchain
 
+> [!IMPORTANT]
+> This endpoint is deprecated and disabled from EON 1.5.0.
+> 
 **Parameters**
 
 | Name     | Type    | Required    | Description    |
