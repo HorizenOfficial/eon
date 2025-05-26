@@ -2,15 +2,15 @@
    {
       "network":"mainnet",
       "networkName": "eon",
-      "version":"1.5.0-RC2",
-      "dockerImages":["zencash/evmapp:1.5.0-RC2","zencash/evmapp:latest"],
-      "ghReleaseLink":"github.com/HorizenOfficial/eon/releases/tag/1.5.0-RC2"
+      "version":"1.5.0-RC3",
+      "dockerImages":["zencash/evmapp:1.5.0-RC3","zencash/evmapp:latest"],
+      "ghReleaseLink":"github.com/HorizenOfficial/eon/releases/tag/1.5.0-RC3"
    },
    {
       "network":"testnet",
       "networkName": "gobi",
-      "version":"1.5.0-RC2",
-      "dockerImages":["zencash/evmapp:1.5.0-RC2","zencash/evmapp:latest"],
-      "ghReleaseLink":"github.com/HorizenOfficial/eon/releases/tag/1.5.0-RC2"
+      "version":"1.5.0-RC3",
+      "dockerImages":["zencash/evmapp:1.5.0-RC3","zencash/evmapp:latest"],
+      "ghReleaseLink":"github.com/HorizenOfficial/eon/releases/tag/1.5.0-RC3"
    }
 ]
