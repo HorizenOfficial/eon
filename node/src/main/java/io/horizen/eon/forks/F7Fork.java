@@ -23,7 +23,7 @@ public class F7Fork extends EONFork {
     }
     @Override
     protected int getActivationTestnetPregobi() {
-        return 2892; // Tue, 27 May 2025 10:31:00 GMT
+        return 2896; // Thu, 29 May 2025 12:31:00 GMT
     }
 
     @Override
