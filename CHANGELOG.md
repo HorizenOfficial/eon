@@ -1,4 +1,9 @@
 # Changelog
+
+## 1.5.0
+* SDK dependency updated to version 0.13.0 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/0.13.0/CHANGELOG.md))
+* Fork configuration to disable backward transfers towards mainchain
+
 ## 1.4.0
 * SDK dependency updated to version 0.12.0 (see [SDK changelog](https://github.com/HorizenOfficial/Sidechains-SDK/blob/0.12.0/CHANGELOG.md))
 * Fork configuration to enable new on-chain delegated staking reward mechanism and new handling of rewards from mainchain
