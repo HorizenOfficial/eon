@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.horizen</groupId>
   <artifactId>eonproject</artifactId>
-  <version>1.5.0-RC4</version>
+  <version>1.5.0</version>
   <packaging>pom</packaging>
   <inceptionYear>2023</inceptionYear>
   <properties>
